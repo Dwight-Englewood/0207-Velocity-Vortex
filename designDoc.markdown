@@ -30,3 +30,10 @@
         * Stay on ramp
         * Projected Score
             * 5 + 5 x1/2/3 + 10 = 20/25/30
+    * Eventually ideal run
+        * Score into center x1/2/3
+        * Push cap ball
+        * Trigger beacon x2
+        * Fully climb corner ramp
+        * Projected Score
+            * 15 x1/2/3 + 5 + 30 x2 + 10 = 90/115/130
