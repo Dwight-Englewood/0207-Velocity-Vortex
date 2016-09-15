@@ -3,6 +3,7 @@
 ##### Driver Control :: Do this FIRST
 * Joystick control for wheels
 * Some form of control for ball launching
+
 ##### Autonomous :: Do this Second
 * Design each action as it's own function
     * For example, have the push cap ball as it's own function
