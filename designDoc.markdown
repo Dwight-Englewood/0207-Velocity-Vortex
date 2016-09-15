@@ -18,22 +18,32 @@
         * Particle Push(to corner)
         * Push cap ball off
 * First Competition Auton Goals
-    * Plan 1 :: If we can shoot into center
-        * Score into center x1/2/3
+    * Plan 1 :: Dumbass Auton
+        * Might not even be legal
+        * Run around on other teams side
+        * Projected Score
+            * 0
+    * Plan 2 :: Super Simple
+        * Push cap ball
+        * Park on Ramp
+        * Projected Score
+            * 05 + 05 = 10
+    * Plan 3 :: If we can shoot into center
+        * Score into center x1/2
         * Push cap ball
         * Stay completely on center vortex base
         * Projected Score
-            * 15 x1/2/3 + 5 + 10 = 30/45/60
-    * Plan 2 :: If we can only push
+            * 15 x1/2 + 5 + 10 = 30/45
+    * Plan 4 :: If we can only push
         * Push cap ball
-        * Push into corner
+        * Push into corner x1/2
         * Stay on ramp
         * Projected Score
-            * 5 + 5 x1/2/3 + 10 = 20/25/30
+            * 5 + 5 x1/2 + 10 = 20/25
     * Eventually ideal run
-        * Score into center x1/2/3
+        * Score into center x1/2
         * Push cap ball
         * Trigger beacon x2
         * Fully climb corner ramp
         * Projected Score
-            * 15 x1/2/3 + 5 + 30 x2 + 10 = 90/115/130
+            * 15 x1/2 + 5 + 30 x2 + 10 = 90/115
