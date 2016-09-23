@@ -8,3 +8,4 @@ ftc_app_master is the code for visual studio, import that project if ur gonna us
 designDoc.markdown has auton plans and what we should do
 random pdfs are useful pdfs
 
+Use the Iterative OP Mode Template, since that makes much more sense at first glance
