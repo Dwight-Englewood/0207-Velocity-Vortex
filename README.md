@@ -1,5 +1,6 @@
 ༼ つ ◕_◕ ༽つ
 
+# I know I'm guilty of this as well, but please use descriptive commit messages
 Code for 0207 Critcal Mass' Robot. Probably messed up that apostrophe, but idc.
 
 ~~ftc_app_master is the code for visual studio, import that project if ur gonna use it~~
