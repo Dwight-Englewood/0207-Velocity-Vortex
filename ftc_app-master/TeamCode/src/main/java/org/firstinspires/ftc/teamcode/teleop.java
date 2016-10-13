@@ -54,15 +54,15 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pushbot: Teleop Tank Ayy", group="Pushbot")
-//@Disabled
+@TeleOp(name="Pushbot: Teleop Pushbot", group="Pushbot")
+@Disabled
 public class teleop extends OpMode{
 
     /* Declare OpMode members. */
     HardwarePushbot robot       = new HardwarePushbot(); // use the class created to define a Pushbot's hardware
                                                          // could also use HardwarePushbotMatrix class.
-    double          clawOffset  = 0.0 ;                  // Servo mid position
-    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
+    //double          clawOffset  = 0.0 ;                  // Servo mid position
+    //final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
 
 
     /*
@@ -107,7 +107,6 @@ public class teleop extends OpMode{
         right = -gamepad1.right_stick_y;
         robot.leftMotor.setPower(left);
         robot.rightMotor.setPower(right);
-
 
         // Send telemetry message to signify robot running;
         telemetry.addData("left",  "%.2f", left);
