@@ -64,7 +64,8 @@ public class RobsTestIterative extends OpMode
     private DcMotor rightMotor = null;
     private DcMotor elevator = null;
     private DcMotor shooter = null;
-    private DcMotor poker = null;
+    private DcMotor leftPoker = null;
+    private DcMotor rightPoker = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -81,7 +82,8 @@ public class RobsTestIterative extends OpMode
         rightMotor = hardwareMap.dcMotor.get("right motor");
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
-        poker = hardwareMap.dcMotor.get("poker");
+        leftPoker = hardwareMap.dcMotor.get("pokerLeft");
+        rightPoker = hardwareMap.dcMotor.get("pokerRight");
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -89,7 +91,8 @@ public class RobsTestIterative extends OpMode
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
-        poker.setDirection(DcMotor.Direction.FORWARD);
+        leftPoker.setDirection(DcMotor.Direction.FORWARD);
+        rightPoker.setDirection(DcMotor.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -119,7 +122,11 @@ public class RobsTestIterative extends OpMode
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(-gamepad1.left_stick_y);
         rightMotor.setPower(-gamepad1.right_stick_y);
-        
+        elevator.setPower(boolToPower(gamepad1.a));
+        shooter.setPower(boolToPower(gamepad1.b));
+        leftPoker.setPower(boolToPower(gamepad1.x));
+        rightPoker.setPower(boolToPower(gamepad1.y));
+
 
     }
 
@@ -130,4 +137,11 @@ public class RobsTestIterative extends OpMode
     public void stop() {
     }
 
+    public double boolToPower (boolean x)
+    {
+        if (x)
+            return 1.0;
+        else
+            return 0;
+    }
 }
