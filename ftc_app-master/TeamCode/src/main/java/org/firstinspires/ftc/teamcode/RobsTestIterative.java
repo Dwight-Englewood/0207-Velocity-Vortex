@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -65,6 +66,8 @@ public class RobsTestIterative extends OpMode
     private DcMotor elevator = null;
     private DcMotor shooter = null;
 
+    //private Servo rightPoker = null;
+    //private Servo leftPoker = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -82,14 +85,19 @@ public class RobsTestIterative extends OpMode
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
+        //leftPoker = hardwareMap.servo.get("left poker");
+        //rightPoker = hardwareMap.servo.get("right poker");
+
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        leftMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
 
+        //leftPoker.setDirection(Servo.Direction.FORWARD);
+        //rightPoker.setDirection(Servo.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -121,8 +129,10 @@ public class RobsTestIterative extends OpMode
         rightMotor.setPower(-gamepad1.right_stick_y);
         elevator.setPower(boolToPower(gamepad1.a));
         shooter.setPower(boolToPower(gamepad1.b));
-        
 
+        //leftPoker.setPosition(boolToPower(gamepad1.x));
+        //rightPoker.setPosition(boolToPower(gamepad1.y));
+        // to make this work we can scale the range of the servo down from whatever the normal is to 90 degrees
     }
 
     /*
