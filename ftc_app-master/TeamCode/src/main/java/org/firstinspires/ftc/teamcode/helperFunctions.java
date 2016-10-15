@@ -20,8 +20,11 @@ public class helperFunctions {
     }
     public static double triggerToFlat (double input)
     {
-        //turns inputs of less than 1 into inputs of one, as long as they are greater than 0
-        if (input > 0) {
+        /*This function was designed for the R1 and L1 triggers. Those buttons return doubles; however, we just want
+        it to be full power or off.
+        turns inputs of less than 1 into inputs of one, as long as they are greater than 0.1
+        */
+        if (input > 0.1) {//0.1, since that will prevent accidental triggers
             return 1.0;
         } else {
             return 0.0;
