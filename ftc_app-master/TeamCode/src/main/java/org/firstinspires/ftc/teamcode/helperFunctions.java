@@ -6,8 +6,10 @@ package org.firstinspires.ftc.teamcode;
 
 public class helperFunctions {
     public static double buttonToPower (boolean isDown) {
-        //turns input from buttons (double between 0 and 1) to a flat double (1.0)
-        if (isDown) {
+        /*This functino was designed for the R2 and L2 Triggers. Those buttons return a boolean for down or up.
+         This function takes a boolean and returns full power or no power, for true and false, respectively
+        */
+          if (isDown) {
             return 1.0;
         } else {
             return 0.0;
@@ -18,16 +20,16 @@ public class helperFunctions {
         double wheelSize = 10;  //TODO: This should be changed to the circumference of the wheel, 10 is currently just a filler
         return (distance / wheelSize);
     }
+
     public static double triggerToFlat (double input)
     {
-        /*This function was designed for the R1 and L1 triggers. Those buttons return doubles; however, we just want
-        it to be full power or off.
-        turns inputs of less than 1 into inputs of one, as long as they are greater than 0.1
+        /*This function was designed for the R1 and L1 triggers. Those buttons return doubles; however, we just want it to be full power or off.
+        This function will take a double, and turn it to full power or no power, depending on the range it is in
         */
         if (input > 0.1) {//0.1, since that will prevent accidental triggers
             return 1.0;
         } else {
             return 0.0;
         }
-    }
+    } 
 }
