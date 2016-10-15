@@ -6,7 +6,6 @@ package org.firstinspires.ftc.teamcode;
 
 public class helperFunctions {
     public static double triggerToPower (boolean isDown) {
-        /
         if (isDown) {
             return 1.0;
         } else {
