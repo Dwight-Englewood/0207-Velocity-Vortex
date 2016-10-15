@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.helperFunctions;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -123,12 +124,20 @@ public class RobsTestIterative extends OpMode
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
+        double driveLeft = -gamepad1.left_stick_y);
+        double driveRight = -gamepad1.right_stick_y;
+
+        //If the right bumper is pressed, reverse the directions
+        if (gamepad1.right_bumper) {
+            driveLeft = -driveLeft;
+            driveRight = -driveRight;
+        }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
-        leftMotor.setPower(-gamepad1.left_stick_y);
-        rightMotor.setPower(gamepad1.right_stick_y);
-        elevator.setPower(triggerToFlat(gamepad1.left_trigger));
-        shooter.setPower(triggerToFlat(gamepad1.right_trigger));
+        leftMotor.setPower(driveLeft);
+        rightMotor.setPower(driveRight);
+        elevator.setPower(helperFunctions.triggerToFlat(gamepad1.left_trigger));
+        shooter.setPower(helperFunctions.triggerToFlat(gamepad1.right_trigger));
 
         //leftPoker.setPosition(boolToPower(gamepad1.x));
         //rightPoker.setPosition(boolToPower(gamepad1.y));
@@ -142,21 +151,5 @@ public class RobsTestIterative extends OpMode
     public void stop() {
     }
 
-    //TODO: TRANSITION TO HELPER FUNCTIONS
-    public double boolToPower (boolean x)
-    {
-        if (x)
-            return 1.0;
-        else
-            return 0;
-    }
-    public static double triggerToFlat (double input)
-    {
-        //turns inputs of less than 1 into inputs of one, as long as the input is greater than 0
-        if (input > 0) {
-            return 1.0;
-        } else {
-            return 0.0;
-        }
-    }
+
 }
