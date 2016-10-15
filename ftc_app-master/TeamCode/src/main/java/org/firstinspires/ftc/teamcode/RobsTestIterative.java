@@ -64,7 +64,7 @@ public class RobsTestIterative extends OpMode
     private DcMotor leftMotor = null;
     private DcMotor rightMotor = null;
     private DcMotor elevator = null;
-    private DcMotor shooter = null;
+    //private DcMotor shooter = null;
 
     //private Servo rightPoker = null;
     //private Servo leftPoker = null;
@@ -83,7 +83,7 @@ public class RobsTestIterative extends OpMode
         leftMotor  = hardwareMap.dcMotor.get("left motor");
         rightMotor = hardwareMap.dcMotor.get("right motor");
         elevator = hardwareMap.dcMotor.get("elevator");
-        shooter = hardwareMap.dcMotor.get("shooter");
+        //shooter = hardwareMap.dcMotor.get("shooter");
 
         //leftPoker = hardwareMap.servo.get("left poker");
         //rightPoker = hardwareMap.servo.get("right poker");
@@ -91,10 +91,10 @@ public class RobsTestIterative extends OpMode
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftMotor.setDirection(DcMotor.Direction.FORWARD);
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
-        shooter.setDirection(DcMotor.Direction.FORWARD);
+        //shooter.setDirection(DcMotor.Direction.FORWARD);
 
         //leftPoker.setDirection(Servo.Direction.FORWARD);
         //rightPoker.setDirection(Servo.Direction.FORWARD);
@@ -126,9 +126,9 @@ public class RobsTestIterative extends OpMode
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(-gamepad1.left_stick_y);
-        rightMotor.setPower(-gamepad1.right_stick_y);
+        rightMotor.setPower(gamepad1.right_stick_y);
         elevator.setPower(boolToPower(gamepad1.a));
-        shooter.setPower(boolToPower(gamepad1.b));
+        //shooter.setPower(boolToPower(gamepad1.b));
 
         //leftPoker.setPosition(boolToPower(gamepad1.x));
         //rightPoker.setPosition(boolToPower(gamepad1.y));
