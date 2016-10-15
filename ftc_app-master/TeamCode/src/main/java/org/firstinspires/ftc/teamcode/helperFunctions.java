@@ -5,7 +5,8 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public class helperFunctions {
-    public static double triggerToPower (boolean isDown) {
+    public static double buttonToPower (boolean isDown) {
+        //turns input from buttons (double between 0 and 1) to a flat double (1.0)
         if (isDown) {
             return 1.0;
         } else {
@@ -17,7 +18,7 @@ public class helperFunctions {
         double wheelSize = 10;  //TODO: This should be changed to the circumference of the wheel, 10 is currently just a filler
         return (distance / wheelSize);
     }
-    public static double increaseToOne (double input)
+    public static double triggerToFlat (double input)
     {
         //turns inputs of less than 1 into inputs of one, as long as they are greater than 0
         if (input > 0) {

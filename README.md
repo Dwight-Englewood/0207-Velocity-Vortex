@@ -10,3 +10,8 @@ This github contains the following
 * pdfs has useful pdfs, if you find any add them
 
 * notes has any notes on stuff. if you find yourself wanting to write stuff down add it to that
+
+On the gamepad:
+	* Sticks and triggers output doubles
+	
+	* Buttons output boolean values
