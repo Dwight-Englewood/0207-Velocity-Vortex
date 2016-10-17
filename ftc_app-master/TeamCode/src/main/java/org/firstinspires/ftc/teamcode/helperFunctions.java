@@ -6,7 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 public class helperFunctions {
     public static double buttonToPower (boolean isDown) {
-        /*This functino was designed for the R2 and L2 Triggers. Those buttons return a boolean for down or up.
+        /*This function was designed for the R2 and L2 bumpers (or other buttons). Those buttons return a boolean for down or up.
          This function takes a boolean and returns full power or no power, for true and false, respectively
         */
           if (isDown) {

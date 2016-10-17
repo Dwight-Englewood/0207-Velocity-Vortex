@@ -124,7 +124,7 @@ public class RobsTestIterative extends OpMode
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
-        double driveLeft = -gamepad1.left_stick_y);
+        double driveLeft = -gamepad1.left_stick_y;
         double driveRight = -gamepad1.right_stick_y;
 
         //If the right bumper is pressed, reverse the directions
@@ -139,8 +139,8 @@ public class RobsTestIterative extends OpMode
         elevator.setPower(helperFunctions.triggerToFlat(gamepad1.left_trigger));
         shooter.setPower(helperFunctions.triggerToFlat(gamepad1.right_trigger));
 
-        //leftPoker.setPosition(boolToPower(gamepad1.x));
-        //rightPoker.setPosition(boolToPower(gamepad1.y));
+        //leftPoker.setPosition(buttonToPower(gamepad1.x));
+        //rightPoker.setPosition(buttonToPower(gamepad1.y));
         // to make this work we can scale the range of the servo down from whatever the normal is to 90 degrees
     }
 
