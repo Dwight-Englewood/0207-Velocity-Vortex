@@ -17,7 +17,7 @@ public class helperFunctions {
     }
     public static double distanceToRevs (double distance) {
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
-        double wheelSize = 10;  //TODO: This should be changed to the circumference of the wheel, 10 is currently just a filler
+        double wheelSize = 31.4159;  //TODO: This should be changed to the circumference of the wheel, 10 is currently just a filler, 10 is the diameter of a wheel
         return (distance / wheelSize);
     }
 
