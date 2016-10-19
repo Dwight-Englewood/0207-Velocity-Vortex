@@ -125,11 +125,7 @@ public class OFFICIAL_PROGRAM extends OpMode
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft = -gamepad1.left_stick_y;
-<<<<<<< HEAD:ftc_app-master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobsTestIterative.java
         double driveRight = -gamepad1.right_stick_y;
-=======
-        double driveRight = gamepad1.right_stick_y;
->>>>>>> 82df9681c987edd784926bce9e720cc82d2c1c83:ftc_app-master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/OFFICIAL_PROGRAM.java
 
         //If the right bumper is pressed, reverse the directions
         if (gamepad1.right_bumper) {
