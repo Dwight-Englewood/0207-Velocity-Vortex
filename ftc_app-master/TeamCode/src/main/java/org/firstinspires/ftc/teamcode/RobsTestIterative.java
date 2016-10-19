@@ -124,7 +124,7 @@ public class RobsTestIterative extends OpMode
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
-        double driveLeft = -gamepad1.left_stick_y);
+        double driveLeft = -gamepad1.left_stick_y;
         double driveRight = -gamepad1.right_stick_y;
 
         //If the right bumper is pressed, reverse the directions
