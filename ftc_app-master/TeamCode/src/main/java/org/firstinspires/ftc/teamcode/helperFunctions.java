@@ -6,7 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 public class helperFunctions {
     public static double buttonToPower (boolean isDown) {
-        /*This functino was designed for the R2 and L2 Triggers. Those buttons return a boolean for down or up.
+        /*This function was designed for the right and left bumpers but can be used on any button that returns a boolean.
          This function takes a boolean and returns full power or no power, for true and false, respectively
         */
           if (isDown) {
@@ -17,13 +17,13 @@ public class helperFunctions {
     }
     public static double distanceToRevs (double distance) {
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
-        double wheelSize = 10;  //TODO: This should be changed to the circumference of the wheel, 10 is currently just a filler
+        double wheelSize = 31.4159;  //TODO: This should be changed to the circumference of the wheel, 10 is currently just a filler, 10 is the diameter of a wheel
         return (distance / wheelSize);
     }
 
     public static double triggerToFlat (double input)
     {
-        /*This function was designed for the R1 and L1 triggers. Those buttons return doubles; however, we just want it to be full power or off.
+        /*This function was designed for the Right and Left triggers. Those buttons return doubles; however, we just want it to be full power or off.
         This function will take a double, and turn it to full power or no power, depending on the range it is in
         */
         if (input > 0.1) {//0.1, since that will prevent accidental triggers

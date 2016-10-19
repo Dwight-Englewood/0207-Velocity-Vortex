@@ -55,9 +55,9 @@ import org.firstinspires.ftc.teamcode.helperFunctions;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="RobsTestIterative", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="OFFICIAL_PROGRAM", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class RobsTestIterative extends OpMode
+public class OFFICIAL_PROGRAM extends OpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -65,7 +65,7 @@ public class RobsTestIterative extends OpMode
     private DcMotor leftMotor = null;
     private DcMotor rightMotor = null;
     private DcMotor elevator = null;
-    private DcMotor shooter = null;
+    //zprivate DcMotor shooter = null;
 
     //private Servo rightPoker = null;
     //private Servo leftPoker = null;
@@ -84,7 +84,7 @@ public class RobsTestIterative extends OpMode
         leftMotor  = hardwareMap.dcMotor.get("left motor");
         rightMotor = hardwareMap.dcMotor.get("right motor");
         elevator = hardwareMap.dcMotor.get("elevator");
-        shooter = hardwareMap.dcMotor.get("shooter");
+        //shooter = hardwareMap.dcMotor.get("shooter");
 
         //leftPoker = hardwareMap.servo.get("left poker");
         //rightPoker = hardwareMap.servo.get("right poker");
@@ -95,7 +95,7 @@ public class RobsTestIterative extends OpMode
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
-        shooter.setDirection(DcMotor.Direction.FORWARD);
+        //shooter.setDirection(DcMotor.Direction.FORWARD);
 
         //leftPoker.setDirection(Servo.Direction.FORWARD);
         //rightPoker.setDirection(Servo.Direction.FORWARD);
@@ -125,7 +125,11 @@ public class RobsTestIterative extends OpMode
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft = -gamepad1.left_stick_y;
+<<<<<<< HEAD:ftc_app-master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/RobsTestIterative.java
         double driveRight = -gamepad1.right_stick_y;
+=======
+        double driveRight = gamepad1.right_stick_y;
+>>>>>>> 82df9681c987edd784926bce9e720cc82d2c1c83:ftc_app-master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/OFFICIAL_PROGRAM.java
 
         //If the right bumper is pressed, reverse the directions
         if (gamepad1.right_bumper) {
@@ -137,10 +141,10 @@ public class RobsTestIterative extends OpMode
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
         elevator.setPower(helperFunctions.triggerToFlat(gamepad1.left_trigger));
-        shooter.setPower(helperFunctions.triggerToFlat(gamepad1.right_trigger));
+        //shooter.setPower(helperFunctions.triggerToFlat(gamepad1.right_trigger));
 
-        //leftPoker.setPosition(boolToPower(gamepad1.x));
-        //rightPoker.setPosition(boolToPower(gamepad1.y));
+        //leftPoker.setPosition(buttonToPower(gamepad1.x));
+        //rightPoker.setPosition(buttonToPower(gamepad1.y));
         // to make this work we can scale the range of the servo down from whatever the normal is to 90 degrees
     }
 
