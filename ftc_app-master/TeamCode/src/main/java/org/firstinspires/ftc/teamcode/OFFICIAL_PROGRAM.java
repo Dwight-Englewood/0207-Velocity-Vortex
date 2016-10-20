@@ -111,18 +111,18 @@ public class OFFICIAL_PROGRAM extends OpMode
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft = -gamepad1.left_stick_y;
-        double driveRight = -gamepad1.right_stick_y;
+        double driveRight = gamepad1.right_stick_y;
 
         //If the right bumper is pressed, reverse the directions
-        if (gamepad1.right_bumper) {
-            driveLeft = -driveLeft;
-            driveRight = -driveRight;
-        }
+        //   if (gamepad1.right_bumper) {
+        //    driveLeft = -driveLeft;
+        //    driveRight = -driveRight;
+        //}
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
-        elevator.setPower(helperFunctions.triggerToFlat(gamepad1.left_trigger));
+        //elevator.setPower(helperFunctions.triggerToFlat(gamepad1.left_trigger));
         //shooter.setPower(helperFunctions.triggerToFlat(gamepad1.right_trigger));
 
         //leftPoker.setPosition(buttonToPower(gamepad1.x));
