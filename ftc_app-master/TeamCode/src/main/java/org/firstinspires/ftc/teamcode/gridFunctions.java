@@ -13,5 +13,8 @@ public class gridFunctions {
         double dist = Math.sqrt((Math.pow(xComp, 2.0) + Math.pow(yComp, 2.0))); //Magnitude
         double angle = Math.atan(yComp / xComp); // Angle to turn
 
+        double turnRevs = helperFunction.distanceToRevs(Math.PI * angle / 12); //Revolutions needed to turn the angle
+        double moveRevs = helperFunction.distanceToRevs(dist); //Revolutions needed to move;
+        
     }
 }

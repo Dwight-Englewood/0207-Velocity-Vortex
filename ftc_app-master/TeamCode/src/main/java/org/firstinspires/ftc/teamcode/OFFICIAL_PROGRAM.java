@@ -32,14 +32,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.helperFunctions;
 
 @TeleOp(name="OFFICIAL_PROGRAM", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
@@ -122,8 +118,8 @@ public class OFFICIAL_PROGRAM extends OpMode
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
-        //elevator.setPower(helperFunctions.triggerToFlat(gamepad1.left_trigger));
-        //shooter.setPower(helperFunctions.triggerToFlat(gamepad1.right_trigger));
+        //elevator.setPower(helperFunction.triggerToFlat(gamepad1.left_trigger));
+        //shooter.setPower(helperFunction.triggerToFlat(gamepad1.right_trigger));
 
         //leftPoker.setPosition(buttonToPower(gamepad1.x));
         //rightPoker.setPosition(buttonToPower(gamepad1.y));
