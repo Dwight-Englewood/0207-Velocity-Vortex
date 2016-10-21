@@ -45,7 +45,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import org.firstinspires.ftc.teamcode.gridFunctions;
 
 @Autonomous(name = "OFFICIAL_AUTON", group = "LINEAR_AUTON")
-@Disabled                            // Comment this out to add to the opmode list
+//@Disabled
 public class OFFICIAL_AUTON extends LinearOpMode
 {
 

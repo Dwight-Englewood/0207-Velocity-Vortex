@@ -15,6 +15,6 @@ public class gridFunctions {
 
         double turnRevs = helperFunction.distanceToRevs(Math.PI * angle / 12); //Revolutions needed to turn the angle
         double moveRevs = helperFunction.distanceToRevs(dist); //Revolutions needed to move;
-        
+
     }
 }
