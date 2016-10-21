@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode;
  * Created by plotnw on 10/14/16.
  */
 
-public class helperFunctions {
+public class helperFunction {
     public static double buttonToPower (boolean isDown) {
         /*This function was designed for the right and left bumpers but can be used on any button that returns a boolean.
          This function takes a boolean and returns full power or no power, for true and false, respectively
@@ -17,7 +17,7 @@ public class helperFunctions {
     }
     public static double distanceToRevs (double distance) {
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
-        double wheelSize = 31.4159;  //TODO: This should be changed to the circumference of the wheel, 10 is currently just a filler, 10 is the diameter of a wheel
+        double wheelSize = 31.4159;
         return (distance / wheelSize);
     }
 
