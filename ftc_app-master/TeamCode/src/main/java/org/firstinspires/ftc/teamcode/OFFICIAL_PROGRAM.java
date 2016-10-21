@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.helperFunction;
 
 @TeleOp(name="OFFICIAL_PROGRAM", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
@@ -108,6 +109,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft = -gamepad1.left_stick_y;
         double driveRight = gamepad1.right_stick_y;
+        boolean runElevator = gamepad1.left_bumper;
 
         //If the right bumper is pressed, reverse the directions
         //   if (gamepad1.right_bumper) {
@@ -118,7 +120,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
-        //elevator.setPower(helperFunction.triggerToFlat(gamepad1.left_trigger));
+        elevator.setPower(helperFunction.buttonToPower(runElevator));
         //shooter.setPower(helperFunction.triggerToFlat(gamepad1.right_trigger));
 
         //leftPoker.setPosition(buttonToPower(gamepad1.x));
