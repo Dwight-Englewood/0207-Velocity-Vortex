@@ -48,7 +48,7 @@ public class OFFICIAL_PROGRAM extends OpMode
     private DcMotor leftMotor = null;
     private DcMotor rightMotor = null;
     private DcMotor elevator = null;
-    //private DcMotor shooter = null;
+    private DcMotor shooter = null;
 
     //private Servo rightPoker = null;
     //private Servo leftPoker = null;
@@ -67,7 +67,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         leftMotor  = hardwareMap.dcMotor.get("left motor");
         rightMotor = hardwareMap.dcMotor.get("right motor");
         elevator = hardwareMap.dcMotor.get("elevator");
-        //shooter = hardwareMap.dcMotor.get("shooter");
+        shooter = hardwareMap.dcMotor.get("shooter");
 
         //leftPoker = hardwareMap.servo.get("left poker");
         //rightPoker = hardwareMap.servo.get("right poker");
@@ -78,7 +78,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
-        //shooter.setDirection(DcMotor.Direction.FORWARD);
+        shooter.setDirection(DcMotor.Direction.FORWARD);
 
         //leftPoker.setDirection(Servo.Direction.FORWARD);
         //rightPoker.setDirection(Servo.Direction.FORWARD);
@@ -109,19 +109,22 @@ public class OFFICIAL_PROGRAM extends OpMode
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft = -gamepad1.left_stick_y;
         double driveRight = gamepad1.right_stick_y;
-        boolean runElevator = gamepad1.left_bumper;
+        double runElevator = gamepad1.right_trigger;
+        double runShooter = gamepad1.right_trigger;
 
         //If the right bumper is pressed, reverse the directions
-        //   if (gamepad1.right_bumper) {
-        //    driveLeft = -driveLeft;
-        //    driveRight = -driveRight;
-        //}
-
+           if (gamepad1.right_bumper) {
+            driveLeft = -driveLeft;
+            driveRight = -driveRight;
+        }
+        if (gamepad1.left_trigger > 0.1){
+            elevator.setPower(1.0);
+        }
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
-        elevator.setPower(helperFunction.buttonToPower(runElevator));
-        //shooter.setPower(helperFunction.triggerToFlat(gamepad1.right_trigger));
+        elevator.setPower(helperFunction.triggerToFlat(runElevator));
+        shooter.setPower(helperFunction.triggerToFlat(runShooter));
 
         //leftPoker.setPosition(buttonToPower(gamepad1.x));
         //rightPoker.setPosition(buttonToPower(gamepad1.y));
