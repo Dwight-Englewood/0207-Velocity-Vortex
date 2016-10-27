@@ -113,18 +113,10 @@ public class OFFICIAL_PROGRAM extends OpMode
         double runShooter = gamepad1.right_trigger;
 
         //If the right bumper is pressed, reverse the directions
-           if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper) {
             driveLeft = -driveLeft;
             driveRight = -driveRight;
         }
-        if (gamepad1.left_trigger > 0.1){
-            //elevator.setPower(1.0);
-            elevator.setDirection(DcMotor.Direction.REVERSE);
-        }
-               driveLeft = -driveLeft;
-               driveRight = -driveRight;
-           }
->>>>>>> 34a4d49b0437942193a0b851a3afd2b498beba7a
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
