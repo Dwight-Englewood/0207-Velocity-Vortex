@@ -34,7 +34,7 @@ public class gridFunctions {
             Tuple intstr = instructions.get(i);
             int rR = (Integer) intstr.getRight();
             int rL = (Integer) intstr.getLeft();
-        //TODO FINISH THIS 
+        //TODO FINISH THIS
         }
     }
 }

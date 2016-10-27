@@ -118,7 +118,8 @@ public class OFFICIAL_PROGRAM extends OpMode
             driveRight = -driveRight;
         }
         if (gamepad1.left_trigger > 0.1){
-            elevator.setPower(1.0);
+            //elevator.setPower(1.0);
+            elevator.setDirection(DcMotor.Direction.REVERSE);
         }
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
