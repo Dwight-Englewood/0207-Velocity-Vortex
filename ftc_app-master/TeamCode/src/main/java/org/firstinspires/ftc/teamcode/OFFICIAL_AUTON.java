@@ -36,10 +36,13 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qualcomm.ftcrobotcontroller.R;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import org.firstinspires.ftc.teamcode.gridFunctions;
@@ -47,18 +50,47 @@ import org.firstinspires.ftc.teamcode.gridFunctions;
 import java.sql.SQLOutput;
 
 @Autonomous(name = "OFFICIAL_AUTON", group = "LINEAR_AUTON")
-//@Disabled                            // Comment this out to add to the opmode list
+//@Disabled
+
 public class OFFICIAL_AUTON extends LinearOpMode
 {
-  @Override
-  public void runOpMode() throws InterruptedException
-  {
 
+    private DcMotor leftMotor = null;
+    private DcMotor rightMotor = null;
+    private DcMotor elevator = null;
+    private DcMotor shooter = null;
 
-    while (opModeIsActive())
+    @Override
+    public void runOpMode() throws InterruptedException
     {
+      leftMotor  = hardwareMap.dcMotor.get("left motor");
+      rightMotor = hardwareMap.dcMotor.get("right motor");
+      elevator = hardwareMap.dcMotor.get("elevator");
+      shooter = hardwareMap.dcMotor.get("shooter");
 
-      idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
+      leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      idle();
+
+      leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+      while (opModeIsActive()) {
+        int newTarget = leftMotor.getCurrentPosition() + 7;
+        int newTarget2 = rightMotor.getCurrentPosition() + 7;
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftMotor.setPower(.5);
+        rightMotor.setPower(.5);
+        while(opModeIsActive() && leftMotor.isBusy() && rightMotor.isBusy()) {
+            ;
+        }
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
     }
   }
 }
