@@ -53,9 +53,6 @@ public class OFFICIAL_PROGRAM extends OpMode
     //private Servo rightPoker = null;
     //private Servo leftPoker = null;
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -86,24 +83,14 @@ public class OFFICIAL_PROGRAM extends OpMode
         telemetry.addData("Status", "Initialized");
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
     @Override
-    public void init_loop() {
-    }
+    public void init_loop() {}
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
     @Override
     public void start() {
         runtime.reset();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
@@ -113,10 +100,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         double runShooter = gamepad1.right_trigger;
 
         //If the right bumper is pressed, reverse the directions
-        if (gamepad1.right_bumper) {
-            driveLeft = -driveLeft;
-            driveRight = -driveRight;
-        }
+
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
@@ -128,9 +112,6 @@ public class OFFICIAL_PROGRAM extends OpMode
         // to make this work we can scale the range of the servo down from whatever the normal is to 90 degrees
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {
     }
