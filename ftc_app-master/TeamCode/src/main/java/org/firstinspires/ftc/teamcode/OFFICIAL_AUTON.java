@@ -100,5 +100,4 @@ public class OFFICIAL_AUTON extends LinearOpMode
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
     }
-  }
 }
