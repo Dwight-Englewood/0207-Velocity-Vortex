@@ -82,12 +82,19 @@ public class OFFICIAL_AUTON extends LinearOpMode
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(.5);
         rightMotor.setPower(.5);
+          telemetry.addData("Status", "Test");
+          telemetry.update();
+          wait(5000);
         while(opModeIsActive() && leftMotor.isBusy() && rightMotor.isBusy()) {
             ;
         }
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-
+          telemetry.addData("Status", "Initialized");
+          telemetry.update();
+        wait(5000);
+          telemetry.addData("Status", "Running");
+          telemetry.update();
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
