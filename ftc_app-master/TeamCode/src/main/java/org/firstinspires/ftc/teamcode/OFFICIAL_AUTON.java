@@ -47,7 +47,6 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import org.firstinspires.ftc.teamcode.gridFunctions;
 
-import java.sql.SQLOutput;
 
 @Autonomous(name = "OFFICIAL_AUTON", group = "LINEAR_AUTON")
 //@Disabled
@@ -59,7 +58,6 @@ public class OFFICIAL_AUTON extends LinearOpMode
     private DcMotor rightMotor = null;
     private DcMotor elevator = null;
     private DcMotor shooter = null;
-
     @Override
     public void runOpMode() throws InterruptedException
     {
