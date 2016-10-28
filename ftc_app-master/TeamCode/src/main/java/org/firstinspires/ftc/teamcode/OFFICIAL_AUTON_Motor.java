@@ -31,33 +31,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package org.firstinspires.ftc.teamcode;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.view.View;
-
-import com.qualcomm.ftcrobotcontroller.R;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
-import com.qualcomm.robotcore.hardware.DigitalChannelController;
-import org.firstinspires.ftc.teamcode.gridFunctions;
 
 
-@Autonomous(name = "OFFICIAL_AUTON", group = "LINEAR_AUTON")
+@Autonomous(name = "OFFICIAL_AUTON_Motor", group = "LINEAR_AUTON")
 //@Disabled
 
-public class OFFICIAL_AUTON extends LinearOpMode
+public class OFFICIAL_AUTON_Motor extends LinearOpMode
 {
 
     private DcMotor leftMotor = null;
     private DcMotor rightMotor = null;
     private DcMotor elevator = null;
     private DcMotor shooter = null;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -65,7 +54,7 @@ public class OFFICIAL_AUTON extends LinearOpMode
       rightMotor = hardwareMap.dcMotor.get("right motor");
       elevator = hardwareMap.dcMotor.get("elevator");
       shooter = hardwareMap.dcMotor.get("shooter");
-        /*
+
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         idle();
@@ -73,9 +62,11 @@ public class OFFICIAL_AUTON extends LinearOpMode
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        */while (opModeIsActive()) {
-            /*int newTarget = leftMotor.getCurrentPosition() + 7;
+        while (opModeIsActive()) {
+            int newTarget = leftMotor.getCurrentPosition() + 7;
             int newTarget2 = rightMotor.getCurrentPosition() + 7;
+            leftMotor.setTargetPosition(newTarget);
+            rightMotor.setTargetPosition(newTarget2);
             leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftMotor.setPower(.5);
@@ -83,12 +74,10 @@ public class OFFICIAL_AUTON extends LinearOpMode
             telemetry.addData("Status", "Test");
             telemetry.update();
             wait(5000);
-        while(opModeIsActive() && leftMotor.isBusy() && rightMotor.isBusy()) {
-            ;
         }
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-        */
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         wait(5000);
@@ -100,4 +89,3 @@ public class OFFICIAL_AUTON extends LinearOpMode
         idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
-}
