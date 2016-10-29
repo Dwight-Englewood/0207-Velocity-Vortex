@@ -32,12 +32,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous(name = "OFFICIAL_AUTON_Motor", group = "LINEAR_AUTON")
-//@Disabled
+@Disabled// doesnt work lul
 
 public class OFFICIAL_AUTON_Motor extends LinearOpMode
 {
