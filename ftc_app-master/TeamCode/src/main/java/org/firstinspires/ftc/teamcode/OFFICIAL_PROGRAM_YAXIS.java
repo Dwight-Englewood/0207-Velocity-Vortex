@@ -36,11 +36,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.helperFunction;
 
-@TeleOp(name="OFFICIAL_PROGRAM", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="OFFICIAL_PROGRAM_YAXIS", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class OFFICIAL_PROGRAM extends OpMode
+public class OFFICIAL_PROGRAM_YAXIS extends OpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -72,7 +71,7 @@ public class OFFICIAL_PROGRAM extends OpMode
 
         // eg: Set the drive motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftMotor.setDirection(DcMotor.Direction.FORWARD);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
@@ -94,17 +93,17 @@ public class OFFICIAL_PROGRAM extends OpMode
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
-        double driveLeft = gamepad1.left_stick_y;
+        double driveLeft;
         double driveRight = gamepad1.right_stick_y;
         double runElevator = gamepad1.left_trigger;
         double runShooter = gamepad1.right_trigger;
-        //if (gamepad1.dpad_up) {
-          //  driveLeft = 1;
-        //} else if (gamepad1.dpad_down) {
-          //  driveLeft = -1;
-        //} else {
-          //  driveLeft = 0;
-        //}
+        if (gamepad1.dpad_up) {
+            driveLeft = -1;
+        } else if (gamepad1.dpad_down) {
+            driveLeft = 1;
+        } else {
+            driveLeft = 0;
+        }
 
         //If the right bumper is pressed, reverse the directions
         if (gamepad1.right_bumper) {

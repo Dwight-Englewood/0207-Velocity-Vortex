@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.helperFunction;
 
 @TeleOp(name="OFFICIAL_PROGRAM_DPAD", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
@@ -93,17 +94,17 @@ public class OFFICIAL_PROGRAM_DPAD extends OpMode
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
-        double driveLeft;
+        double driveLeft = gamepad1.left_stick_y;
         double driveRight = gamepad1.right_stick_y;
         double runElevator = gamepad1.left_trigger;
         double runShooter = gamepad1.right_trigger;
-        if (gamepad1.dpad_up) {
-            driveLeft = -1;
-        } else if (gamepad1.dpad_down) {
-            driveLeft = 1;
-        } else {
-            driveLeft = 0;
-        }
+        //if (gamepad1.dpad_up) {
+          //  driveLeft = 1;
+        //} else if (gamepad1.dpad_down) {
+          //  driveLeft = -1;
+        //} else {
+          //  driveLeft = 0;
+        //}
 
         //If the right bumper is pressed, reverse the directions
         if (gamepad1.right_bumper) {
