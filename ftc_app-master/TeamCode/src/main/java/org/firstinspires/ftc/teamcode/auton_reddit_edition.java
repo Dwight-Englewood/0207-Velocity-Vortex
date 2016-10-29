@@ -1,17 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 /* plotnw*/
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+
+
+@Autonomous(name = "redditlul", group = "LINEAR_AUTON")
 public class auton_reddit_edition extends OpMode {
 
     DcMotor rightMotor;
     DcMotor leftMotor;
     DcMotor elevator = null;
     DcMotor shooter = null;
-
+    int newTargetL;
+    int newTargetR;
     long start_time;
+    int i;
 
     @Override
     public void init() {
@@ -33,16 +39,16 @@ public class auton_reddit_edition extends OpMode {
 
     @Override
     public void loop() {
-        int newTargetL = leftMotor.getCurrentPosition() + 7;
-        int newTargetR = rightMotor.getCurrentPosition() + 7;
-        int i = 0;
+        newTargetL = leftMotor.getCurrentPosition() + 7;
+        newTargetR = rightMotor.getCurrentPosition() + 7;
+        i = 0;
         leftMotor.setTargetPosition(newTargetL);
         rightMotor.setTargetPosition(newTargetR);
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(.5);
         rightMotor.setPower(.5);
-        while (rightMotor.isBusy() && leftMotor.isBusy()) {
+        while (rightMotor.isBusy() || leftMotor.isBusy()) {
             i++;
             telemetry.addData("Status", Integer.toString(i));
 
@@ -58,10 +64,5 @@ public class auton_reddit_edition extends OpMode {
         //motorRight.setPower(powerlevel);
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-        try {
-            wait(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
