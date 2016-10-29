@@ -15,12 +15,13 @@ public class auton_reddit_edition extends OpMode {
 
     @Override
     public void init() {
-        motorLeft = hardwareMap.dcMotor.get("left motor");
-        motorRight = hardwareMap.dcMotor.get("right motor");
+        leftMotor = hardwareMap.dcMotor.get("left motor");
+        rightMotor = hardwareMap.dcMotor.get("right motor");
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override
@@ -33,17 +34,22 @@ public class auton_reddit_edition extends OpMode {
     @Override
     public void loop() {
         int newTargetL = leftMotor.getCurrentPosition() + 7;
-        int newTargetR = RightMotor.getCurrentPosition() + 7;
-        
+        int newTargetR = rightMotor.getCurrentPosition() + 7;
+        int i = 0;
         leftMotor.setTargetPosition(newTargetL);
         rightMotor.setTargetPosition(newTargetR);
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(.5);
         rightMotor.setPower(.5);
-        //while motor is busy add random stuff to telemetry?
-          //float powerlevel = 0.0f;
-  
+        while (rightMotor.isBusy() && leftMotor.isBusy()) {
+            i++;
+            telemetry.addData("Status", Integer.toString(i));
+
+        }
+        i = 0;
+
+
         // If we're still with the first 3 seconds after pressing start keep driving forward
         //if (System.currentTimeMillis() < start_time + 3000) {
            // powerlevel = 0.5f;
@@ -52,6 +58,10 @@ public class auton_reddit_edition extends OpMode {
         //motorRight.setPower(powerlevel);
         leftMotor.setPower(0);
         rightMotor.setPower(0);
-
+        try {
+            wait(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
