@@ -40,7 +40,7 @@ public class auton_reddit_edition_v2 extends OpMode {
 
     @Override
     public void loop() {
-        //Gets stuck in infinite loop? Not sure what's happening, though I suspect it's because the enconders arent in fully
+        //Gets stuck in infinite loop? Not sure what's happening, though I suspect it's because the encoders aren't in fully
         //So it can't read the isBusy, and never will end.
 
         newTargetL = leftMotor.getCurrentPosition() + 7;
@@ -66,8 +66,9 @@ public class auton_reddit_edition_v2 extends OpMode {
         //if (System.currentTimeMillis() < start_time + 3000) {
            // powerlevel = 0.5f;
         //}
-        //motorLeft.setPower(powerlevel);
-        //motorRight.setPower(powerlevel);
+        //motorLeft.setPower(0);
+        //motorRight.setPower(0);
+        //Perhaps setting the power to zero causes the loop? maybe if isBusy doesn't work, then it sets to zero, which will never finish?
 
     }
 }
