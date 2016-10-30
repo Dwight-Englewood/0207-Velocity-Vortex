@@ -112,7 +112,7 @@ public class OFFICIAL_PROGRAM_YAXIS_2CON extends OpMode
         }
         //If the left trigger is pressed, reverse elevator
         if (gamepad2.left_bumper) {
-            runElevator = 0 - runElevator;
+            runElevator = -1;
         }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)

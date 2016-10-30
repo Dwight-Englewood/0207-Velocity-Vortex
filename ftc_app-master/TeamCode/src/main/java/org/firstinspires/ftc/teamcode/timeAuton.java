@@ -42,7 +42,7 @@ public class timeAuton  extends OpMode {
     @Override
     public void loop() {
 
-        if (System.currentTimeMillis() < start_time + 3000) {
+        if (System.currentTimeMillis() < start_time + 10000) {
           powerlevel = 0.5f;
         }
         leftMotor.setPower(powerlevel);
