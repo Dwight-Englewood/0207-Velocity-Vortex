@@ -46,19 +46,7 @@ public class timeAutonDrive extends OpMode {
             shoot = 0;
             powerlevel = 0.0f;
             elevate = 0;
-        //} else if (System.currentTimeMillis() > start_time + 13000 && System.currentTimeMillis() < start_time + 14000) {
-            //shoot = 1.0;
-            //powerlevel = 0;
-            //elevate = 0;
-        //} else if (System.currentTimeMillis() > start_time + 14100 && System.currentTimeMillis() < start_time + 15000) {
-            //elevate = 1.0;
-            //shoot = 0;
-            //powerlevel = 0;
-        //} else if (System.currentTimeMillis() > start_time + 15100 && System.currentTimeMillis() < start_time + 16000) {
-            //shoot = 1.0;
-            //powerlevel = 0;
-            //elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 16100 && System.currentTimeMillis() < start_time + 17000) {
+        } else if (System.currentTimeMillis() > start_time + 10100 && System.currentTimeMillis() < start_time + 14000) {
             shoot = 0;
             powerlevel = 0.5f;
             elevate = 0;

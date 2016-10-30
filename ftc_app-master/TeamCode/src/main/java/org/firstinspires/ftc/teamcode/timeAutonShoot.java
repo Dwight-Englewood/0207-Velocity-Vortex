@@ -42,27 +42,22 @@ public class timeAutonShoot extends OpMode {
 
     @Override
     public void loop() {
-        if (System.currentTimeMillis() < start_time + 10000) {
+        if (System.currentTimeMillis() < start_time + 1000) {
             shoot = 0;
             powerlevel = 0.0f;
             elevate = 0;
-        }
-        else if (System.currentTimeMillis() > start_time + 13000 && System.currentTimeMillis() < start_time + 14000) {
+        } else if (System.currentTimeMillis() > start_time + 1100 && System.currentTimeMillis() < start_time + 2100) {
             shoot = 1.0;
             powerlevel = 0;
             elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 14100 && System.currentTimeMillis() < start_time + 15000) {
+        } else if (System.currentTimeMillis() > start_time + 2200 && System.currentTimeMillis() < start_time + 7100) {
             elevate = 1.0;
             shoot = 0;
             powerlevel = 0;
-        } else if (System.currentTimeMillis() > start_time + 15100 && System.currentTimeMillis() < start_time + 16000) {
+        } else if (System.currentTimeMillis() > start_time + 10100 && System.currentTimeMillis() < start_time + 10100) {
             shoot = 1.0;
             powerlevel = 0;
             elevate = 0;
-        //} else if (System.currentTimeMillis() > start_time + 16100 && System.currentTimeMillis() < start_time + 17000) {
-          //shoot = 0;
-          //powerlevel = 0.5f;
-          //elevate = 0;
         } else {
             shoot = 0;
             elevate = 0;

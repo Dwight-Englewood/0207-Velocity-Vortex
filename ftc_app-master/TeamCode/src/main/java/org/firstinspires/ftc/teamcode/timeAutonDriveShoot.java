@@ -22,6 +22,7 @@ public class timeAutonDriveShoot  extends OpMode {
     double powerlevel;
     double shoot = 0.0;
     double elevate = 0.0;
+
     @Override
     public void init() {
         leftMotor = hardwareMap.dcMotor.get("left motor");
@@ -47,20 +48,19 @@ public class timeAutonDriveShoot  extends OpMode {
             shoot = 0;
             powerlevel = 0.0f;
             elevate = 0;
-        }
-        else if (System.currentTimeMillis() > start_time + 13000 && System.currentTimeMillis() < start_time + 14000) {
+        } else if (System.currentTimeMillis() > start_time + 11000 && System.currentTimeMillis() < start_time + 12000) {
             shoot = 1.0;
             powerlevel = 0;
             elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 14100 && System.currentTimeMillis() < start_time + 15000) {
+        } else if (System.currentTimeMillis() > start_time + 12100 && System.currentTimeMillis() < start_time + 13000) {
             elevate = 1.0;
             shoot = 0;
             powerlevel = 0;
-        } else if (System.currentTimeMillis() > start_time + 15100 && System.currentTimeMillis() < start_time + 16000) {
+        } else if (System.currentTimeMillis() > start_time + 13100 && System.currentTimeMillis() < start_time + 14000) {
             shoot = 1.0;
             powerlevel = 0;
             elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 16100 && System.currentTimeMillis() < start_time + 17000) {
+        } else if (System.currentTimeMillis() > start_time + 14100 && System.currentTimeMillis() < start_time + 18000) {
             shoot = 0;
             powerlevel = 0.5f;
             elevate = 0;
