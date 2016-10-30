@@ -18,7 +18,8 @@ public class timeAutonDrive extends OpMode {
     int newTargetR;
     long start_time;
     int i;
-    double powerlevel;
+    double powerlevelL;
+    double powerlevelR;
     double shoot = 0.0;
     double elevate = 0.0;
     @Override
@@ -44,22 +45,25 @@ public class timeAutonDrive extends OpMode {
     public void loop() {
         if (System.currentTimeMillis() < start_time + 10000) {
             shoot = 0;
-            powerlevel = 0.0f;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         } else if (System.currentTimeMillis() > start_time + 10100 && System.currentTimeMillis() < start_time + 14000) {
             shoot = 0;
-            powerlevel = 0.5f;
+            powerlevelL = 0.5f;
+            powerlevelR = 0.5f;
             elevate = 0;
         } else {
             shoot = 0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         }
 
         shooter.setPower(shoot);
         elevator.setPower(elevate);
-        leftMotor.setPower(powerlevel);
-        rightMotor.setPower(powerlevel);
+        leftMotor.setPower(powerlevelL);
+        rightMotor.setPower(powerlevelR);
       
      }
 }

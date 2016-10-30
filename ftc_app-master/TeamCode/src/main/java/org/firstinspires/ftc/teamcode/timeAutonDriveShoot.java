@@ -19,7 +19,8 @@ public class timeAutonDriveShoot  extends OpMode {
     int newTargetR;
     long start_time;
     int i;
-    double powerlevel;
+    double powerlevelR;
+    double powerlevelL;
     double shoot = 0.0;
     double elevate = 0.0;
 
@@ -46,38 +47,40 @@ public class timeAutonDriveShoot  extends OpMode {
     public void loop() {
         if (System.currentTimeMillis() < start_time + 100) {
             shoot = 0;
-            powerlevel = 0.0f;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         } else if (System.currentTimeMillis() > start_time + 1000 && System.currentTimeMillis() < start_time + 2000) {
             shoot = 1.0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 2100 && System.currentTimeMillis() < start_time + 3000) {
+        } else if (System.currentTimeMillis() > start_time + 2100 && System.currentTimeMillis() < start_time + 8000) {
             elevate = 1.0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             shoot = 0;
-        } else if (System.currentTimeMillis() > start_time + 3100 && System.currentTimeMillis() < start_time + 4000) {
+        } else if (System.currentTimeMillis() > start_time + 9000 && System.currentTimeMillis() < start_time + 10000) {
             shoot = 1.0;
-            powerlevel = 0;
-            elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 4100 && System.currentTimeMillis() < start_time + 11000) {
-            shoot = 1.0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         } else if (System.currentTimeMillis() > start_time + 12000 && System.currentTimeMillis() < start_time + 16000) {
             shoot = 0;
-            powerlevel = 0.5f;
+            powerlevelL = 0.5f;
+            powerlevelR = 0.5f;
             elevate = 0;
         } else {
             shoot = 0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         }
 
         shooter.setPower(shoot);
         elevator.setPower(elevate);
-        leftMotor.setPower(powerlevel);
-        rightMotor.setPower(powerlevel);
+        leftMotor.setPower(powerlevelL);
+        rightMotor.setPower(powerlevelR);
       
      }
 }

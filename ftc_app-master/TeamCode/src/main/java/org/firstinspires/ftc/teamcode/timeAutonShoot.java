@@ -18,7 +18,8 @@ public class timeAutonShoot extends OpMode {
     int newTargetR;
     long start_time;
     int i;
-    double powerlevel;
+    double powerlevelL;
+    double powerlevelR;
     double shoot = 0.0;
     double elevate = 0.0;
     @Override
@@ -44,30 +45,35 @@ public class timeAutonShoot extends OpMode {
     public void loop() {
         if (System.currentTimeMillis() < start_time + 1000) {
             shoot = 0;
-            powerlevel = 0.0f;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         } else if (System.currentTimeMillis() > start_time + 1100 && System.currentTimeMillis() < start_time + 2100) {
             shoot = 1.0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         } else if (System.currentTimeMillis() > start_time + 2200 && System.currentTimeMillis() < start_time + 7100) {
             shoot = 0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 1.0;
-        } else if (System.currentTimeMillis() > start_time + 10100 && System.currentTimeMillis() < start_time + 10100) {
+        } else if (System.currentTimeMillis() > start_time + 10100 && System.currentTimeMillis() < start_time + 11100) {
             shoot = 1.0;
-            powerlevel = 0;
+            powerlevelR = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         } else {
             shoot = 0;
-            powerlevel = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         }
 
         shooter.setPower(shoot);
         elevator.setPower(elevate);
-        leftMotor.setPower(powerlevel);
-        rightMotor.setPower(powerlevel);
+        leftMotor.setPower(powerlevelL);
+        rightMotor.setPower(powerlevelR);
       
      }
 }
