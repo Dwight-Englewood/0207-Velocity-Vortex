@@ -51,17 +51,17 @@ public class timeAutonShoot extends OpMode {
             powerlevel = 0;
             elevate = 0;
         } else if (System.currentTimeMillis() > start_time + 2200 && System.currentTimeMillis() < start_time + 7100) {
-            elevate = 1.0;
             shoot = 0;
             powerlevel = 0;
+            elevate = 1.0;
         } else if (System.currentTimeMillis() > start_time + 10100 && System.currentTimeMillis() < start_time + 10100) {
             shoot = 1.0;
             powerlevel = 0;
             elevate = 0;
         } else {
             shoot = 0;
-            elevate = 0;
             powerlevel = 0;
+            elevate = 0;
         }
 
         shooter.setPower(shoot);

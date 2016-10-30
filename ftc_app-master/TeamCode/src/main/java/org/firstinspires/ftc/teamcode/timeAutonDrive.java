@@ -52,8 +52,8 @@ public class timeAutonDrive extends OpMode {
             elevate = 0;
         } else {
             shoot = 0;
-            elevate = 0;
             powerlevel = 0;
+            elevate = 0;
         }
 
         shooter.setPower(shoot);

@@ -54,8 +54,8 @@ public class timeAutonDriveShoot  extends OpMode {
             elevate = 0;
         } else if (System.currentTimeMillis() > start_time + 2100 && System.currentTimeMillis() < start_time + 3000) {
             elevate = 1.0;
-            shoot = 0;
             powerlevel = 0;
+            shoot = 0;
         } else if (System.currentTimeMillis() > start_time + 3100 && System.currentTimeMillis() < start_time + 4000) {
             shoot = 1.0;
             powerlevel = 0;
@@ -70,8 +70,8 @@ public class timeAutonDriveShoot  extends OpMode {
             elevate = 0;
         } else {
             shoot = 0;
-            elevate = 0;
             powerlevel = 0;
+            elevate = 0;
         }
 
         shooter.setPower(shoot);
