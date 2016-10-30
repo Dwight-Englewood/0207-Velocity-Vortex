@@ -49,7 +49,7 @@ import org.firstinspires.ftc.teamcode.gridFunctions;
 
 
 @Autonomous(name = "OFFICIAL_AUTON", group = "LINEAR_AUTON")
-//@Disabled
+@Disabled
 
 public class OFFICIAL_AUTON extends LinearOpMode
 {
