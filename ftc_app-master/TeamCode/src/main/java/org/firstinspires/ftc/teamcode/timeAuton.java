@@ -19,6 +19,7 @@ public class timeAuton  extends OpMode {
     int newTargetR;
     long start_time;
     int i;
+    double powerlevel;
 
     @Override
     public void init() {
@@ -40,13 +41,12 @@ public class timeAuton  extends OpMode {
 
     @Override
     public void loop() {
-        //Gets stuck in infinite loop? Not sure what's happening, though I suspect it's because the enconders arent in fully
-        
+
         if (System.currentTimeMillis() < start_time + 3000) {
           powerlevel = 0.5f;
         }
-        motorLeft.setPower(powerlevel);
-        motorRight.setPower(powerlevel);
+        leftMotor.setPower(powerlevel);
+        rightMotor.setPower(powerlevel);
       
      }
 }

@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.Tuple;
 
 
 @Autonomous(name = "redditlullul", group = "LINEAR_AUTON")
@@ -48,18 +49,31 @@ public class auton_reddit_edition_v2 extends OpMode {
         //then set target position
         //if busy, set power
         //else keep it at zero
-        //should work? probably won't compile right now, i know i didnt import the tuple thing
-        instructions = new Tuple[10]
-        instructions[0] = Tuple (7, 7);
-      
-        int newTargetL;
-        int newTargetR;
+        Tuple[] instructions = new Tuple[10];
+        instructions[0] = new Tuple (7, 7);
+        //Move forward
+        instructions[1] = new Tuple (-7, 7);
+        //Turn left
+        instructions[2] = new Tuple (7, -7);
+        //Turn right
+        instructions[3] = new Tuple (21, 21);
+        //Move forward a lot
+        instructions[4] = new Tuple (7, -7);
+        //turn right
+        instructions[5] = new Tuple (14, 14);
+        //Move forward some
+
+        //Random values, hopefully we can get some info out of it.
+        //Possibly move this to init?
+
+        int newTargetL = 0;
+        int newTargetR = 0;
         int i = 0;
-        doule power = 0.0;
+        double power = 0.0;
         if (!(rightMotor.isBusy()) && !(leftMotor.isBusy())) {
           
-          newTargetL = newTargetL + getLeft(instructions[i]);
-          newTargetR = newTargetR + getRight(instructions[i];
+          newTargetL = newTargetL + (Integer) instructions[i].getLeft();
+          newTargetR = newTargetR + (Integer) instructions[i].getRight();
           i++;
         }
 
@@ -70,11 +84,11 @@ public class auton_reddit_edition_v2 extends OpMode {
         rightMotor.setPower(0);
 
         if (rightMotor.isBusy() || leftMotor.isBusy()) {
-            power = .5
+            power = .5;
         }
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
         //Perhaps setting the power to zero causes the loop? maybe if isBusy doesn't work, then it sets to zero, which will never finish?
 
     }
