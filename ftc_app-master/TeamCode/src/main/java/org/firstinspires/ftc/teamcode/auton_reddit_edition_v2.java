@@ -14,11 +14,7 @@ public class auton_reddit_edition_v2 extends OpMode {
     DcMotor leftMotor;
     DcMotor elevator = null;
     DcMotor shooter = null;
-    int newTargetL;
-    int newTargetR;
     long start_time;
-    int i;
-
 
     @Override
     public void init() {
@@ -42,32 +38,43 @@ public class auton_reddit_edition_v2 extends OpMode {
     public void loop() {
         //Gets stuck in infinite loop? Not sure what's happening, though I suspect it's because the encoders aren't in fully
         //So it can't read the isBusy, and never will end.
-
-        newTargetL = leftMotor.getCurrentPosition() + 7;
-        newTargetR = rightMotor.getCurrentPosition() + 7;
-        i = 0;
+        //I THINK I KNOW WHATS WRONG
+        //SO LIKE JUST REMEMBER THAT THIS ENTIRE MEHTOD LOOPS
+        //LOOPS
+        //SO LIKE IDK BUT THAT PROBABLY MESSES WITH STUFF SINCE HOW ITS WORKING
+        //instructions will have tuple with the positions required for the different positions
+        //first we see if the motors are busy
+        //if theyre not set the instructions, then increment the counter for which instruction
+        //then set target position
+        //if busy, set power
+        //else keep it at zero
+        //should work? probably won't compile right now, i know i didnt import the tuple thing
+        instructions = new Tuple[10]
+        instructions[0] = Tuple (7, 7);
+      
+        int newTargetL;
+        int newTargetR;
+        int i = 0;
+        doule power = 0.0;
+        if (!(rightMotor.isBusy()) && !(leftMotor.isBusy())) {
+          
+          newTargetL = newTargetL + getLeft(instructions[i]);
+          newTargetR = newTargetR + getRight(instructions[i];
+          i++;
+        }
 
         leftMotor.setTargetPosition(newTargetL);
         rightMotor.setTargetPosition(newTargetR);
 
-        leftMotor.setPower(.5);
-        rightMotor.setPower(.5);
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
 
-        while (rightMotor.isBusy() || leftMotor.isBusy()) {
-            i++;
-            //telemetry.addData("Status", Integer.toString(i));
-
+        if (rightMotor.isBusy() || leftMotor.isBusy()) {
+            power = .5
         }
 
-        i = 0;
-
-
-        // If we're still with the first 3 seconds after pressing start keep driving forward
-        //if (System.currentTimeMillis() < start_time + 3000) {
-           // powerlevel = 0.5f;
-        //}
-        //motorLeft.setPower(0);
-        //motorRight.setPower(0);
+        motorLeft.setPower(power);
+        motorRight.setPower(power);
         //Perhaps setting the power to zero causes the loop? maybe if isBusy doesn't work, then it sets to zero, which will never finish?
 
     }
