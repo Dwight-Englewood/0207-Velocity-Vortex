@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 
-@Autonomous(name = "redditlul", group = "LINEAR_AUTON")
+@Autonomous(name = "Encoder Test DO NOT USE", group = "LINEAR_AUTON")
 public class auton_reddit_edition extends OpMode {
 
     DcMotor rightMotor;

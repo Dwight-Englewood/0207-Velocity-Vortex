@@ -44,23 +44,27 @@ public class timeAutonDriveShoot  extends OpMode {
 
     @Override
     public void loop() {
-        if (System.currentTimeMillis() < start_time + 10000) {
+        if (System.currentTimeMillis() < start_time + 100) {
             shoot = 0;
             powerlevel = 0.0f;
             elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 11000 && System.currentTimeMillis() < start_time + 12000) {
+        } else if (System.currentTimeMillis() > start_time + 1000 && System.currentTimeMillis() < start_time + 2000) {
             shoot = 1.0;
             powerlevel = 0;
             elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 12100 && System.currentTimeMillis() < start_time + 13000) {
+        } else if (System.currentTimeMillis() > start_time + 2100 && System.currentTimeMillis() < start_time + 3000) {
             elevate = 1.0;
             shoot = 0;
             powerlevel = 0;
-        } else if (System.currentTimeMillis() > start_time + 13100 && System.currentTimeMillis() < start_time + 14000) {
+        } else if (System.currentTimeMillis() > start_time + 3100 && System.currentTimeMillis() < start_time + 4000) {
             shoot = 1.0;
             powerlevel = 0;
             elevate = 0;
-        } else if (System.currentTimeMillis() > start_time + 14100 && System.currentTimeMillis() < start_time + 18000) {
+        } else if (System.currentTimeMillis() > start_time + 4100 && System.currentTimeMillis() < start_time + 11000) {
+            shoot = 1.0;
+            powerlevel = 0;
+            elevate = 0;
+        } else if (System.currentTimeMillis() > start_time + 12000 && System.currentTimeMillis() < start_time + 16000) {
             shoot = 0;
             powerlevel = 0.5f;
             elevate = 0;

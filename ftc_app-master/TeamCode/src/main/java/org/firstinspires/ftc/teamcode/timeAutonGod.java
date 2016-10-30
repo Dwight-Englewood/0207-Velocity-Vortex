@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Disabled
-@Autonomous(name = "teleTest", group = "LINEAR_AUTON")
+@Autonomous(name = "Telemetry Test 2 DO NOT USE", group = "LINEAR_AUTON")
 public class timeAutonGod extends OpMode {
 
     DcMotor rightMotor;
