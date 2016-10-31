@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="OFFICIAL_PROGRAM_YAXIS_2CON", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="USE THIS ONE TELEOP", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class OFFICIAL_PROGRAM_YAXIS_2CON extends OpMode
 {
@@ -112,7 +112,7 @@ public class OFFICIAL_PROGRAM_YAXIS_2CON extends OpMode
         }
         //If the left trigger is pressed, reverse elevator
         if (gamepad2.left_bumper) {
-            runElevator = 0 - runElevator;
+            runElevator = -1;
         }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)

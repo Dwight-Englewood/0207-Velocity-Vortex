@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@Autonomous(name = "OFFICIAL_AUTON_Motor", group = "LINEAR_AUTON")
+@Autonomous(name = "Encoder Test 2 DO NOT USE", group = "LINEAR_AUTON")
 @Disabled// doesnt work lul
 
 public class OFFICIAL_AUTON_Motor extends LinearOpMode

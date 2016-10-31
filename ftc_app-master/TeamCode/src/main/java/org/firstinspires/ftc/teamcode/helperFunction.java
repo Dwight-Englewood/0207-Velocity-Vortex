@@ -28,8 +28,9 @@ public class helperFunction {
         */
         if (input > 0.1) {//0.1, since that will prevent accidental triggers
             return 1.0;
-        } else {
-            return 0.0;
+        } else if (input < -.1) {
+            return -1.0;
         }
+        return 0;
     } 
 }

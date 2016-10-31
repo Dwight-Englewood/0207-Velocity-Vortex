@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode;
 /*plotnw*/
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
-
-@Autonomous(name = "timeAuton", group = "LINEAR_AUTON")
-public class timeAuton  extends OpMode {
+@Disabled
+@Autonomous(name = "Telemetry Test 2 DO NOT USE", group = "LINEAR_AUTON")
+public class timeAutonGod extends OpMode {
 
     DcMotor rightMotor;
     DcMotor leftMotor;
@@ -29,7 +29,7 @@ public class timeAuton  extends OpMode {
         shooter = hardwareMap.dcMotor.get("shooter");
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection(DcMotor.Direction.FORWARD);
     }
 
     @Override
@@ -42,11 +42,11 @@ public class timeAuton  extends OpMode {
     @Override
     public void loop() {
 
-        if (System.currentTimeMillis() < start_time + 3000) {
+        if (System.currentTimeMillis() < start_time + 5000) {
           powerlevel = 0.5f;
         }
         leftMotor.setPower(powerlevel);
         rightMotor.setPower(powerlevel);
-      
+
      }
 }

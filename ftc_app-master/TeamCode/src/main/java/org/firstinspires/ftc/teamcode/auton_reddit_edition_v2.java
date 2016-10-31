@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Tuple;
 
 
-@Autonomous(name = "redditlullul", group = "LINEAR_AUTON")
+@Autonomous(name = "Array Tuple DO NOT USE", group = "LINEAR_AUTON")
 public class auton_reddit_edition_v2 extends OpMode {
 
     DcMotor rightMotor;
@@ -75,6 +75,7 @@ public class auton_reddit_edition_v2 extends OpMode {
           newTargetL = newTargetL + (Integer) instructions[i].getLeft();
           newTargetR = newTargetR + (Integer) instructions[i].getRight();
           i++;
+
         }
 
         leftMotor.setTargetPosition(newTargetL);
