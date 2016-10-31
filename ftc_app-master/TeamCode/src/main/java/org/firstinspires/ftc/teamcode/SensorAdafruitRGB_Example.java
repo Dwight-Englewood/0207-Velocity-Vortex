@@ -71,7 +71,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannelController;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @Autonomous(name = "Sensor: AdafruitRGB", group = "Sensor")
-@Disabled                            // Comment this out to add to the opmode list
+//@Disabled                            // Comment this out to add to the opmode list
 public class SensorAdafruitRGB_Example extends LinearOpMode {
 
   ColorSensor sensorRGB;
