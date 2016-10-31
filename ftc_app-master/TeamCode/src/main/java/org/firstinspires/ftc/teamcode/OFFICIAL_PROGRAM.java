@@ -37,9 +37,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="USE THIS ONE TELEOP", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="TELEBOP", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class OFFICIAL_PROGRAM_YAXIS_2CON extends OpMode
+public class OFFICIAL_PROGRAM extends OpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();

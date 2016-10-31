@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@Autonomous(name = "Time Auton Shoot", group = "LINEAR_AUTON")
+@Autonomous(name = "SHOOT", group = "LINEAR_AUTON")
 public class timeAutonShoot extends OpMode {
 
     DcMotor rightMotor;

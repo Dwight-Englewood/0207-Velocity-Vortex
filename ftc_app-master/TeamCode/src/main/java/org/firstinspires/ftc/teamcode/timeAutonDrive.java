@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@Autonomous(name = "Time Auton Drive", group = "LINEAR_AUTON")
+@Autonomous(name = "DRIVE", group = "LINEAR_AUTON")
 public class timeAutonDrive extends OpMode {
 
     DcMotor rightMotor;
