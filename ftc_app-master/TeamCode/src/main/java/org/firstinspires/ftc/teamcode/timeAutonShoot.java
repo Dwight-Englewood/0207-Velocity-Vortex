@@ -18,6 +18,7 @@ public class timeAutonShoot extends OpMode {
     int newTargetR;
     long start_time;
     long current_time;
+    long time;
     int i;
     double powerlevelL;
     double powerlevelR;
@@ -45,12 +46,14 @@ public class timeAutonShoot extends OpMode {
     @Override
     public void loop() {
         current_time = System.currentTimeMillis();
-        if (current_time < start_time + 1000) {
+        time = current_time - start_time; // TODO: Change the if statements to only use time, not current and start.
+
+        if (time < 1000) {
             shoot = 0;
             powerlevelL = 0.0f;
             powerlevelR = 0.0f;
             elevate = 0;
-        } else if (current_time > start_time + 1100 && current_time < start_time + 2100) {
+        } else if (time > 1100 && time < 2100) {
             shoot = 1.0;
             powerlevelL = 0.0f;
             powerlevelR = 0.0f;
@@ -62,7 +65,7 @@ public class timeAutonShoot extends OpMode {
             elevate = 1.0;
         } else if (current_time > start_time + 10100 && current_time < start_time + 11100) {
             shoot = 1.0;
-            powerlevelR = 0.0f;
+            powerlevelL = 0.0f;
             powerlevelR = 0.0f;
             elevate = 0;
         } else {
