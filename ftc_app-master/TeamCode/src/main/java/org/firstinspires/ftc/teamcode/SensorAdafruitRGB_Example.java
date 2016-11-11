@@ -79,7 +79,7 @@ public class SensorAdafruitRGB_Example extends LinearOpMode {
 
   // we assume that the LED pin of the RGB sensor is connected to
   // digital port 5 (zero indexed).
-  static final int LED_CHANNEL = 5;
+  static final int LED_CHANNEL = 0;
 
   @Override
   public void runOpMode() throws InterruptedException {
