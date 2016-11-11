@@ -97,7 +97,7 @@ public class servoTest extends OpMode
         double driveRight = gamepad1.right_stick_y;
         double runElevator = gamepad2.left_trigger;
         double runShooter = gamepad2.right_trigger;
-        double runPoker = Math.abs(gamepad2.right_stick_x);
+        double runPoker = (gamepad2.right_stick_x);
         if (gamepad1.dpad_up) {
             driveLeft = -1;
         } else if (gamepad1.dpad_down) {

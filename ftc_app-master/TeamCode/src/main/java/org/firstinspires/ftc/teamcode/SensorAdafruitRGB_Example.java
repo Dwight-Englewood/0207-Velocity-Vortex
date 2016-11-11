@@ -78,7 +78,7 @@ public class SensorAdafruitRGB_Example extends LinearOpMode {
   DeviceInterfaceModule cdim;
 
   // we assume that the LED pin of the RGB sensor is connected to
-  // digital port 5 (zero indexed).
+  // digital port 0 (zero indexed).
   static final int LED_CHANNEL = 0;
 
   @Override
@@ -97,6 +97,11 @@ public class SensorAdafruitRGB_Example extends LinearOpMode {
     // bPrevState and bCurrState represent the previous and current state of the button.
     boolean bPrevState = false;
     boolean bCurrState = false;
+      double alphaA = 0;
+      double redA = 0;
+      double greA = 0;
+      double bluA = 0;
+      int times = 0;
 
     // bLedOn represents the state of the LED.
     boolean bLedOn = true;
@@ -142,10 +147,20 @@ public class SensorAdafruitRGB_Example extends LinearOpMode {
       // send the info back to driver station using telemetry function.
       telemetry.addData("LED", bLedOn ? "On" : "Off");
       telemetry.addData("Clear", sensorRGB.alpha());
+        alphaA = alphaA + sensorRGB.alpha();
       telemetry.addData("Red  ", sensorRGB.red());
+        redA = redA + sensorRGB.red();
       telemetry.addData("Green", sensorRGB.green());
+        greA = greA + sensorRGB.green();
       telemetry.addData("Blue ", sensorRGB.blue());
+        bluA = bluA + sensorRGB.blue();
       telemetry.addData("Hue", hsvValues[0]);
+        times++;
+        telemetry.addData("Average Clear", (alphaA/times));
+        telemetry.addData("Average Red", (redA/times));
+        telemetry.addData("Average Green", (greA/times));
+        telemetry.addData("Average Blue", (bluA/times));
+
 
       // change the background color to match the color detected by the RGB sensor.
       // pass a reference to the hue, saturation, and value array as an argument
