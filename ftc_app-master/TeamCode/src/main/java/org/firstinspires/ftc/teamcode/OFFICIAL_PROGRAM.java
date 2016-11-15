@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="TELEBOP", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
@@ -49,8 +50,11 @@ public class OFFICIAL_PROGRAM extends OpMode
     private DcMotor elevator = null;
     private DcMotor shooter = null;
 
-    //private Servo rightPoker = null;
-    //private Servo leftPoker = null;
+    private Servo poker = null;
+
+    final double pokerRight = 1.0;
+    final double pokerLeft = 0.0;
+    double pokerStart = 0.5;
 
     @Override
     public void init() {
@@ -65,8 +69,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-        //leftPoker = hardwareMap.servo.get("left poker");
-        //rightPoker = hardwareMap.servo.get("right poker");
+        poker = hardwareMap.servo.get("poker");
 
 
         // eg: Set the drive motor directions:
@@ -75,9 +78,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
-
-        //leftPoker.setDirection(Servo.Direction.FORWARD);
-        //rightPoker.setDirection(Servo.Direction.FORWARD);
+        poker.setPosition(pokerStart);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -97,22 +98,37 @@ public class OFFICIAL_PROGRAM extends OpMode
         double driveRight = gamepad1.right_stick_y;
         double runElevator = gamepad2.left_trigger;
         double runShooter = gamepad2.right_trigger;
-        if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_up)
+        {
             driveLeft = -1;
-        } else if (gamepad1.dpad_down) {
+        }
+        else if (gamepad1.dpad_down)
+        {
             driveLeft = 1;
-        } else {
+        }
+        else
+        {
             driveLeft = 0;
         }
 
         //If the right bumper is pressed, reverse the directions
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper)
+        {
             driveLeft = 0 - driveLeft;
             driveRight = 0 - driveRight;
         }
         //If the left trigger is pressed, reverse elevator
-        if (gamepad2.left_bumper) {
+        if (gamepad2.left_bumper)
+        {
             runElevator = -1;
+        }
+        if (gamepad2.a)
+        {
+            poker.setPosition(pokerLeft);
+        }
+        if (gamepad2.b)
+        {
+            poker.setPosition(pokerRight);
         }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
