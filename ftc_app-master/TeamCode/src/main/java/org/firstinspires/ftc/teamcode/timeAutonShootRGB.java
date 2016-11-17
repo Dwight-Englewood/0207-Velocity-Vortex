@@ -132,6 +132,12 @@ public class timeAutonShootRGB extends OpMode {
         telemetry.addData("powerlevelL", powerlevelL);
         telemetry.addData("powerlevelR", powerlevelR);
         telemetry.addData("elevate", elevate);
+
+        telemetry.addData("Clear", sensorRGB.alpha());
+        telemetry.addData("Red  ", sensorRGB.red());
+        telemetry.addData("Green", sensorRGB.green());
+        telemetry.addData("Blue ", sensorRGB.blue());
+
         updateTelemetry(telemetry);
       
      }

@@ -98,7 +98,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         double driveRight = gamepad1.right_stick_y;
         double runElevator = gamepad2.left_trigger;
         double runShooter = gamepad2.right_trigger;
-        double pokerValue;
+        double pokerValue = 0;
         if (gamepad1.dpad_up)
         {
             driveLeft = -1;
@@ -126,7 +126,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         if (gamepad2.a)
         {
             poker.setPosition(pokerLeft);
-            pokerValue = pokerLeft
+            pokerValue = pokerLeft;
         }
         if (gamepad2.b)
         {

@@ -69,6 +69,12 @@ public class timeAutonDrive extends OpMode {
         elevator.setPower(elevate);
         leftMotor.setPower(powerlevelL);
         rightMotor.setPower(powerlevelR);
-      
-     }
+
+        telemetry.addData("Shoot", shoot);
+        telemetry.addData("Elevate", elevate);
+        telemetry.addData("powerlevelL", powerlevelL);
+        telemetry.addData("powerlevelR", powerlevelR);
+        updateTelemetry(telemetry);
+
+    }
 }
