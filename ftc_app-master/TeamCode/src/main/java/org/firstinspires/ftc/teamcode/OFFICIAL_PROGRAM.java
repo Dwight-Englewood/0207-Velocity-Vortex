@@ -52,9 +52,9 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     private Servo poker = null;
 
-    final double pokerRight = 1.0;
-    final double pokerLeft = 0.0;
-    double pokerStart = 0.5;
+    final double pokerRight = 0.4;
+    final double pokerLeft = 0.1;
+    double pokerStart = 0.25;
 
     @Override
     public void init() {

@@ -39,7 +39,7 @@ public class ConceptScanServo extends LinearOpMode {
 
         // Connect to servo (Assume PushBot Left Claw)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.servo.get("right pokere");
+        servo = hardwareMap.servo.get("poker ");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to scan Servo." );
