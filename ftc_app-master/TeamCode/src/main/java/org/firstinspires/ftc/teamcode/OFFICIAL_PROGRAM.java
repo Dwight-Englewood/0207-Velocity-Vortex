@@ -98,6 +98,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         double driveRight = gamepad1.right_stick_y;
         double runElevator = gamepad2.left_trigger;
         double runShooter = gamepad2.right_trigger;
+        double pokerValue;
         if (gamepad1.dpad_up)
         {
             driveLeft = -1;
@@ -125,10 +126,13 @@ public class OFFICIAL_PROGRAM extends OpMode
         if (gamepad2.a)
         {
             poker.setPosition(pokerLeft);
+            pokerValue = pokerLeft
         }
         if (gamepad2.b)
         {
             poker.setPosition(pokerRight);
+            pokerValue = pokerRight;
+
         }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
@@ -140,6 +144,11 @@ public class OFFICIAL_PROGRAM extends OpMode
         //leftPoker.setPosition(buttonToPower(gamepad1.x));
         //rightPoker.setPosition(buttonToPower(gamepad1.y));
         // to make this work we can scale the range of the servo down from whatever the normal is to 90 degrees
+        telemetry.addData("driveLeft", driveLeft);
+        telemetry.addData("driveRight", driveRight);
+        telemetry.addData("elevator", runElevator);
+        telemetry.addData("shooter", runShooter);
+        telemetry.addData("poker", pokerValue);
     }
 
     @Override
