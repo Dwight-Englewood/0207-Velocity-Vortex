@@ -84,6 +84,10 @@ public class servoTeleTester extends OpMode
             }
         }
         poker.setPosition(currentPos);
+        telemetry.addData("gamepad1a", gamepad1.a);
+        telemetry.addData("gamepad1b", gamepad1.b);
+        telemetry.addData("Current Position", currentPos);
+        updateTelemetry(telemetry);
     }
 
 
