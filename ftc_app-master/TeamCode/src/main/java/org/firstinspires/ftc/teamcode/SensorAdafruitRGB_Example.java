@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package useless.junkerino;
+package org.firstinspires.ftc.teamcode;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -115,7 +115,7 @@ public class SensorAdafruitRGB_Example extends LinearOpMode {
     cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
 
     // get a reference to our ColorSensor object.
-    sensorRGB = hardwareMap.colorSensor.get("color");
+    sensorRGB = hardwareMap.colorSensor.get("color sensor");
 
     // turn the LED on in the beginning, just so user will know that the sensor is active.
     cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);

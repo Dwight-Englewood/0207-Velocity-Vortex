@@ -1,4 +1,4 @@
-package useless.junkerino;
+package org.firstinspires.ftc.teamcode;
 
 /*plotnw*/
 
@@ -33,7 +33,7 @@ public class timeAutonShootRGB extends OpMode {
     double shoot = 0.0;
     double elevate = 0.0;
     ColorSensor sensorRGB;
-    DeviceInterfaceModule cdim;
+
     static final int LED_CHANNEL = 0;
 
     @Override
@@ -51,6 +51,8 @@ public class timeAutonShootRGB extends OpMode {
 
         final float values[] = hsvValues;
 
+        final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(com.qualcomm.ftcrobotcontroller.R.id.RelativeLayout);
+
         boolean bPrevState = false;
         boolean bCurrState = false;
         double alphaA = 0;
@@ -59,15 +61,11 @@ public class timeAutonShootRGB extends OpMode {
         double bluA = 0;
         int times = 0;
 
-        boolean bLedOn = true;
 
-        cdim = hardwareMap.deviceInterfaceModule.get("dim");
 
-        cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
+        sensorRGB = hardwareMap.colorSensor.get("color sensor");
+        sensorRGB.enableLed(false);
 
-        sensorRGB = hardwareMap.colorSensor.get("color");
-
-        cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
     }
 
     @Override
@@ -82,10 +80,10 @@ public class timeAutonShootRGB extends OpMode {
         current_time = System.currentTimeMillis();
         time = current_time - start_time;
         //Do Nothing
-        if (time < 1000) {
+        if (time < 500) {
             shoot = 0;
-            powerlevelL = 0.0;
-            powerlevelR = 0.0;
+            powerlevelL = 1.0;
+            powerlevelR = 1.0;
             elevate = 0;
         //Shoot Number 1
         } else if (time > 1000 && time < 2000) {

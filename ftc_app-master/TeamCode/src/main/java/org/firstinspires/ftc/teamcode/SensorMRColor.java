@@ -85,7 +85,7 @@ public class SensorMRColor extends LinearOpMode {
     colorSensor = hardwareMap.colorSensor.get("color sensor");
 
     // Set the LED in the beginning
-    colorSensor.enableLed(bLedOn);
+    colorSensor.enableLed(false);
 
     // wait for the start button to be pressed.
     waitForStart();
