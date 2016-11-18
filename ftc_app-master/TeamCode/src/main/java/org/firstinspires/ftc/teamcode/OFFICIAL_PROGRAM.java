@@ -54,7 +54,7 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     final double pokerRight = 0.4;
     final double pokerLeft = 0.1;
-    double pokerStart = 0.25;
+
 
     @Override
     public void init() {
@@ -78,7 +78,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
-        poker.setPosition(pokerStart);
+        poker.setPosition(.25);
 
         telemetry.addData("Status", "Initialized");
     }
