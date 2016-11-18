@@ -76,7 +76,6 @@ public class servoTeleTester extends OpMode
         if (gamepad1.a)
         {
             currentPos = maxPos;
-
         }
         if (gamepad1.b)
         {
@@ -87,7 +86,7 @@ public class servoTeleTester extends OpMode
             currentPos += 0.01;
             if(currentPos >= maxPos)
             {
-                currentPos = 1;
+                currentPos = maxPos;
             }
         }
         if (gamepad1.y)
@@ -95,7 +94,7 @@ public class servoTeleTester extends OpMode
             currentPos -= 0.01;
             if(currentPos <= minPos)
             {
-                currentPos = 0;
+                currentPos = minPos;
             }
         }
 
