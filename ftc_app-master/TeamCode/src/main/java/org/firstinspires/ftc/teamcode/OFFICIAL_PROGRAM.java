@@ -123,6 +123,9 @@ public class OFFICIAL_PROGRAM extends OpMode
         {
             runElevator = -1;
         }
+        if (gamepad2.right_bumper) {
+            runShooter = -.5;
+        }
         if (gamepad2.a)
         {
             poker.setPosition(pokerLeft);
