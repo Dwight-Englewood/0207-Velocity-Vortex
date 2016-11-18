@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Template: Iterative OpMode", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="servo tele tester", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class servoTeleTester extends OpMode
 {

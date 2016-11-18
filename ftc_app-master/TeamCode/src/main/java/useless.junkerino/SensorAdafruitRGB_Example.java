@@ -29,7 +29,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package org.firstinspires.ftc.teamcode;
+package useless.junkerino;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -70,15 +70,15 @@ import com.qualcomm.robotcore.hardware.DigitalChannelController;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@Autonomous(name = "Sensor: AdafruitRGBqsdadasdasd", group = "Sensor")
+@Autonomous(name = "Sensor: AdafruitRGB", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
-public class SensorAdafruitRGB2 extends LinearOpMode {
+public class SensorAdafruitRGB_Example extends LinearOpMode {
 
   ColorSensor sensorRGB;
   DeviceInterfaceModule cdim;
 
   // we assume that the LED pin of the RGB sensor is connected to
-  // digital port 5 (zero indexed).
+  // digital port 0 (zero indexed).
   static final int LED_CHANNEL = 0;
 
   @Override
@@ -97,6 +97,11 @@ public class SensorAdafruitRGB2 extends LinearOpMode {
     // bPrevState and bCurrState represent the previous and current state of the button.
     boolean bPrevState = false;
     boolean bCurrState = false;
+      double alphaA = 0;
+      double redA = 0;
+      double greA = 0;
+      double bluA = 0;
+      int times = 0;
 
     // bLedOn represents the state of the LED.
     boolean bLedOn = true;
@@ -142,14 +147,24 @@ public class SensorAdafruitRGB2 extends LinearOpMode {
       // send the info back to driver station using telemetry function.
       telemetry.addData("LED", bLedOn ? "On" : "Off");
       telemetry.addData("Clear", sensorRGB.alpha());
+        alphaA = alphaA + sensorRGB.alpha();
       telemetry.addData("Red  ", sensorRGB.red());
+        redA = redA + sensorRGB.red();
       telemetry.addData("Green", sensorRGB.green());
+        greA = greA + sensorRGB.green();
       telemetry.addData("Blue ", sensorRGB.blue());
+        bluA = bluA + sensorRGB.blue();
       telemetry.addData("Hue", hsvValues[0]);
+        times++;
+        telemetry.addData("Average Clear", (alphaA/times));
+        telemetry.addData("Average Red", (redA/times));
+        telemetry.addData("Average Green", (greA/times));
+        telemetry.addData("Average Blue", (bluA/times));
+
 
       // change the background color to match the color detected by the RGB sensor.
       // pass a reference to the hue, saturation, and value array as an argument
-      // to the HSVToColor method.
+      // to the HSVToCogdlor method.
       relativeLayout.post(new Runnable() {
         public void run() {
           relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
