@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 @Autonomous(name = "RGB SHOOT BLUE", group = "ITERATIVE_AUTON")
@@ -34,7 +35,12 @@ public class timeAutonShootRGB extends OpMode {
     double elevate = 0.0;
     ColorSensor sensorRGB;
 
-    static final int LED_CHANNEL = 0;
+    Servo poker = null;
+
+    final double maxPos = 0.69;
+    final double minPos = 0.18;
+    double curPos = .48;
+    final double startPos = .48;
 
     @Override
     public void init() {
@@ -63,6 +69,8 @@ public class timeAutonShootRGB extends OpMode {
 
         sensorRGB = hardwareMap.colorSensor.get("color sensor");
         sensorRGB.enableLed(false);
+
+        poker.setPosition(startPos);
 
     }
 

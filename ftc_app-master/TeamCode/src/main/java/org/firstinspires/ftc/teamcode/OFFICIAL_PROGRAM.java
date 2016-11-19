@@ -53,10 +53,10 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     private Servo poker = null;
 
-    final double maxPos = 0.48;
+    final double maxPos = 0.69;
     final double minPos = 0.18;
     double curPos = .48;
-    double startPos = .48;
+    final double startPos = .48;
 
     @Override
     public void init() {
@@ -151,6 +151,11 @@ public class OFFICIAL_PROGRAM extends OpMode
             {
                 curPos = minPos;
             }
+        }
+        if (gamepad1.right_bumper)
+        {
+            curPos = startPos;
+
         }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
