@@ -34,7 +34,7 @@ public class timeAutonShootRGB extends OpMode {
     double shoot = 0.0;
     double elevate = 0.0;
     ColorSensor sensorRGB;
-
+    int count = 0;
     Servo poker = null;
 
     final double maxPos = 0.69;
@@ -92,55 +92,68 @@ public class timeAutonShootRGB extends OpMode {
             powerlevelR = 1.0;
             elevate = 0;
         //Shoot Number 1
-        } else if (time > 1000 && time < 2000) {
+        /*} else if (time > 1000 && time < 2000) {
             shoot = 1.0;
             powerlevelL = 0.0;
             powerlevelR = 0.0;
             elevate = 0;
+            */
         //Run elevator
-        } else if (time > 2100 && time < 4000) {
+        /*} else if (time > 2100 && time < 4000) {
             elevate = 1.0;
             powerlevelL = 0.0;
             powerlevelR = 0.0;
             shoot = 0;
+            */
         //Shoot Number 2
-        } else if (time > 5100 && time < 6100) {
+        /*} else if (time > 5100 && time < 6100) {
             shoot = 1.0;
             powerlevelL = 0.0;
             powerlevelR = 0.0;
             elevate = 0;
+            */
         //Turn right
-        } else if (time > 6500 && time < 7300) {
+        /*} else if (time > 6500 && time < 7300) {
             shoot = 0;
             powerlevelL = 1.0;
             powerlevelR = 0.0;
             elevate = 0;
+            */
         //Drive Forward
+        } else if (time > 8100 && sensorRGB.blue() >= 2 && 1000 > count) {
+            telemetry.addData("Pressing Right", 0);
+            shoot = 0;
+            powerlevelL = 0;
+            powerlevelR = 0;
+            elevate = 0;
+            curPos = maxPos;
+            count++;
         } else if (time > 8100 && time < 9100) {
             shoot = 0;
             powerlevelL = 1.0;
             powerlevelR = 1.0;
-        } else if (time > 9100 && sensorRGB.blue() >= 2) {
-            
-
+            elevate = 0;
         }
         else {
             shoot = 0;
             powerlevelL = 0.0;
             powerlevelR = 0.0;
             elevate = 0;
+            count = 0;
         }
 
         shooter.setPower(shoot);
         elevator.setPower(elevate);
         leftMotor.setPower(powerlevelL);
         rightMotor.setPower(powerlevelR);
+        poker.setPosition(curPos);
         telemetry.addData("Time", time);
         telemetry.addData("shoot", shoot);
         telemetry.addData("powerlevelL", powerlevelL);
         telemetry.addData("powerlevelR", powerlevelR);
         telemetry.addData("elevate", elevate);
-
+        telemetry.addData("poker", curPos);
+        telemetry.addData("count", count);
 
 
 
