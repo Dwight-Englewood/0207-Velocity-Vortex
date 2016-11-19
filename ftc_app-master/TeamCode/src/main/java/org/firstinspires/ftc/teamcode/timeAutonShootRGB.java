@@ -112,7 +112,11 @@ public class timeAutonShootRGB extends OpMode {
             shoot = 0;
             powerlevelL = 1.0;
             powerlevelR = 1.0;
-        } else {
+        } else if (time > 9100 && sensorRGB.blue() >= 2) {
+            
+
+        }
+        else {
             shoot = 0;
             powerlevelL = 0.0;
             powerlevelR = 0.0;
