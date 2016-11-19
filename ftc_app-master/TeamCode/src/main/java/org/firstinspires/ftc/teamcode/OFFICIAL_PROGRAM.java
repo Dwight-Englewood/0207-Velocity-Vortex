@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -52,9 +53,10 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     private Servo poker = null;
 
-    final double pokerRight = 0.4;
-    final double pokerLeft = 0.1;
-
+    final double maxPos = 0.48;
+    final double minPos = 0.18;
+    double curPos = .48;
+    double startPos = .48;
 
     @Override
     public void init() {
@@ -78,7 +80,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
-        poker.setPosition(.25);
+        poker.setPosition(curPos);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -126,16 +128,29 @@ public class OFFICIAL_PROGRAM extends OpMode
         if (gamepad2.right_bumper) {
             runShooter = -.5;
         }
-        if (gamepad2.a)
+        if (gamepad1.a || gamepad2.a)
         {
-            poker.setPosition(pokerLeft);
-            pokerValue = pokerLeft;
+            curPos = maxPos;
         }
-        if (gamepad2.b)
+        if (gamepad1.b || gamepad2.b)
         {
-            poker.setPosition(pokerRight);
-            pokerValue = pokerRight;
-
+            curPos = minPos;
+        }
+        if (gamepad1.x || gamepad2.x)
+        {
+            curPos += 0.01;
+            if(curPos >= maxPos)
+            {
+                curPos = maxPos;
+            }
+        }
+        if (gamepad1.y || gamepad2.y)
+        {
+            curPos -= 0.01;
+            if(curPos <= minPos)
+            {
+                curPos = minPos;
+            }
         }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
@@ -143,10 +158,8 @@ public class OFFICIAL_PROGRAM extends OpMode
         rightMotor.setPower(driveRight);
         elevator.setPower(helperFunction.triggerToFlat(runElevator));
         shooter.setPower(helperFunction.triggerToFlat(runShooter));
+        poker.setPosition(curPos);
 
-        //leftPoker.setPosition(buttonToPower(gamepad1.x));
-        //rightPoker.setPosition(buttonToPower(gamepad1.y));
-        // to make this work we can scale the range of the servo down from whatever the normal is to 90 degrees
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);
         telemetry.addData("elevator", runElevator);
@@ -155,8 +168,7 @@ public class OFFICIAL_PROGRAM extends OpMode
     }
 
     @Override
-    public void stop() {
-    }
+    public void stop() {}
 
 
 }

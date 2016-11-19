@@ -61,8 +61,6 @@ public class timeAutonShootRGB extends OpMode {
         double bluA = 0;
         int times = 0;
 
-
-
         sensorRGB = hardwareMap.colorSensor.get("color sensor");
         sensorRGB.enableLed(false);
 
@@ -131,10 +129,8 @@ public class timeAutonShootRGB extends OpMode {
         telemetry.addData("powerlevelR", powerlevelR);
         telemetry.addData("elevate", elevate);
 
-        telemetry.addData("Clear", sensorRGB.alpha());
-        telemetry.addData("Red  ", sensorRGB.red());
-        telemetry.addData("Green", sensorRGB.green());
-        telemetry.addData("Blue ", sensorRGB.blue());
+
+
 
         updateTelemetry(telemetry);
       

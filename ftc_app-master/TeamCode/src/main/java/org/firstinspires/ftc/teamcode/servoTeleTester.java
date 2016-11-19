@@ -44,9 +44,9 @@ public class servoTeleTester extends OpMode
 {
     private ElapsedTime runtime = new ElapsedTime();
     private Servo poker = null;
-    private double currentPos = 0.25;
-    private double maxPos = 0.48;
-    private double minPos = 0.05;
+    private double currentPos = 0.48;
+    private double maxPos = 0.69;
+    private double minPos = 0.18 ;
 
     @Override
     public void init() {
@@ -54,21 +54,19 @@ public class servoTeleTester extends OpMode
         poker = hardwareMap.servo.get("poker");
         poker.setPosition(currentPos);
     }
-    //.48 0
+
     // a = full left
     // b = full right
     // x = increment left
     //y = increment right
-
+    //3.6cm at mid point
     @Override
     public void init_loop() {}
-
 
     @Override
     public void start() {
         runtime.reset();
     }
-
 
     @Override
     public void loop() {
@@ -89,16 +87,12 @@ public class servoTeleTester extends OpMode
                 currentPos = maxPos;
             }
         }
-        if (gamepad1.y)
-        {
+        if (gamepad1.y) {
             currentPos -= 0.01;
-            if(currentPos <= minPos)
-            {
+            if (currentPos <= minPos) {
                 currentPos = minPos;
             }
         }
-
-
 
         poker.setPosition(currentPos);
         telemetry.addData("gamepad1a", gamepad1.a);
