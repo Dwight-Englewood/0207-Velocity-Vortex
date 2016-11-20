@@ -54,8 +54,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Sensor: MR Color", group = "Sensor")
-@Disabled
+@TeleOp(name = "MR COLOR SENSOR TESTING", group = "Sensor")
+//@Disabled
 public class SensorMRColor extends LinearOpMode {
 
   ColorSensor colorSensor;    // Hardware Device Object
@@ -85,7 +85,7 @@ public class SensorMRColor extends LinearOpMode {
     colorSensor = hardwareMap.colorSensor.get("color sensor");
 
     // Set the LED in the beginning
-    colorSensor.enableLed(bLedOn);
+    colorSensor.enableLed(false);
 
     // wait for the start button to be pressed.
     waitForStart();
@@ -102,7 +102,7 @@ public class SensorMRColor extends LinearOpMode {
 
         // button is transitioning to a pressed state. So Toggle LED
         bLedOn = !bLedOn;
-        colorSensor.enableLed(bLedOn);
+        //colorSensor.enableLed(bLedOn);
       }
 
       // update previous state variable.
