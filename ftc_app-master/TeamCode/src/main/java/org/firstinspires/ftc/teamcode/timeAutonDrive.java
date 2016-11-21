@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode;
 /*plotnw*/
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@Autonomous(name = "DRIVE", group = "LINEAR_AUTON")
+@Autonomous(name = "DISTANCE - TIME TESTER", group = "LINEAR_AUTON")
+//@Disabled
 public class timeAutonDrive extends OpMode {
 
     DcMotor rightMotor;
@@ -48,15 +50,10 @@ public class timeAutonDrive extends OpMode {
         current_time = System.currentTimeMillis();
         time = current_time - start_time;
 
-        if (time < 10000) {
+        if (time < 1000) {
             shoot = 0;
-            powerlevelL = 0.0f;
-            powerlevelR = 0.0f;
-            elevate = 0;
-        } else if (time > 10100 && time < 14000) {
-            shoot = 0;
-            powerlevelL = 0.5f;
-            powerlevelR = 0.5f;
+            powerlevelL = 1.0f;
+            powerlevelR = 1.0f;
             elevate = 0;
         } else {
             shoot = 0;

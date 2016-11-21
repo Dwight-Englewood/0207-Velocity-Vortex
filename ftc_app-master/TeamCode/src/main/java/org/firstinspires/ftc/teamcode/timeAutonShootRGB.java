@@ -79,6 +79,7 @@ public class timeAutonShootRGB extends OpMode {
         super.start();
         // Save the system clock when start is pressed
         start_time = System.currentTimeMillis();
+
     }
 
     @Override
@@ -121,7 +122,7 @@ public class timeAutonShootRGB extends OpMode {
             */
         //Drive Forward
         } else if (time > 8100 && sensorRGB.blue() >= 2 && 1000 > count) {
-            telemetry.addData("Pressing Right", 0);
+
             shoot = 0;
             powerlevelL = 0;
             powerlevelR = 0;
@@ -155,6 +156,7 @@ public class timeAutonShootRGB extends OpMode {
         telemetry.addData("elevate", elevate);
         telemetry.addData("poker", curPos);
         telemetry.addData("count", count);
+
 
 
 
