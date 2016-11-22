@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode;
 import android.app.Activity;
 import android.graphics.Color;
 import android.provider.SearchRecentSuggestions;
+import android.provider.Settings;
 import android.view.View;
 
 import com.qualcomm.ftcrobotcontroller.R;
@@ -23,6 +24,7 @@ public class timeAutonRGBBlue extends OpMode {
 
     long start_time;
     long current_time;
+    long wait_time;
     long time;
 
     DcMotor rightMotor = null;
@@ -33,7 +35,8 @@ public class timeAutonRGBBlue extends OpMode {
     private double startPos = 0.48;
     private double currentPos = startPos;
     private double maxPos = 0.78;
-    private double minPos = 0.18 ;
+    private double minPos = 0.18;
+    private int beacons = 0;
 
     ColorSensor colorSensor;
     boolean bLedOn = false;
@@ -74,20 +77,31 @@ public class timeAutonRGBBlue extends OpMode {
         current_time = System.currentTimeMillis();
         time = current_time - start_time;
 
-        if (colorSensor.blue() >= 2 && colorSensor.red() < 2)
+        if (colorSensor.blue() >= 2 && colorSensor.red() < 2 && beacons < 2)
         {
+            wait_time = System.currentTimeMillis() - start_time;
+            beacons++;
+
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(0.0);
+            if (wait_time > 500)
+            {
+                currentPos = minPos;
+            }
+            if(wait_time > 1500)
+            {
+                currentPos = startPos;
+                leftMotor.setPower(0.5);
+                rightMotor.setPower(0.7);
+            }
 
-            currentPos = minPos;
-            //After it pushes, make it adjust the movement to turn slightly outwards, to accout for the non straight movement issue
         }
         else
         {
             leftMotor.setPower(0.5);//Magic numbers
-            rightMotor.setPower(0.7 );//Do not touch
+            rightMotor.setPower(0.7);//Do not touch
             elevator.setPower(0.0);
             shooter.setPower(0.0);
             currentPos = startPos;

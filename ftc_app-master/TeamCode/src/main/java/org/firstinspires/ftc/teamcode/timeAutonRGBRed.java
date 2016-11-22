@@ -15,6 +15,8 @@ public class timeAutonRGBRed extends OpMode {
     long start_time;
     long current_time;
     long time;
+    long wait_time;
+    int beacons = 0;
 
     DcMotor rightMotor = null;
     DcMotor leftMotor = null;
@@ -28,11 +30,6 @@ public class timeAutonRGBRed extends OpMode {
 
     ColorSensor colorSensor;
     boolean bLedOn = false;
-
-    double powerlevelL;
-    double powerlevelR;
-    double shoot = 0.0;
-    double elevate = 0.0;
 
     @Override
     public void init() {
@@ -65,15 +62,34 @@ public class timeAutonRGBRed extends OpMode {
         current_time = System.currentTimeMillis();
         time = current_time - start_time;
 
-        if (colorSensor.blue() < 2 && colorSensor.red() >= 2)
+        if (colorSensor.blue() < 2 && colorSensor.red() >= 2 && beacons < 2)
+        {
+            wait_time = System.currentTimeMillis() - start_time;
+            beacons++;
+
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+            if (wait_time > 500)
+            {
+                currentPos = maxPos;
+            }
+            if(wait_time > 1500)
+            {
+                currentPos = startPos;
+                leftMotor.setPower(0.5);
+                rightMotor.setPower(0.7);
+            }
+        }
+        if (beacons == 2)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(0.0);
+            poker.setPosition(startPos);
 
-            currentPos = minPos;
-            //After it pushes, make it adjust the movement to turn slightly outwards, to accout for the non straight movement issue
         }
         else
         {
