@@ -41,11 +41,6 @@ public class timeAutonRGBBlue extends OpMode {
     ColorSensor colorSensor;
     boolean bLedOn = false;
 
-    double powerlevelL;
-    double powerlevelR;
-    double shoot = 0.0;
-    double elevate = 0.0;
-
     @Override
     public void init() {
 
@@ -96,7 +91,34 @@ public class timeAutonRGBBlue extends OpMode {
                 leftMotor.setPower(0.5);
                 rightMotor.setPower(0.7);
             }
-
+        }
+        else if (time < 700 )
+        {
+            leftMotor.setPower(.5);
+            rightMotor.setPower(.7);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+        }
+        else if (time > 700 && time < 1700)
+        {
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
+            elevator.setPower(0.0);
+            shooter.setPower(1.0);
+        }
+        else if (time > 1400 && time < 2400)
+        {
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
+            elevator.setPower(1.0);
+            shooter.setPower(0.0);
+        }
+        else if (time > 2400 && time < 3400)
+        {
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
+            elevator.setPower(0.0);
+            shooter.setPower(1.0);
         }
         else
         {

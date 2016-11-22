@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous(name = "timeAutonRGBBlue", group = "ITERATIVE_AUTON")
+@Autonomous(name = "timeAutonRGBRed", group = "ITERATIVE_AUTON")
 public class timeAutonRGBRed extends OpMode {
 
     long start_time;
