@@ -18,8 +18,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous(name = "ROBS_TESTER", group = "ITERATIVE_AUTON")
-public class RobsRGBTest extends OpMode {
+@Autonomous(name = "timeAutonRGBBlue", group = "ITERATIVE_AUTON")
+public class timeAutonRGBBlue extends OpMode {
 
     long start_time;
     long current_time;
@@ -80,17 +80,21 @@ public class RobsRGBTest extends OpMode {
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(0.0);
-            currentPos = maxPos;
+
+            currentPos = minPos;
+            //After it pushes, make it adjust the movement to turn slightly outwards, to accout for the non straight movement issue
         }
         else
         {
-            leftMotor.setPower(0.3);
-            rightMotor.setPower(0.3);
+            leftMotor.setPower(0.5);//Magic numbers
+            rightMotor.setPower(0.7 );//Do not touch
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+            currentPos = startPos;
         }
 
 
         poker.setPosition(currentPos);
-
 
         telemetry.addData("LED", bLedOn ? "On" : "Off");
         telemetry.addData("Clear", colorSensor.alpha());
@@ -99,5 +103,9 @@ public class RobsRGBTest extends OpMode {
 
         telemetry.update();
 
+    }
+    @Override
+    public void stop() {
+        poker.setPosition(startPos);
     }
 }
