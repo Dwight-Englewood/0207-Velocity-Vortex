@@ -37,6 +37,7 @@ public class timeAutonRGBBlue extends OpMode {
     private double maxPos = 0.78;
     private double minPos = 0.18;
     private int beacons = 0;
+    private boolean isWorkingBeacon = false;
 
     ColorSensor colorSensor;
     boolean bLedOn = false;
@@ -75,7 +76,10 @@ public class timeAutonRGBBlue extends OpMode {
         if (colorSensor.blue() >= 2 && colorSensor.red() < 2 && beacons < 2)
         {
             wait_time = System.currentTimeMillis() - start_time;
-            beacons++;
+            /*if (!isWorkingBeacon) {
+                beacons++;
+                isWorkingBeacon = !isWorkingBeacon;
+            }*/
 
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
@@ -85,48 +89,91 @@ public class timeAutonRGBBlue extends OpMode {
             {
                 currentPos = minPos;
             }
-            if(wait_time > 1500)
+            /*if(wait_time > 1500)
             {
                 currentPos = startPos;
                 leftMotor.setPower(0.5);
                 rightMotor.setPower(0.7);
-            }
+            }*/
         }
-        else if (time < 700 )
+        else if (time < 800 )
         {
             leftMotor.setPower(.5);
             rightMotor.setPower(.7);
             elevator.setPower(0.0);
             shooter.setPower(0.0);
         }
-        else if (time > 700 && time < 1700)
+        else if (time > 800 && time < 1300)
+        {
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+        }
+        else if (time > 1300 && time < 2300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(1.0);
         }
-        else if (time > 1400 && time < 2400)
+        else if (time > 2300 && time < 3300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(1.0);
             shooter.setPower(0.0);
         }
-        else if (time > 2400 && time < 3400)
+        else if (time > 3300 && time < 4300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(1.0);
         }
+       /* else if (time > 4300 && time < 4600)
+        {
+            leftMotor.setPower(1.0);
+            rightMotor.setPower(-1.0);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+        }
+        else if (time > 4600 && time < 6950)
+        {
+            leftMotor.setPower(0.5);
+            rightMotor.setPower(0.7);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+        }
+        else if (time > 6900 && time < 7100)
+        {
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+        }
+        else if (time > 7100 && time < 7550)
+        {
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(1.0);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+        }
+        else if (time > 7550 && time < 7650)
+        {
+            leftMotor.setPower(0.0);
+            rightMotor.setPower(0.0);
+            elevator.setPower(0.0);
+            shooter.setPower(0.0);
+        }
         else
         {
-            leftMotor.setPower(0.5);//Magic numbers
-            rightMotor.setPower(0.7);//Do not touch
+            leftMotor.setPower(0.3);//Magic numbers
+            rightMotor.setPower(0.42);//Do not touch
             elevator.setPower(0.0);
             shooter.setPower(0.0);
             currentPos = startPos;
+            //isWorkingBeacon = false;
         }
 
 
@@ -136,7 +183,7 @@ public class timeAutonRGBBlue extends OpMode {
         telemetry.addData("Clear", colorSensor.alpha());
         telemetry.addData("Red  ", colorSensor.red());
         telemetry.addData("Blue ", colorSensor.blue());
-
+        */
         telemetry.update();
 
     }
