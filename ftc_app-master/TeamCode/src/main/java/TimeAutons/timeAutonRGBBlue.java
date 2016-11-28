@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package TimeAutons;
 
 /*plotnw*/
 
@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
+@Disabled
 @Autonomous(name = "timeAutonRGBBlue", group = "ITERATIVE_AUTON")
 public class timeAutonRGBBlue extends OpMode {
 

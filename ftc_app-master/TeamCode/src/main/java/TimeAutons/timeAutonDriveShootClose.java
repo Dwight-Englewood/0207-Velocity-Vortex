@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package TimeAutons;
 
 /*plotnw*/
 
@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
-@Autonomous(name = "DRIVE SHOOT FAR", group = "LINEAR_AUTON")
-public class timeAutonDriveShootFar extends OpMode {
+@Autonomous(name = "DRIVE SHOOT CLOSE", group = "LINEAR_AUTON")
+public class timeAutonDriveShootClose extends OpMode {
 
     DcMotor rightMotor;
     DcMotor leftMotor;
@@ -19,7 +19,7 @@ public class timeAutonDriveShootFar extends OpMode {
     long start_time;
     long current_time;
     long time;
-    int i;
+
 
 
     @Override
@@ -52,42 +52,42 @@ public class timeAutonDriveShootFar extends OpMode {
             rightMotor.setPower(0.0);
 
         }
-        else if (time > 1000 && time < 2300)
+        else if (time > 1000 && time < 1800)
         {
             leftMotor.setPower(.5);
             rightMotor.setPower(.7);
             elevator.setPower(0.0);
             shooter.setPower(0.0);
         }
-        else if (time > 2300 && time < 2800)
+        else if (time > 1800 && time < 2300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(0.0);
         }
-        else if (time > 2800 && time < 3800)
+        else if (time > 2300 && time < 3300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(1.0);
         }
-        else if (time > 3800 && time < 4800)
+        else if (time > 3300 && time < 4300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(1.0);
             shooter.setPower(0.0);
         }
-        else if (time > 4800 && time < 5800)
+        else if (time > 4300 && time < 5300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
             elevator.setPower(0.0);
             shooter.setPower(1.0);
         }
-        else if (time > 5800 && time < 6800)
+        else if (time > 5300 && time < 6300)
         {
             leftMotor.setPower(0.0);
             rightMotor.setPower(0.0);
@@ -97,8 +97,8 @@ public class timeAutonDriveShootFar extends OpMode {
         }
         else if (time > 12000 && time < 14000) {
 
-            leftMotor.setPower(0.5);
-            rightMotor.setPower(0.7);
+            leftMotor.setPower(1.0);
+            rightMotor.setPower(1.0);
             elevator.setPower(0.0);
             shooter.setPower(0.0);
 
@@ -111,5 +111,5 @@ public class timeAutonDriveShootFar extends OpMode {
 
 
         updateTelemetry(telemetry);
-    }
+     }
 }

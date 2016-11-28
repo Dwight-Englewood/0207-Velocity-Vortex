@@ -53,11 +53,13 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     private Servo poker = null;
 
+    //Max: .69
+    //Min: .18
+    //Start: .48
     final double maxPos = 0.69;
     final double minPos = 0.18;
-    double curPos = .48;
     final double startPos = .48;
-
+    double curPos = startPos;
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");

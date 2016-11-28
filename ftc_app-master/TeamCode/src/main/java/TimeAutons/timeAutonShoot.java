@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package TimeAutons;
 
 /*plotnw*/
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
+@Disabled
 @Autonomous(name = "SHOOT", group = "LINEAR_AUTON")
 public class timeAutonShoot extends OpMode {
 
