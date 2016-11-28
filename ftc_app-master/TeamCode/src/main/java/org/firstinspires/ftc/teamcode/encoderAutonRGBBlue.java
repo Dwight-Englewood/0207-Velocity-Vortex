@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "encoderAutonRGBBlue", group = "ITERATIVE_AUTON")
 public class encoderAutonRGBBlue extends OpMode {
 
-    long start_time;
-    long current_time;
+    long start_time = 0;
+    long current_time = 0;
     long wait_time;
     long time;
 
@@ -32,7 +32,9 @@ public class encoderAutonRGBBlue extends OpMode {
     ColorSensor colorSensor;
     boolean bLedOn = false;
 
-    final double[] distanceArray = {0.0, 0.0};
+    final double[] distanceArray = {38.2, 0.0, 0.0};
+    int commandNumber = -1;
+
 
     @Override
     public void init() {
@@ -48,8 +50,7 @@ public class encoderAutonRGBBlue extends OpMode {
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -62,18 +63,78 @@ public class encoderAutonRGBBlue extends OpMode {
         super.start();
         // Save the system clock when start is pressed
         start_time = System.currentTimeMillis();
+
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     @Override
     public void loop() {
-        current_time = System.currentTimeMillis();
-        time = current_time - start_time;
 
-        if (!leftMotor.isBusy() && !rightMotor.isBusy())
+        switch(commandNumber)
         {
+            case -1:
+                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                commandNumber++;
+                break;
 
+            case 0:
+                leftMotor.setTargetPosition(helperFunction.distanceToRevs(distanceArray[commandNumber]));
+                rightMotor.setTargetPosition(helperFunction.distanceToRevs(distanceArray[commandNumber]));
 
+                leftMotor.setPower(0.5);
+                rightMotor.setPower(0.7);
 
+                if (!rightMotor.isBusy() && !leftMotor.isBusy())
+                {
+                    commandNumber++;
+                    leftMotor.setPower(0.0);
+                    rightMotor.setPower(0.0);
+                }
+                break;
+
+            case 1:
+                if (start_time == current_time)
+                {
+                    start_time = System.currentTimeMillis();
+                }
+
+                current_time = System.currentTimeMillis() + 1;
+                time = start_time - current_time - 1;
+                if (time < 1000)
+                {
+                    shooter.setPower(0.0);
+                    elevator.setPower(0.0);
+                }
+                else if (time < 2000)
+                {
+                    shooter.setPower(1.0);
+                    elevator.setPower(0.0);
+                }
+                else if (time < 4000)
+                {
+                    shooter.setPower(0.0);
+                    elevator.setPower(1.0);
+                }
+                else if (time < 5000)
+                {
+                    shooter.setPower(0.0);
+                    elevator.setPower(0.0);
+                }
+                else if (time < 6000)
+                {
+                    shooter.setPower(1.0);
+                    elevator.setPower(0.0);
+                }
+                else if (time > 6000)
+                {
+                    shooter.setPower(0.0);
+                    elevator.setPower(0.0);
+                    commandNumber++;
+                }
+
+                break;
         }
 
 

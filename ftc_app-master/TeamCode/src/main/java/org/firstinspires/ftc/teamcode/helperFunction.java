@@ -15,10 +15,11 @@ public class helperFunction {
             return 0.0;
         }
     }
-    public static double distanceToRevs (double distance) {
+    public static int distanceToRevs (double distance) {
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelSize = 31.9185813;
-        return (distance / wheelSize);
+        final double gearMotorTickThing = 960;
+        return (int)(gearMotorTickThing * (distance / wheelSize));
     }
 
     public static double triggerToFlat (double input)
