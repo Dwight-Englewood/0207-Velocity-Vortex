@@ -3,10 +3,11 @@ package org.firstinspires.ftc.teamcode;
 /*plotnw*/
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
+@Disabled
 @Autonomous(name = "DRIVEtesting", group = "LINEAR_AUTON")
 public class driveTesting extends OpMode {
 

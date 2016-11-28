@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package TimeAutons;
 
 /*plotnw*/
 
@@ -7,10 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
-@Autonomous(name = "DISTANCE - TIME TESTER", group = "LINEAR_AUTON")
-//@Disabled
-public class timeAutonDrive extends OpMode {
+@Disabled
+@Autonomous(name = "SHOOT", group = "LINEAR_AUTON")
+public class timeAutonShoot extends OpMode {
 
     DcMotor rightMotor;
     DcMotor leftMotor;
@@ -52,8 +51,23 @@ public class timeAutonDrive extends OpMode {
 
         if (time < 1000) {
             shoot = 0;
-            powerlevelL = 1.0f;
-            powerlevelR = 1.0f;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
+            elevate = 0;
+        } else if (time > 1100 && time < 2100) {
+            shoot = 1.0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
+            elevate = 0;
+        } else if (time > 2200 && time < 7100) {
+            shoot = 0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
+            elevate = 1.0;
+        } else if (time > 10100 && time < 11100) {
+            shoot = 1.0;
+            powerlevelL = 0.0f;
+            powerlevelR = 0.0f;
             elevate = 0;
         } else {
             shoot = 0;
@@ -72,6 +86,5 @@ public class timeAutonDrive extends OpMode {
         telemetry.addData("powerlevelL", powerlevelL);
         telemetry.addData("powerlevelR", powerlevelR);
         updateTelemetry(telemetry);
-
-    }
+     }
 }
