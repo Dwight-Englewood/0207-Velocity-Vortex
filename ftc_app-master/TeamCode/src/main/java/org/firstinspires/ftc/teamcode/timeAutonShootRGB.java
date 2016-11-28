@@ -129,8 +129,7 @@ public class timeAutonShootRGB extends OpMode {
             elevate = 0;
             curPos = maxPos;
             count++;
-        } else if (time > 8100 && time < 15
-        100) {
+        } else if (time > 8100 && time < 15100) {
             shoot = 0;
             powerlevelL = 1.0;
             powerlevelR = 1.0;
