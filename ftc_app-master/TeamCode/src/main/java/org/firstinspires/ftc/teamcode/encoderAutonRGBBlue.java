@@ -74,24 +74,29 @@ public class encoderAutonRGBBlue extends OpMode {
         switch(commandNumber)
         {
             case -1:
-                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 commandNumber++;
                 break;
 
             case 0:
-                leftMotor.setTargetPosition(helperFunction.distanceToRevs(distanceArray[commandNumber]));
-                rightMotor.setTargetPosition(helperFunction.distanceToRevs(distanceArray[commandNumber]));
+                leftMotor.setTargetPosition(747);
+                rightMotor.setTargetPosition(747);
 
-                leftMotor.setPower(0.5);
-                rightMotor.setPower(0.7);
+                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                if (!rightMotor.isBusy() && !leftMotor.isBusy())
-                {
-                    commandNumber++;
-                    leftMotor.setPower(0.0);
-                    rightMotor.setPower(0.0);
-                }
+                rightMotor.setPower(.5);
+                leftMotor.setPower(.7);
+
+                while (leftMotor.isBusy() && rightMotor.isBusy()) {}
+
+                rightMotor.setPower(0.0);
+                leftMotor.setPower(0.0);
+
+                rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
                 break;
 
             case 1:
@@ -137,7 +142,9 @@ public class encoderAutonRGBBlue extends OpMode {
                 break;
         }
 
-
+        telemetry.addData("Current Case", commandNumber);
+        telemetry.addData("Right Busy", rightMotor.isBusy());
+        telemetry.addData("Left Busy", leftMotor.isBusy());
         telemetry.addData("LED", bLedOn ? "On" : "Off");
         telemetry.addData("Clear", colorSensor.alpha());
         telemetry.addData("Red  ", colorSensor.red());
