@@ -33,7 +33,7 @@ public class encoderAutonRGBBlue extends OpMode {
     boolean bLedOn = false;
 
     final double[] distanceArray = {38.2, 0.0, 0.0};
-    int commandNumber = -1;
+    int commandNumber = 0;
 
 
     @Override
@@ -50,7 +50,8 @@ public class encoderAutonRGBBlue extends OpMode {
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -63,9 +64,6 @@ public class encoderAutonRGBBlue extends OpMode {
         super.start();
         // Save the system clock when start is pressed
         start_time = System.currentTimeMillis();
-
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     @Override
@@ -73,29 +71,8 @@ public class encoderAutonRGBBlue extends OpMode {
 
         switch(commandNumber)
         {
-            case -1:
-                leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                commandNumber++;
-                break;
-
             case 0:
-                leftMotor.setTargetPosition(747);
-                rightMotor.setTargetPosition(747);
-
-                leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                rightMotor.setPower(.5);
-                leftMotor.setPower(.7);
-
-                while (leftMotor.isBusy() && rightMotor.isBusy()) {}
-
-                rightMotor.setPower(0.0);
-                leftMotor.setPower(0.0);
-
-                rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                driveToPlace(100 );
 
                 break;
 
@@ -155,5 +132,38 @@ public class encoderAutonRGBBlue extends OpMode {
     @Override
     public void stop() {
         poker.setPosition(startPos);
+    }
+
+    public void driveForward()
+    {
+        leftMotor.setPower(0.5);
+        rightMotor.setPower(0.7);
+    }
+    public void stopDriving()
+    {
+        leftMotor.setPower(0.0);
+        rightMotor.setPower(0.0);
+    }
+    public void driveToPlace(int distance)
+    {
+        distance = helperFunction.distanceToRevs(distance);
+
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftMotor.setTargetPosition(distance);
+        rightMotor.setTargetPosition(distance);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (rightMotor.isBusy() && leftMotor.isBusy())
+        {
+            driveForward();
+        }
+        stopDriving();
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
