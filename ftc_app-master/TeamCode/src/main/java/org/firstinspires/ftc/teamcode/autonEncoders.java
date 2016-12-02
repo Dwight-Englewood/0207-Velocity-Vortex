@@ -38,18 +38,7 @@ public class autonEncoders extends OpMode {
 
     @Override
     public void loop() {
-        //Gets stuck in infinite loop? Not sure what's happening, though I suspect it's because the encoders aren't in fully
-        //So it can't read the isBusy, and never will end.
-        //I THINK I KNOW WHATS WRONG
-        //SO LIKE JUST REMEMBER THAT THIS ENTIRE MEHTOD LOOPS
-        //LOOPS
-        //SO LIKE IDK BUT THAT PROBABLY MESSES WITH STUFF SINCE HOW ITS WORKING
-        //instructions will have tuple with the positions required for the different positions
-        //first we see if the motors are busy
-        //if theyre not set the instructions, then increment the counter for which instruction
-        //then set target position
-        //if busy, set power
-        //else keep it at zero
+
         Tuple[] instructions = new Tuple[10];
         instructions[0] = new Tuple (7, 7);
         //Move forward
@@ -64,8 +53,6 @@ public class autonEncoders extends OpMode {
         instructions[5] = new Tuple (14, 14);
         //Move forward some
 
-        //Random values, hopefully we can get some info out of it.
-        //Possibly move this to init?
 
         int newTargetL = 0;
         int newTargetR = 0;
@@ -90,7 +77,6 @@ public class autonEncoders extends OpMode {
 
         leftMotor.setPower(power);
         rightMotor.setPower(power);
-        //Perhaps setting the power to zero causes the loop? maybe if isBusy doesn't work, then it sets to zero, which will never finish?
 
     }
 }
