@@ -52,6 +52,8 @@ public class OFFICIAL_PROGRAM extends OpMode
     private DcMotor shooter = null;
 
     private Servo poker = null;
+    private Servo pokerWheel = null;
+    private int countLoop = 0;
 
     //Max: .69
     //Min: .18
@@ -68,12 +70,13 @@ public class OFFICIAL_PROGRAM extends OpMode
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        leftMotor  = hardwareMap.dcMotor.get("left motor");
-        rightMotor = hardwareMap.dcMotor.get("right motor");
+        leftMotor  = hardwareMap.dcMotor.get("leftMotor");
+        rightMotor = hardwareMap.dcMotor.get("rightMotor");
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
         poker = hardwareMap.servo.get("poker");
+        pokerWheel = hardwareMap.servo.get("wheelPoker");
 
 
         // eg: Set the drive motor directions:
@@ -83,7 +86,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
         poker.setPosition(curPos);
-
+        pokerWheel.setPosition(.5f); //Might need to be changed. Depends on whether the the position is fully out or not
         telemetry.addData("Status", "Initialized");
     }
 
@@ -97,6 +100,7 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     @Override
     public void loop() {
+        countLoop++;
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft;
         double driveRight = gamepad1.right_stick_y;
@@ -132,27 +136,15 @@ public class OFFICIAL_PROGRAM extends OpMode
         }
         if (gamepad1.a || gamepad2.a)
         {
-            curPos = maxPos;
-        }
-        if (gamepad1.b || gamepad2.b)
-        {
-            curPos = minPos;
+            pokerWheel.setPosition(.5f);
         }
         if (gamepad1.x || gamepad2.x)
         {
-            curPos += 0.01;
-            if(curPos >= maxPos)
-            {
-                curPos = maxPos;
-            }
+            pokerWheel.setPosition(.45f);
         }
         if (gamepad1.y || gamepad2.y)
         {
-            curPos -= 0.01;
-            if(curPos <= minPos)
-            {
-                curPos = minPos;
-            }
+            pokerWheel.setPosition(.55f);
         }
         if (gamepad1.left_bumper)
         {
@@ -166,7 +158,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         elevator.setPower(helperFunction.triggerToFlat(runElevator));
         shooter.setPower(helperFunction.triggerToFlat(runShooter));
         poker.setPosition(curPos);
-
+        telemetry.addData("loop number", countLoop);
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);
         telemetry.addData("elevator", runElevator);
