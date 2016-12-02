@@ -136,19 +136,19 @@ public class OFFICIAL_PROGRAM extends OpMode
         }
         if (gamepad1.a || gamepad2.a)
         {
-            pokerWheel.setPosition(.5f);
+            curPos = .5f;
         }
         if (gamepad1.x || gamepad2.x)
         {
-            pokerWheel.setPosition(.45f);
+            curPos = .45f;
         }
         if (gamepad1.y || gamepad2.y)
         {
-            pokerWheel.setPosition(.55f);
+            curPos = .55f;
         }
         if (gamepad1.left_bumper)
         {
-            curPos = startPos;
+            curPos = .5f;
 
         }
 
