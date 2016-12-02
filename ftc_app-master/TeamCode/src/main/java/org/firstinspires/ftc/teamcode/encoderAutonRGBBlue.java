@@ -76,7 +76,7 @@ public class encoderAutonRGBBlue extends OpMode {
 
                 break;
 
-            case 1:
+            /*case 1:
                 if (start_time == current_time)
                 {
                     start_time = System.currentTimeMillis();
@@ -116,7 +116,7 @@ public class encoderAutonRGBBlue extends OpMode {
                     commandNumber++;
                 }
 
-                break;
+                break; */
         }
 
         telemetry.addData("Current Case", commandNumber);
