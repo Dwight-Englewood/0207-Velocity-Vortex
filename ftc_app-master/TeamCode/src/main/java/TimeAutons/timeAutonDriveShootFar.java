@@ -3,11 +3,12 @@ package TimeAutons;
 /*plotnw*/
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-
+@Disabled
 @Autonomous(name = "DRIVE SHOOT FAR", group = "LINEAR_AUTON")
 public class timeAutonDriveShootFar extends OpMode {
 

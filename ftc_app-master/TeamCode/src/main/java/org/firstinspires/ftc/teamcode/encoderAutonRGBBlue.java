@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 /*plotnw*/
 
+import com.qualcomm.hardware.adafruit.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -32,15 +33,16 @@ public class encoderAutonRGBBlue extends OpMode {
     ColorSensor colorSensor;
     boolean bLedOn = false;
 
-    final double[] distanceArray = {38.2, 0.0, 0.0};
+
     int commandNumber = 0;
+
+    private int x = 0;
 
 
     @Override
     public void init() {
-
         poker = hardwareMap.servo.get("poker");
-        poker.setPosition(startPos);
+        //poker.setPosition(startPos);
 
         colorSensor = hardwareMap.colorSensor.get("color sensor");
         colorSensor.enableLed(bLedOn);
@@ -50,20 +52,18 @@ public class encoderAutonRGBBlue extends OpMode {
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
-        elevator.setDirection(DcMotor.Direction.FORWARD);
 
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     @Override
     public void start() {
         super.start();
         // Save the system clock when start is pressed
-        start_time = System.currentTimeMillis();
+
     }
 
     @Override
@@ -72,18 +72,21 @@ public class encoderAutonRGBBlue extends OpMode {
         switch(commandNumber)
         {
             case 0:
-                driveToPlace(100 );
-
+                driveToPlace(48.5);
+                commandNumber++;
                 break;
 
-            /*case 1:
-                if (start_time == current_time)
+            case 1:
+                if (x == 0)
                 {
                     start_time = System.currentTimeMillis();
+                    x++;
                 }
+                current_time = System.currentTimeMillis();
+                time = current_time - start_time;
+                telemetry.addData("Current Time", time);
+                telemetry.update();
 
-                current_time = System.currentTimeMillis() + 1;
-                time = start_time - current_time - 1;
                 if (time < 1000)
                 {
                     shooter.setPower(0.0);
@@ -116,14 +119,14 @@ public class encoderAutonRGBBlue extends OpMode {
                     commandNumber++;
                 }
 
-                break; */
+                break;
         }
 
         telemetry.addData("Current Case", commandNumber);
         telemetry.addData("Right Busy", rightMotor.isBusy());
         telemetry.addData("Left Busy", leftMotor.isBusy());
-        telemetry.addData("LED", bLedOn ? "On" : "Off");
-        telemetry.addData("Clear", colorSensor.alpha());
+        telemetry.addData("left position", leftMotor.getCurrentPosition());
+        telemetry.addData("right position", rightMotor.getCurrentPosition());
         telemetry.addData("Red  ", colorSensor.red());
         telemetry.addData("Blue ", colorSensor.blue());
         telemetry.update();
@@ -131,39 +134,44 @@ public class encoderAutonRGBBlue extends OpMode {
     }
     @Override
     public void stop() {
-        poker.setPosition(startPos);
+
     }
 
     public void driveForward()
     {
-        leftMotor.setPower(0.5);
-        rightMotor.setPower(0.7);
+        leftMotor.setPower(0.3);
+        rightMotor.setPower(0.3);
     }
     public void stopDriving()
     {
         leftMotor.setPower(0.0);
         rightMotor.setPower(0.0);
     }
-    public void driveToPlace(int distance)
+    //(86pi * theta) / 360 = turning distances
+    public void driveToPlace(double distance)
     {
-        distance = helperFunction.distanceToRevs(distance);
+        int distanceInt = helperFunction.distanceToRevs(distance);
 
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftMotor.setTargetPosition(distanceInt);
+        rightMotor.setTargetPosition(distanceInt);
 
-        leftMotor.setTargetPosition(distance);
-        rightMotor.setTargetPosition(distance);
+        driveForward();
 
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (rightMotor.isBusy() && leftMotor.isBusy())
+        while (leftMotor.isBusy() || rightMotor.isBusy())
         {
-            driveForward();
+            telemetry.addData("left Busy", leftMotor.isBusy());
+            telemetry.addData("right busy", rightMotor.isBusy());
+            telemetry.addData("left position", leftMotor.getCurrentPosition());
+            telemetry.addData("right position", rightMotor.getCurrentPosition());
+
+            telemetry.update();
         }
         stopDriving();
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 }

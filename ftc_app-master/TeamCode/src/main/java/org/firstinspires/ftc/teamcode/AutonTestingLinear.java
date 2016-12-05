@@ -56,8 +56,7 @@ public class AutonTestingLinear extends LinearOpMode {
         leftMotor  = hardwareMap.dcMotor.get("left motor");
         rightMotor = hardwareMap.dcMotor.get("right motor");
 
-
-        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -67,8 +66,9 @@ public class AutonTestingLinear extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        leftMotor.setTargetPosition(300) ;
-        rightMotor.setTargetPosition(300);
+
+        leftMotor.setTargetPosition(5000) ;
+        rightMotor.setTargetPosition(5000);
 
         leftMotor.setPower(0.5);
         rightMotor.setPower(0.7);
@@ -76,30 +76,27 @@ public class AutonTestingLinear extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
-
-
-        while (leftMotor.isBusy() || rightMotor.isBusy())
+        while (rightMotor.isBusy())
         {
             telemetry.addData("left Busy", leftMotor.isBusy());
             telemetry.addData("right busy", rightMotor.isBusy());
             telemetry.addData("left position", leftMotor.getCurrentPosition());
-            telemetry.addData("right position", leftMotor.getCurrentPosition());
+            telemetry.addData("right position", rightMotor.getCurrentPosition());
 
             telemetry.update();
-
         }
 
         stopDriving();
 
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        telemetry.addData("left Busy", leftMotor.isBusy());
+        telemetry.addData("right busy", rightMotor.isBusy());
+        telemetry.addData("left position", leftMotor.getCurrentPosition());
+        telemetry.addData("right position", rightMotor.getCurrentPosition());
+        telemetry.update();
 
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-        }
     }
     public void driveForward()
     {
@@ -111,6 +108,7 @@ public class AutonTestingLinear extends LinearOpMode {
         leftMotor.setPower(0.0);
         rightMotor.setPower(0.0);
     }
+    //@param needs distance in cm
     public void driveToPlace(int distance)
     {
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -122,14 +120,18 @@ public class AutonTestingLinear extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        //driveForward();
+        driveForward();
 
+        while (rightMotor.isBusy() || leftMotor.isBusy())
+        {
+            telemetry.addData("left Busy", leftMotor.isBusy());
+            telemetry.addData("right busy", rightMotor.isBusy());
+            telemetry.addData("left position", leftMotor.getCurrentPosition());
+            telemetry.addData("right position", rightMotor.getCurrentPosition());
 
+            telemetry.update();
+        }
 
-
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 }
