@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -51,7 +52,7 @@ public class OFFICIAL_PROGRAM extends OpMode
     private DcMotor elevator = null;
     private DcMotor shooter = null;
 
-    private Servo poker = null;
+    private CRServo poker = null;
     private Servo pokerWheel = null;
     private int countLoop = 0;
 
@@ -60,7 +61,7 @@ public class OFFICIAL_PROGRAM extends OpMode
     //Start: .48
     final double maxPos = 0.69;
     final double minPos = 0.18;
-    final double startPos = .48;
+    final double startPos = .5;
     double curPos = startPos;
     @Override
     public void init() {
@@ -75,18 +76,15 @@ public class OFFICIAL_PROGRAM extends OpMode
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-        poker = hardwareMap.servo.get("poker");
+        poker = hardwareMap.crservo.get("poker");
         pokerWheel = hardwareMap.servo.get("wheelPoker");
 
-
-        // eg: Set the drive motor directions:
-        // Reverse the motor that runs backwards when connected directly to the battery
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
-        poker.setPosition(curPos);
-        pokerWheel.setPosition(.5f); //Might need to be changed. Depends on whether the the position is fully out or not
+
+        pokerWheel.setPosition(startPos);
         telemetry.addData("Status", "Initialized");
     }
 
@@ -104,8 +102,8 @@ public class OFFICIAL_PROGRAM extends OpMode
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft;
         double driveRight = gamepad1.right_stick_y;
-        double runElevator = gamepad2.left_trigger;
-        double runShooter = gamepad2.right_trigger;
+        double runElevator = helperFunction.triggerToFlat(gamepad2.left_trigger);
+        double runShooter = helperFunction.triggerToFlat(gamepad2.left_trigger);
 
         if (gamepad1.dpad_up)
         {
@@ -120,36 +118,10 @@ public class OFFICIAL_PROGRAM extends OpMode
             driveLeft = 0;
         }
 
-        //If the right bumper is pressed, reverse the directions
-        if (gamepad1.right_bumper)
-        {
-            driveLeft = 0 - driveLeft;
-            driveRight = 0 - driveRight;
-        }
         //If the left trigger is pressed, reverse elevator
         if (gamepad2.left_bumper)
         {
             runElevator = -1;
-        }
-        if (gamepad2.right_bumper) {
-            runShooter = -.5;
-        }
-        if (gamepad1.a || gamepad2.a)
-        {
-            pokerWheel.setPosition(.5f);
-        }
-        if (gamepad1.x || gamepad2.x)
-        {
-            pokerWheel.setPosition(.45f);
-        }
-        if (gamepad1.y || gamepad2.y)
-        {
-            pokerWheel.setPosition(.55f);
-        }
-        if (gamepad1.left_bumper)
-        {
-            curPos = startPos;
-
         }
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
@@ -157,13 +129,14 @@ public class OFFICIAL_PROGRAM extends OpMode
         rightMotor.setPower(driveRight);
         elevator.setPower(helperFunction.triggerToFlat(runElevator));
         shooter.setPower(helperFunction.triggerToFlat(runShooter));
-        poker.setPosition(curPos);
+
+
         telemetry.addData("loop number", countLoop);
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);
         telemetry.addData("elevator", runElevator);
         telemetry.addData("shooter", runShooter);
-        telemetry.addData("poker", curPos);
+
     }
 
     @Override
