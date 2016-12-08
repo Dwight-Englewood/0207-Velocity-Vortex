@@ -30,11 +30,9 @@ public class encoderAutonRGBBlue extends OpMode {
     private double minPos = 0.18;
 
     ColorSensor colorSensor;
-    boolean bLedOn = false;
 
-    final double[] distanceArray = {38.2, 0.0, 0.0};
+
     int commandNumber = 0;
-
 
     @Override
     public void init() {
@@ -43,10 +41,10 @@ public class encoderAutonRGBBlue extends OpMode {
         poker.setPosition(startPos);
 
         colorSensor = hardwareMap.colorSensor.get("color sensor");
-        colorSensor.enableLed(bLedOn);
+        colorSensor.enableLed(false);
 
-        leftMotor = hardwareMap.dcMotor.get("left motor");
-        rightMotor = hardwareMap.dcMotor.get("right motor");
+        leftMotor = hardwareMap.dcMotor.get("leftMotor");
+        rightMotor = hardwareMap.dcMotor.get("rightMotor");
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
@@ -122,7 +120,6 @@ public class encoderAutonRGBBlue extends OpMode {
         telemetry.addData("Current Case", commandNumber);
         telemetry.addData("Right Busy", rightMotor.isBusy());
         telemetry.addData("Left Busy", leftMotor.isBusy());
-        telemetry.addData("LED", bLedOn ? "On" : "Off");
         telemetry.addData("Clear", colorSensor.alpha());
         telemetry.addData("Red  ", colorSensor.red());
         telemetry.addData("Blue ", colorSensor.blue());
