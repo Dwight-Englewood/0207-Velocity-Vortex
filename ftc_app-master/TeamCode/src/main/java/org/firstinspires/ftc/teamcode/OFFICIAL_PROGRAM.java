@@ -120,23 +120,26 @@ public class OFFICIAL_PROGRAM extends OpMode
         if (gamepad1.b) {
             should = !should;
         }
+        if (gamepad2.x) {
+            countLoop = 0;
+        }
         if (gamepad2.b) {
             timer = System.currentTimeMillis() - startime;
         }
         if (gamepad1.x) {
-            poker.setPower(.25);
+            poker.setPower(1.0);
             should = true;
             startime = System.currentTimeMillis();
 
         }
         if (gamepad1.y) {
-            poker.setPower(-.25);
+            poker.setPower(2.0);
             should = true;
             startime = System.currentTimeMillis();
 
         }
         if (gamepad1.a) {
-            poker.setPower(0);
+            poker.setPower(1.5);
         }
         if (gamepad2.left_bumper)
         {
