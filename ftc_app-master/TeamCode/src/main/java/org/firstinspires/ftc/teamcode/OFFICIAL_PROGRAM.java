@@ -126,6 +126,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         if (gamepad1.x) {
             poker.setPower(.25);
             should = true;
+            startime = System.currentTimeMillis()
 
         }
         if (gamepad1.y) {
