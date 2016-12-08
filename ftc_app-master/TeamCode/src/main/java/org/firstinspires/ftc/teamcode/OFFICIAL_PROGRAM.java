@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -56,7 +57,9 @@ public class OFFICIAL_PROGRAM extends OpMode
     private CRServo poker = null;
     private Servo pokerWheel = null;
     private int countLoop = 0;
-
+    private boolean should = false;
+    private long timer = 0;
+    private long startime = 0;
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -93,16 +96,17 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     @Override
     public void loop() {
-
-        countLoop++;
+        //make counter to determine th
+        if (should) {
+            countLoop++;
+        }
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft;
         double driveRight = gamepad1.right_stick_y;
         double runElevator = helperFunction.triggerToFlat(gamepad2.left_trigger);
         double runShooter = helperFunction.triggerToFlat(gamepad2.right_trigger);
 
-        if (gamepad1.dpad_up)
-            {
+        if (gamepad1.dpad_up) {
             driveLeft = -1;
         }
         else if (gamepad1.dpad_down)
@@ -113,8 +117,26 @@ public class OFFICIAL_PROGRAM extends OpMode
         {
             driveLeft = 0;
         }
+        if (gamepad1.b) {
+            should = !should;
+        }
+        if (gamepad2.b) {
+            timer = System.currentTimeMillis() - startime;
+        }
+        if (gamepad1.x) {
+            poker.setPower(.25);
+            should = true;
 
-        //If the left trigger is pressed, reverse elevator
+        }
+        if (gamepad1.y) {
+            poker.setPower(-.25);
+            should = true;
+            startime = System.currentTimeMillis();
+
+        }
+        if (gamepad1.a) {
+            poker.setPower(0);
+        }
         if (gamepad2.left_bumper)
         {
             runElevator = -1;
@@ -133,6 +155,7 @@ public class OFFICIAL_PROGRAM extends OpMode
 
 
         telemetry.addData("loop number", countLoop);
+        telemetry.addData("timer", timer);
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);
         telemetry.addData("elevator", runElevator);
