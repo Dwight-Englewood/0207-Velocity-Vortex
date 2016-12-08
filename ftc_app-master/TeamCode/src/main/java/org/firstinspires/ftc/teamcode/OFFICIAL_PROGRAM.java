@@ -124,6 +124,27 @@ public class OFFICIAL_PROGRAM extends OpMode
             runElevator = -1;
         }
 
+        if (gamepad2.right_bumper) {
+            runShooter = -.5;
+        }
+        if (gamepad1.a || gamepad2.a)
+        {
+            curPos = .5f;
+        }
+        if (gamepad1.x || gamepad2.x)
+        {
+            curPos = .45f;
+        }
+        if (gamepad1.y || gamepad2.y)
+        {
+            curPos = .55f;
+        }
+        if (gamepad1.left_bumper)
+        {
+            curPos = .5f;
+
+        }
+
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
         rightMotor.setPower(driveRight);
