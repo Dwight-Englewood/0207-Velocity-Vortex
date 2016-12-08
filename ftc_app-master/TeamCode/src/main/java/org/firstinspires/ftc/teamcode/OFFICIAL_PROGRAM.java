@@ -56,13 +56,6 @@ public class OFFICIAL_PROGRAM extends OpMode
     private Servo pokerWheel = null;
     private int countLoop = 0;
 
-    //Max: .69
-    //Min: .18
-    //Start: .48
-    final double maxPos = 0.69;
-    final double minPos = 0.18;
-    final double startPos = .5;
-    double curPos = startPos;
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -84,7 +77,6 @@ public class OFFICIAL_PROGRAM extends OpMode
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
 
-        //pokerWheel.setPosition(startPos);
         pokerWheel.setPosition(0);
         telemetry.addData("Status", "Initialized");
     }
@@ -130,23 +122,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         if (gamepad2.right_bumper) {
             runShooter = -.5;
         }
-        if (gamepad1.a || gamepad2.a)
-        {
-            curPos = .5f;
-        }
-        if (gamepad1.x || gamepad2.x)
-        {
-            curPos = .45f;
-        }
-        if (gamepad1.y || gamepad2.y)
-        {
-            curPos = .55f;
-        }
-        if (gamepad1.left_bumper)
-        {
-            curPos = .5f;
-
-        }
+        
 
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
         leftMotor.setPower(driveLeft);
