@@ -77,7 +77,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         shooter = hardwareMap.dcMotor.get("shooter");
 
         poker = hardwareMap.crservo.get("poker");
-        pokerWheel = hardwareMap.servo.get("wheelPoker");
+        pokerWheel = hardwareMap.servo.get("pokerWheel");
 
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
