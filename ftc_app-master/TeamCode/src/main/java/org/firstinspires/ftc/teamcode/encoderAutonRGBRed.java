@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //@Disabled
-@Autonomous(name = "encoderAutonRGBBlue", group = "ITERATIVE_AUTON")
-public class encoderAutonRGBBlue extends OpMode {
+@Autonomous(name = "encoderAutonRGBRed", group = "ITERATIVE_AUTON")
+public class encoderAutonRGBRed extends OpMode {
 
     long start_time = 0;
     long current_time = 0;
