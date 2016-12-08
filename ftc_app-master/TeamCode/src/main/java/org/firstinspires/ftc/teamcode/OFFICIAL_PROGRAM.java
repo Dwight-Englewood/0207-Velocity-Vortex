@@ -54,7 +54,7 @@ public class OFFICIAL_PROGRAM extends OpMode
     private DcMotor elevator = null;
     private DcMotor shooter = null;
 
-    private CRServo poker = null;
+    private Servo poker = null;
     private Servo pokerWheel = null;
     private int countLoop = 0;
     private boolean should = false;
@@ -73,7 +73,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-        poker = hardwareMap.crservo.get("poker");
+        poker = hardwareMap.servo.get("poker");
         pokerWheel = hardwareMap.servo.get("pokerWheel");
 
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -127,19 +127,19 @@ public class OFFICIAL_PROGRAM extends OpMode
             timer = System.currentTimeMillis() - startime;
         }
         if (gamepad1.x) {
-            poker.setPower(1.0);
+            poker.setPosition(.55);
             should = true;
             startime = System.currentTimeMillis();
 
         }
         if (gamepad1.y) {
-            poker.setPower(2.0);
+            poker.setPosition(.45);
             should = true;
             startime = System.currentTimeMillis();
 
         }
         if (gamepad1.a) {
-            poker.setPower(1.5);
+            poker.setPosition(.50);
         }
         if (gamepad2.left_bumper)
         {
