@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -51,14 +52,16 @@ public class OFFICIAL_PROGRAM extends OpMode
     private DcMotor elevator = null;
     private DcMotor shooter = null;
 
-    private Servo poker = null;
+    private CRServo poker = null;
+    private Servo pokerWheel = null;
+    private int countLoop = 0;
 
     //Max: .69
     //Min: .18
     //Start: .48
     final double maxPos = 0.69;
     final double minPos = 0.18;
-    final double startPos = .48;
+    final double startPos = .5;
     double curPos = startPos;
     @Override
     public void init() {
@@ -68,22 +71,20 @@ public class OFFICIAL_PROGRAM extends OpMode
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        leftMotor  = hardwareMap.dcMotor.get("left motor");
-        rightMotor = hardwareMap.dcMotor.get("right motor");
+        leftMotor  = hardwareMap.dcMotor.get("leftMotor");
+        rightMotor = hardwareMap.dcMotor.get("rightMotor");
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
 
-        poker = hardwareMap.servo.get("poker");
+        poker = hardwareMap.crservo.get("poker");
+        pokerWheel = hardwareMap.servo.get("pokerWheel");
 
-
-        // eg: Set the drive motor directions:
-        // Reverse the motor that runs backwards when connected directly to the battery
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
-        poker.setPosition(curPos);
 
+        pokerWheel.setPosition(startPos);
         telemetry.addData("Status", "Initialized");
     }
 
@@ -97,11 +98,12 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     @Override
     public void loop() {
+        countLoop++;
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft;
         double driveRight = gamepad1.right_stick_y;
-        double runElevator = gamepad2.left_trigger;
-        double runShooter = gamepad2.right_trigger;
+        double runElevator = helperFunction.triggerToFlat(gamepad2.left_trigger);
+        double runShooter = helperFunction.triggerToFlat(gamepad2.left_trigger);
 
         if (gamepad1.dpad_up)
         {
@@ -116,47 +118,30 @@ public class OFFICIAL_PROGRAM extends OpMode
             driveLeft = 0;
         }
 
-        //If the right bumper is pressed, reverse the directions
-        if (gamepad1.right_bumper)
-        {
-            driveLeft = 0 - driveLeft;
-            driveRight = 0 - driveRight;
-        }
         //If the left trigger is pressed, reverse elevator
         if (gamepad2.left_bumper)
         {
             runElevator = -1;
         }
+
         if (gamepad2.right_bumper) {
             runShooter = -.5;
         }
         if (gamepad1.a || gamepad2.a)
         {
-            curPos = maxPos;
-        }
-        if (gamepad1.b || gamepad2.b)
-        {
-            curPos = minPos;
+            curPos = .5f;
         }
         if (gamepad1.x || gamepad2.x)
         {
-            curPos += 0.01;
-            if(curPos >= maxPos)
-            {
-                curPos = maxPos;
-            }
+            curPos = .45f;
         }
         if (gamepad1.y || gamepad2.y)
         {
-            curPos -= 0.01;
-            if(curPos <= minPos)
-            {
-                curPos = minPos;
-            }
+            curPos = .55f;
         }
         if (gamepad1.left_bumper)
         {
-            curPos = startPos;
+            curPos = .5f;
 
         }
 
@@ -165,13 +150,14 @@ public class OFFICIAL_PROGRAM extends OpMode
         rightMotor.setPower(driveRight);
         elevator.setPower(helperFunction.triggerToFlat(runElevator));
         shooter.setPower(helperFunction.triggerToFlat(runShooter));
-        poker.setPosition(curPos);
 
+
+        telemetry.addData("loop number", countLoop);
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);
         telemetry.addData("elevator", runElevator);
         telemetry.addData("shooter", runShooter);
-        telemetry.addData("poker", curPos);
+
     }
 
     @Override
