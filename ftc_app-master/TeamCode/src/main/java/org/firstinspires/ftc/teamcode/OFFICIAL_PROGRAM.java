@@ -98,12 +98,13 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     @Override
     public void loop() {
+
         countLoop++;
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft;
         double driveRight = gamepad1.right_stick_y;
         double runElevator = helperFunction.triggerToFlat(gamepad2.left_trigger);
-        double runShooter = helperFunction.triggerToFlat(gamepad2.left_trigger);
+        double runShooter = helperFunction.triggerToFlat(gamepad2.right_trigger);
 
         if (gamepad1.dpad_up)
         {
