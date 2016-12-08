@@ -95,6 +95,7 @@ public class OFFICIAL_PROGRAM extends OpMode
     @Override
     public void start() {
         runtime.reset();
+        pokerWheel.setPosition(.5);
     }
 
     @Override
