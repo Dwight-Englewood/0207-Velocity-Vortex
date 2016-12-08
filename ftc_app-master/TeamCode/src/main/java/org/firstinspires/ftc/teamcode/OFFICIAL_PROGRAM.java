@@ -84,7 +84,8 @@ public class OFFICIAL_PROGRAM extends OpMode
         elevator.setDirection(DcMotor.Direction.FORWARD);
         shooter.setDirection(DcMotor.Direction.FORWARD);
 
-        pokerWheel.setPosition(startPos);
+        //pokerWheel.setPosition(startPos);
+        pokerWheel.setPosition(0);
         telemetry.addData("Status", "Initialized");
     }
 
@@ -107,7 +108,7 @@ public class OFFICIAL_PROGRAM extends OpMode
         double runShooter = helperFunction.triggerToFlat(gamepad2.right_trigger);
 
         if (gamepad1.dpad_up)
-        {
+            {
             driveLeft = -1;
         }
         else if (gamepad1.dpad_down)
@@ -162,7 +163,9 @@ public class OFFICIAL_PROGRAM extends OpMode
     }
 
     @Override
-    public void stop() {}
+    public void stop() {
+        pokerWheel.setPosition(0);
+    }
 
 
 }
