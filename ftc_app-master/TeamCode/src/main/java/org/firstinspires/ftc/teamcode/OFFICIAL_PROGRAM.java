@@ -22,12 +22,14 @@ public class OFFICIAL_PROGRAM extends OpMode {
     private DcMotor shooter = null;
     private Servo poker = null;
     private Servo pokerWheel = null;
+
     private long time = 0;
     public enum Tri {OUT, IN, STOP};
     private Tri servoState = STOP;
     private double stop = .49;
     private double in = .54;
     private double out = .42;
+
 
 
     @Override
@@ -50,6 +52,9 @@ public class OFFICIAL_PROGRAM extends OpMode {
         poker.setPosition(.49);
         //Telling user that the initialization has been completed
         telemetry.addData("Status", "Initialized");
+
+        colorSensor = hardwareMap.colorSensor.get("color sensor");
+        colorSensor.enableLed(false);
     }
 
     @Override
@@ -143,7 +148,6 @@ public class OFFICIAL_PROGRAM extends OpMode {
         rightMotor.setPower(driveRight);
         elevator.setPower(helperFunction.triggerToFlat(runElevator));
         shooter.setPower(helperFunction.triggerToFlat(runShooter));
-
 
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);

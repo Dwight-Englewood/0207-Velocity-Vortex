@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 /*plotnw*/
 
+import android.provider.Settings;
+
 import com.qualcomm.hardware.adafruit.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -11,13 +13,14 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 //@Disabled
 @Autonomous(name = "encoderAutonRGBRed", group = "ITERATIVE_AUTON")
 public class encoderAutonRGBRed extends OpMode {
 
     long start_time = 0;
-    long current_time = 0;
+    long current_time;
     long wait_time;
     long time;
 
@@ -26,20 +29,15 @@ public class encoderAutonRGBRed extends OpMode {
     DcMotor elevator = null;
     DcMotor shooter = null;
     CRServo poker = null;
-
-    private double startPos = 0.48;
-    private double currentPos = startPos;
-    private double maxPos = 0.78;
-    private double minPos = 0.18;
+    ElapsedTime timer = new ElapsedTime(0);
 
     ColorSensor colorSensor;
 
-    int commandNumber = 4;
+    int commandNumber = 0;
 
     private int x = 0;
 
-    private boolean beaconOne = false;
-    private boolean beaconTwo = false;
+    private double [] powerLevels = {0.3, 0.25, 0.2};
 
     @Override
     public void init() {
@@ -59,10 +57,12 @@ public class encoderAutonRGBRed extends OpMode {
 
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
     }
 
     @Override
-    public void start() { super.start(); }
+    public void start() { super.start();}
 
     @Override
     public void loop() {
@@ -70,7 +70,7 @@ public class encoderAutonRGBRed extends OpMode {
         switch(commandNumber)
         {
             case 0:
-                driveToPlace(48.5);
+                driveToPlace(28.5, 1);
                 commandNumber++;
                 break;
 
@@ -92,7 +92,7 @@ public class encoderAutonRGBRed extends OpMode {
                 }
                 else if (time < 2000)
                 {
-                    shooter.setPower(1.0);
+                    //shooter.setPower(1.0);
                     elevator.setPower(0.0);
                 }
                 else if (time < 4000)
@@ -107,7 +107,7 @@ public class encoderAutonRGBRed extends OpMode {
                 }
                 else if (time < 6000)
                 {
-                    shooter.setPower(1.0);
+                   // shooter.setPower(1.0);
                     elevator.setPower(0.0);
                 }
                 else if (time > 6000)
@@ -119,15 +119,15 @@ public class encoderAutonRGBRed extends OpMode {
 
                 break;
             case 2:
-                turnLeft(33.7721211); // 45 degree turn
+                turnLeft(30); // 45 degree turn
                 commandNumber++;
                 break;
             case 3:
-                driveToPlace(50);
+                driveToPlace(152.5, 0);
                 commandNumber++;
                 break;
             case 4:
-                turnRight(33.7721211); // 45 degree turn
+                turnRight(30); // 45 degree turn
                 commandNumber++;
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -135,50 +135,79 @@ public class encoderAutonRGBRed extends OpMode {
                 break;
             case 5:
                 driveForward();
-                telemetry.addData("Red  ", colorSensor.red());
-                telemetry.addData("Blue ", colorSensor.blue());
-                telemetry.update();
-                while (colorSensor.red() > 2 && colorSensor.blue() < 2)
+                commandNumber++;
+                break;
+            case 6:
+                if (colorSensor.red() > 2 && colorSensor.blue() < 2)
                 {
                     if (x == 1)
                     {
                         stopDriving();
-                        start_time = System.currentTimeMillis();
-                        commandNumber++;
+                        telemetry.clearAll();
+                        timer.reset();
                         x++;
                     }
-                    current_time = System.currentTimeMillis();
-                    time = current_time - start_time;
-                    telemetry.addData("Current Time", time);
                     telemetry.addData("Red  ", colorSensor.red());
                     telemetry.addData("Blue ", colorSensor.blue());
-                    telemetry.update();
+                    telemetry.addData("time Sec", timer.time());
 
-                    if (time > 500 && time < 1500)
+                    if (timer.seconds() > 0.5 && timer.seconds() < 1.5)
                     {
-                        poker.setPower(1.0);
+                        poker.setDirection(DcMotorSimple.Direction.REVERSE);
+                        poker.setPower(0.5);
+                        telemetry.addData("1st", true);
                     }
-                    if (time > 1500 && time < 2500)
+                    if (timer.seconds() > 1.5 && timer.seconds() < 2.5)
                     {
-                        poker.setPower(-1.0);
+                        poker.setDirection(DcMotorSimple.Direction.FORWARD);
+                        poker.setPower(0.5);
+                        telemetry.addData("2nd", true);
                     }
-                    if (time > 1500)
+                    if (timer.seconds() > 2.5)
                     {
                         poker.setPower(0.0);
-                        driveBackwards();
+                        commandNumber++;
+                    }
+                }
+                break;
+            case 7:
+                driveBackwards();
+                x = 1;
+                break;
+            case 8:
+                if (colorSensor.red() > 2 && colorSensor.blue() < 2)
+                {
+                    if (x == 1)
+                    {
+                        stopDriving();
+                        telemetry.clearAll();
+                        timer.reset();
+                        x++;
+                    }
+                    telemetry.addData("Red  ", colorSensor.red());
+                    telemetry.addData("Blue ", colorSensor.blue());
+                    telemetry.addData("time Sec", timer.time());
+
+                    if (timer.seconds() > 0.5 && timer.seconds() < 1.5)
+                    {
+                        poker.setDirection(DcMotorSimple.Direction.REVERSE);
+                        poker.setPower(0.5);
+                        telemetry.addData("1st", true);
+                    }
+                    if (timer.seconds() > 1.5 && timer.seconds() < 2.5)
+                    {
+                        poker.setDirection(DcMotorSimple.Direction.FORWARD);
+                        poker.setPower(0.5);
+                        telemetry.addData("2nd", true);
+                    }
+                    if (timer.seconds() > 2.5)
+                    {
+                        poker.setPower(0.0);
+                        commandNumber++;
                     }
                 }
                 break;
         }
-
-        telemetry.addData("Current Case", commandNumber);
-        telemetry.addData("Right Busy", rightMotor.isBusy());
-        telemetry.addData("Left Busy", leftMotor.isBusy());
-        telemetry.addData("Clear", colorSensor.alpha());
-        telemetry.addData("Red  ", colorSensor.red());
-        telemetry.addData("Blue ", colorSensor.blue());
-        telemetry.addData("left position", leftMotor.getCurrentPosition());
-        telemetry.addData("right position", rightMotor.getCurrentPosition());
         telemetry.update();
 
     }
@@ -200,14 +229,15 @@ public class encoderAutonRGBRed extends OpMode {
         leftMotor.setPower(-0.3);
         rightMotor.setPower(-0.3);
     }
-    public void driveToPlace(double distance)
+    public void driveToPlace(double distance, int powerNum)
     {
         int distanceInt = helperFunction.distanceToRevs(distance);
 
         leftMotor.setTargetPosition(distanceInt);
         rightMotor.setTargetPosition(distanceInt);
 
-        driveForward();
+        leftMotor.setPower(powerLevels[powerNum]);
+        rightMotor.setPower(powerLevels[powerNum]);
 
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -221,8 +251,11 @@ public class encoderAutonRGBRed extends OpMode {
 
             telemetry.update();
         }
-        stopDriving();
-
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
@@ -232,12 +265,16 @@ public class encoderAutonRGBRed extends OpMode {
         int distanceInt = helperFunction.distanceToRevs((distance));
 
         leftMotor.setTargetPosition(distanceInt);
+        rightMotor.setTargetPosition(0);
 
         leftMotor.setPower(0.3);
+        rightMotor.setPower(0.3);
+
 
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (leftMotor.isBusy())
+        while (leftMotor.isBusy() || rightMotor.isBusy())
         {
             telemetry.addData("left Busy", leftMotor.isBusy());
             telemetry.addData("right busy", rightMotor.isBusy());
@@ -247,7 +284,11 @@ public class encoderAutonRGBRed extends OpMode {
             telemetry.update();
         }
 
-        stopDriving();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
 
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -256,14 +297,16 @@ public class encoderAutonRGBRed extends OpMode {
     {
         int distanceInt = helperFunction.distanceToRevs((distance));
 
-
         rightMotor.setTargetPosition(distanceInt);
+        leftMotor.setTargetPosition(0);
 
         rightMotor.setPower(0.3);
+        leftMotor.setPower(0.3);
 
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (rightMotor.isBusy())
+        while (rightMotor.isBusy() || leftMotor.isBusy())
         {
             telemetry.addData("left Busy", leftMotor.isBusy());
             telemetry.addData("right busy", rightMotor.isBusy());
@@ -273,7 +316,11 @@ public class encoderAutonRGBRed extends OpMode {
             telemetry.update();
         }
 
-        stopDriving();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
 
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
