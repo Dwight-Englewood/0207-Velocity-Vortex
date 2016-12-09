@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 //@Disabled
 @Autonomous(name = "RedStateMachine", group = "ITERATIVE_AUTON")
-public class RedAutonLoop extends OpMode {
+public class BlueAutonLoop extends OpMode {
 
     long start_time = 0;
     long current_time;
