@@ -66,6 +66,7 @@ public class OFFICIAL_PROGRAM extends OpMode {
         double runElevator = helperFunction.triggerToFlat(gamepad2.left_trigger);
         double runShooter = helperFunction.triggerToFlat(gamepad2.right_trigger);
 
+        //Left motor controls
         if (gamepad1.dpad_up) {
             driveLeft = -1;
         }
@@ -75,15 +76,20 @@ public class OFFICIAL_PROGRAM extends OpMode {
         else {
             driveLeft = 0;
         }
-        if (gamepad1.b) {
-            should = !should;
-        }
+
         if (gamepad2.x) {
             countLoop = 0;
+        }
+        if (gamepad2.y) {
+            timer = 0;
+        }
+        if (gamepad2.a) {
+            should = !should;
         }
         if (gamepad2.b) {
             timer = System.currentTimeMillis() - starTime;
         }
+
         if (gamepad1.x) {
             poker.setPosition(.55);
             should = true;
@@ -97,10 +103,10 @@ public class OFFICIAL_PROGRAM extends OpMode {
         if (gamepad1.a) {
             poker.setPosition(.50);
         }
+
         if (gamepad2.left_bumper) {
             runElevator = -1;
         }
-
         if (gamepad2.right_bumper) {
             runShooter = -.5;
         }
