@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+//a device that can be in one of a set number of stable conditions depending
+// on its previous condition and on the present values of its inputs.
 
 //@Disabled
 @Autonomous(name = "RedStateMachine", group = "ITERATIVE_AUTON")
@@ -36,7 +38,7 @@ public class BlueAutonLoop extends OpMode {
     int Ltarget;
     boolean runningToTarget = true;
 
-    private double [] powerLevels = {0.3, 0.3, 0.25, -0.3, 0.15};
+    private double [] powerLevels = {0.3, 0.0, 0.25, -0.3, 0.15};
 
     @Override
     public void init()
@@ -71,10 +73,8 @@ public class BlueAutonLoop extends OpMode {
         telemetry.addData("Command", commandNumber);
         telemetry.addData("current time", timer.seconds());
 
-        if (runningToTarget && (Math.abs(leftMotor.getCurrentPosition() - Ltarget) > 25 || Math.abs(rightMotor.getCurrentPosition() - Rtarget) > 25)) {
-//        if ((!(leftMotor.getCurrentPosition() < Ltarget + 25 && leftMotor.getCurrentPosition() > Ltarget - 25)
-//                || !(rightMotor.getCurrentPosition() < Rtarget + 25 && rightMotor.getCurrentPosition() > Rtarget - 25)) && runningToTarget)
-//        {
+        if (runningToTarget && (Math.abs(leftMotor.getCurrentPosition() - Ltarget) > 25 || Math.abs(rightMotor.getCurrentPosition() - Rtarget) > 25))
+        {
             telemetry.addData("inLoop", runningToTarget);
             telemetry.update();
             return;
@@ -128,19 +128,19 @@ public class BlueAutonLoop extends OpMode {
 
             case 3:
                 stopAndReset();
-                turnLeft(30, 2);
+                turnRight(165.088484, 2);
                 commandNumber++;
                 break;
 
             case 4:
                 stopAndReset();
-                driveToPosition(153, 0);
+                driveToPosition(153, 3);
                 commandNumber++;
                 break;
 
             case 5:
                 stopAndReset();
-                turnRight(31l, 2);
+                turnRight(31, 2);
                 commandNumber++;
                 break;
 

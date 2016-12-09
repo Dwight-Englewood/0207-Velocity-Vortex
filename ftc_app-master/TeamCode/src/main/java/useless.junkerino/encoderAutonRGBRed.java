@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package useless.junkerino;
 
 /*plotnw*/
 
@@ -14,6 +14,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.helperFunction;
 
 //@Disabled
 @Autonomous(name = "encoderAutonRGBRed", group = "ITERATIVE_AUTON")
