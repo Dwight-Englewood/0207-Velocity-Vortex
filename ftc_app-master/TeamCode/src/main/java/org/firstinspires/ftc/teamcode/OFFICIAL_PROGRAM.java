@@ -87,7 +87,7 @@ public class OFFICIAL_PROGRAM extends OpMode {
         if (gamepad1.x) {
             poker.setPosition(in);
         }
-        if (gamepad1.y) {//goes out
+        if (gamepad1.y) {
             poker.setPosition(out);
         }
         if (gamepad1.a) {
