@@ -56,10 +56,15 @@ public class OFFICIAL_PROGRAM extends OpMode
 
     private CRServo poker = null;
     private Servo pokerWheel = null;
+
+    ColorSensor colorSensor = null;
+
     private int countLoop = 0;
     private boolean should = false;
     private long timer = 0;
     private long startime = 0;
+
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -83,6 +88,9 @@ public class OFFICIAL_PROGRAM extends OpMode
 
         pokerWheel.setPosition(0);
         telemetry.addData("Status", "Initialized");
+
+        colorSensor = hardwareMap.colorSensor.get("color sensor");
+        colorSensor.enableLed(false);
     }
 
     @Override
@@ -156,6 +164,7 @@ public class OFFICIAL_PROGRAM extends OpMode
 
 
         telemetry.addData("loop number", countLoop);
+        telemetry.addData("Beacon", (colorSensor.red() >= 3 || colorSensor.blue() >= 3));
         telemetry.addData("timer", timer);
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);
