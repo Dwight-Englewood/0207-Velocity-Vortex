@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 //@Disabled
-@Autonomous(name = "RedStateMachine", group = "ITERATIVE_AUTON")
+@Autonomous(name = "BlueStateMachine", group = "ITERATIVE_AUTON")
 public class RedAutonLoop extends OpMode {
 
     long start_time = 0;

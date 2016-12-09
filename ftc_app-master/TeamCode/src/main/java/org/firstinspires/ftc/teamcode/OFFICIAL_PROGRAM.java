@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -20,7 +22,7 @@ public class OFFICIAL_PROGRAM extends OpMode {
     private DcMotor rightMotor = null;
     private DcMotor elevator = null;
     private DcMotor shooter = null;
-    private Servo poker = null;
+    private CRServo poker = null;
     private Servo pokerWheel = null;
 
     private long time = 0;
@@ -29,6 +31,7 @@ public class OFFICIAL_PROGRAM extends OpMode {
     private double stop = .49;
     private double in = .54;
     private double out = .42;
+    boolean doing = false;
 
 
 
@@ -39,7 +42,7 @@ public class OFFICIAL_PROGRAM extends OpMode {
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         elevator = hardwareMap.dcMotor.get("elevator");
         shooter = hardwareMap.dcMotor.get("shooter");
-        poker = hardwareMap.servo.get("poker");
+        poker = hardwareMap.crservo.get("poker");
         pokerWheel = hardwareMap.servo.get("pokerWheel");
         //Setting directions for the motors
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -49,12 +52,10 @@ public class OFFICIAL_PROGRAM extends OpMode {
         //Setting default location for the servo
         pokerWheel.setPosition(0);
 
-        poker.setPosition(.49);
+        //poker.setPosition(.49);
         //Telling user that the initialization has been completed
         telemetry.addData("Status", "Initialized");
 
-        colorSensor = hardwareMap.colorSensor.get("color sensor");
-        colorSensor.enableLed(false);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class OFFICIAL_PROGRAM extends OpMode {
         //Moving poker out from previous position
         pokerWheel.setPosition(.5);
 
-        poker.setPosition(.49);
+        //poker.setPosition(.49);
     }
 
     @Override
@@ -89,23 +90,27 @@ public class OFFICIAL_PROGRAM extends OpMode {
             driveLeft = 0;
         }
 
-        if (gamepad1.x) {
-            poker.setPosition(in);
+        if (gamepad1.x || gamepad2.x) {
+            //poker.setPosition(in);
+            servoState = IN;
+        } else if (gamepad1.y || gamepad2.y) {
+            //poker.setPosition(out);
+            servoState = OUT;
         }
-        if (gamepad1.y) {
-            poker.setPosition(out);
+        else {
+            //poker.setPosition(stop);
+            servoState = STOP;
+            doing = false;
         }
-        if (gamepad1.a) {
-            poker.setPosition(stop);
-        }
-        if (gamepad1.b) {
+        if (gamepad1.b || gamepad2.b || doing ) {
+            doing = true;
             switch (servoState) {
                 case STOP:
                     time = System.currentTimeMillis();
                     servoState = OUT;
                     break;
                 case OUT:
-                    if (System.currentTimeMillis() - time < 1650) {
+                    if (System.currentTimeMillis() - time < 1000) {
                         ;
                     } else {
                         servoState = IN;
@@ -113,11 +118,12 @@ public class OFFICIAL_PROGRAM extends OpMode {
                     }
                     break;
                 case IN:
-                    if (System.currentTimeMillis() - time < 1650) {
+                    if (System.currentTimeMillis() - time < 1000) {
                         ;
                     } else {
                         servoState = STOP;
                         time = 0;
+                        doing = false;
                     }
             }
 
@@ -125,16 +131,20 @@ public class OFFICIAL_PROGRAM extends OpMode {
 
         switch (servoState) {
             case OUT:
-                poker.setPosition(.42);
+                //poker.setPosition(out);
+                poker.setDirection(DcMotorSimple.Direction.REVERSE);
+                poker.setPower(0.5);
                 break;
             case IN:
-                poker.setPosition(.54);
+                //poker.setPosition(in);
+                poker.setDirection(DcMotorSimple.Direction.FORWARD);
+                poker.setPower(0.5);
                 break;
             case STOP:
-                poker.setPosition(.49);
+                //poker.setPosition(stop);
+                poker.setPower(0.0);
                 break;
         }
-
         if (gamepad2.left_bumper) {
             runElevator = -1;
         }
