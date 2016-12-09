@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import static org.firstinspires.ftc.teamcode.OFFICIAL_PROGRAM.Tri.STOP;
+import static org.firstinspires.ftc.teamcode.OFFICIAL_PROGRAM.Tri.IN;
+import static org.firstinspires.ftc.teamcode.OFFICIAL_PROGRAM.Tri.OUT;
+
 @TeleOp(name="TELEBOP", group="Iterative Opmode")
 //@Disabled
 public class OFFICIAL_PROGRAM extends OpMode {
@@ -18,12 +22,13 @@ public class OFFICIAL_PROGRAM extends OpMode {
     private DcMotor shooter = null;
     private Servo poker = null;
     private Servo pokerWheel = null;
+    private long time = 0;
+    public enum Tri {OUT, IN, STOP};
+    private Tri servoState = STOP;
+    private double stop = .49;
+    private double in = .54;
+    private double out = .42;
 
-    //Defining various variables used
-    private int countLoop = 0;
-    private boolean should = false;
-    private long timer = 0;
-    private long starTime = 0;
 
     @Override
     public void init() {
@@ -41,6 +46,8 @@ public class OFFICIAL_PROGRAM extends OpMode {
         shooter.setDirection(DcMotor.Direction.FORWARD);
         //Setting default location for the servo
         pokerWheel.setPosition(0);
+
+        poker.setPosition(.49);
         //Telling user that the initialization has been completed
         telemetry.addData("Status", "Initialized");
     }
@@ -53,14 +60,12 @@ public class OFFICIAL_PROGRAM extends OpMode {
         runtime.reset();
         //Moving poker out from previous position
         pokerWheel.setPosition(.5);
+
+        poker.setPosition(.49);
     }
 
     @Override
     public void loop() {
-
-        if (should) {
-            countLoop++;
-        }
 
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft;
@@ -79,31 +84,50 @@ public class OFFICIAL_PROGRAM extends OpMode {
             driveLeft = 0;
         }
 
-        if (gamepad2.x) {
-            countLoop = 0;
-        }
-        if (gamepad2.y) {
-            timer = 0;
-        }
-        if (gamepad2.a) {
-            should = !should;
-        }
-        if (gamepad2.b) {
-            timer = System.currentTimeMillis() - starTime;
-        }
-
         if (gamepad1.x) {
-            poker.setPosition(.55);
-            should = true;
-            starTime = System.currentTimeMillis();
+            poker.setPosition(in);
         }
-        if (gamepad1.y) {
-            poker.setPosition(.45);
-            should = true;
-            starTime = System.currentTimeMillis();
+        if (gamepad1.y) {//goes out
+            poker.setPosition(out);
         }
         if (gamepad1.a) {
-            poker.setPosition(.50);
+            poker.setPosition(stop);
+        }
+        if (gamepad1.b) {
+            switch (servoState) {
+                case STOP:
+                    time = System.currentTimeMillis();
+                    servoState = OUT;
+                    break;
+                case OUT:
+                    if (System.currentTimeMillis() - time < 1650) {
+                        ;
+                    } else {
+                        servoState = IN;
+                        time = System.currentTimeMillis();
+                    }
+                    break;
+                case IN:
+                    if (System.currentTimeMillis() - time < 1650) {
+                        ;
+                    } else {
+                        servoState = STOP;
+                        time = 0;
+                    }
+            }
+
+        }
+
+        switch (servoState) {
+            case OUT:
+                poker.setPosition(.42);
+                break;
+            case IN:
+                poker.setPosition(.54);
+                break;
+            case STOP:
+                poker.setPosition(.49);
+                break;
         }
 
         if (gamepad2.left_bumper) {
@@ -121,8 +145,6 @@ public class OFFICIAL_PROGRAM extends OpMode {
         shooter.setPower(helperFunction.triggerToFlat(runShooter));
 
 
-        telemetry.addData("loop number", countLoop);
-        telemetry.addData("timer", timer);
         telemetry.addData("driveLeft", driveLeft);
         telemetry.addData("driveRight", driveRight);
         telemetry.addData("elevator", runElevator);
