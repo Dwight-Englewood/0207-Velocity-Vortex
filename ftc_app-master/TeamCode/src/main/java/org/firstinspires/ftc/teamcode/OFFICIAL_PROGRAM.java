@@ -57,9 +57,11 @@ public class OFFICIAL_PROGRAM extends OpMode {
 
     @Override
     public void loop() {
+
         if (should) {
             countLoop++;
         }
+
         telemetry.addData("Status", "Running: " + runtime.toString());
         double driveLeft;
         double driveRight = gamepad1.right_stick_y;
