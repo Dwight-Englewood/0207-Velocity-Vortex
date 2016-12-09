@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // on its previous condition and on the present values of its inputs.
 
 //@Disabled
-@Autonomous(name = "BlueStateMachine", group = "ITERATIVE_AUTON")
+@Autonomous(name = "RedStateMachine", group = "ITERATIVE_AUTON")
 public class RedAutonLoop extends OpMode {
 
     long start_time = 0;

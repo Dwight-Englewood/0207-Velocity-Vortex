@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // on its previous condition and on the present values of its inputs.
 
 //@Disabled
-@Autonomous(name = "RedStateMachine", group = "ITERATIVE_AUTON")
+@Autonomous(name = "BlueStateMachine", group = "ITERATIVE_AUTON")
 public class BlueAutonLoop extends OpMode {
 
     long start_time = 0;
@@ -38,7 +38,7 @@ public class BlueAutonLoop extends OpMode {
     int Ltarget;
     boolean runningToTarget = true;
 
-    private double [] powerLevels = {0.3, 0.0, 0.25, -0.3, 0.15};
+    private double [] powerLevels = {0.3, 0.0, 0.25, -0.3, 0.15, -0.25, -0.15};
 
     @Override
     public void init()
@@ -134,13 +134,13 @@ public class BlueAutonLoop extends OpMode {
 
             case 4:
                 stopAndReset();
-                driveToPosition(153, 3);
+                driveToPosition(-125, 3);
                 commandNumber++;
                 break;
 
             case 5:
                 stopAndReset();
-                turnRight(31, 2);
+                turnLeft(31, 5);
                 commandNumber++;
                 break;
 
@@ -148,7 +148,7 @@ public class BlueAutonLoop extends OpMode {
                 runningToTarget = false;
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                startDriving(0);
+                startDriving(3);
                 commandNumber++;
                 x=1;
                 break;
@@ -157,37 +157,41 @@ public class BlueAutonLoop extends OpMode {
                 if (colorSensor.red() > 2 && colorSensor.blue() < 2)
                 {
                     stopDriving();
+                    stopAndReset();
+                    runningToTarget = true;
+                    driveToPosition(6, 4);
                     commandNumber++;
                 }
                 break;
 
             case 8:
-                    if (x == 1)
-                    {
-                        timer.reset();
-                        x++;
-                    }
-                    if (timer.seconds() > 0.5 && timer.seconds() < 1.5)
-                    {
-                        poker.setDirection(DcMotorSimple.Direction.REVERSE);
-                        poker.setPower(0.5);
-                    }
-                    if (timer.seconds() > 1.5 && timer.seconds() < 2.5)
-                    {
-                        poker.setDirection(DcMotorSimple.Direction.FORWARD);
-                        poker.setPower(0.5);
-                    }
-                    if (timer.seconds() > 2.5)
-                    {
-                        poker.setPower(0.0);
-                        commandNumber++;
-                    }
+                runningToTarget = false;
+                if (x == 1)
+                {
+                    timer.reset();
+                    x++;
+                }
+                if (timer.seconds() > 0.5 && timer.seconds() < 1.5)
+                {
+                    poker.setDirection(DcMotorSimple.Direction.REVERSE);
+                    poker.setPower(0.5);
+                }
+                if (timer.seconds() > 1.5 && timer.seconds() < 2.5)
+                {
+                    poker.setDirection(DcMotorSimple.Direction.FORWARD);
+                    poker.setPower(0.5);
+                }
+                if (timer.seconds() > 2.5)
+                {
+                    poker.setPower(0.0);
+                    commandNumber++;
+                }
                 break;
 
             case 9:
                 leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                startDriving(3);
+                startDriving(0);
                 commandNumber++;
                 try {Thread.sleep(1500);} catch (InterruptedException e) {}
                 break;
@@ -196,9 +200,6 @@ public class BlueAutonLoop extends OpMode {
                 if (colorSensor.red() > 2 && colorSensor.blue() < 2)
                 {
                     stopDriving();
-                    stopAndReset();
-                    runningToTarget = true;
-                    driveToPosition(6, 4);
                     commandNumber++;
                     x = 2;
                 }

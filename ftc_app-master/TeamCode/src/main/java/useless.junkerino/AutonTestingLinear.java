@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="AutonEncoderTestingLinearTHingeyMabobber", group="Linear Opmode")  // @Autonomous(...) is the other common choice
-//@Disabled
+@Disabled
 public class AutonTestingLinear extends LinearOpMode {
 
     /* Declare OpMode members. */

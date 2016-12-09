@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.helperFunction;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "encoderAutonRGBRed", group = "ITERATIVE_AUTON")
 public class encoderAutonRGBRed extends OpMode {
 
