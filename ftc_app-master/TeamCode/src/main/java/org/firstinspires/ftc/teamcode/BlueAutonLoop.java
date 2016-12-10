@@ -128,7 +128,7 @@ public class BlueAutonLoop extends OpMode {
 
             case 3:
                 stopAndReset();
-                turnRight(165.088484, 2);
+                turnRight(164.088484, 2);
                 commandNumber++;
                 break;
 

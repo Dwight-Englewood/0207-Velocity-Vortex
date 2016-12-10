@@ -73,7 +73,7 @@ public class RedAutonLoop extends OpMode {
         telemetry.addData("Command", commandNumber);
         telemetry.addData("current time", timer.seconds());
 
-        if (runningToTarget && (Math.abs(leftMotor.getCurrentPosition() - Ltarget) > 25 || Math.abs(rightMotor.getCurrentPosition() - Rtarget) > 25))
+        if (runningToTarget && (Math.abs(leftMotor.getCurrentPosition() - Ltarget) > 15 || Math.abs(rightMotor.getCurrentPosition() - Rtarget) > 15))
         {
             telemetry.addData("inLoop", runningToTarget);
             telemetry.update();
@@ -128,19 +128,19 @@ public class RedAutonLoop extends OpMode {
 
             case 3:
                 stopAndReset();
-                turnLeft(30, 2);
+                turnLeft(29, 2);
                 commandNumber++;
                 break;
 
             case 4:
                 stopAndReset();
-                driveToPosition(153, 0);
+                driveToPosition(148, 0);
                 commandNumber++;
                 break;
 
             case 5:
                 stopAndReset();
-                turnRight(31, 2);
+                turnRight(32, 2);
                 commandNumber++;
                 break;
 
