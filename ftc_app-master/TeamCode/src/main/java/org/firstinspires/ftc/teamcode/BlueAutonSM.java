@@ -154,7 +154,7 @@ public class BlueAutonSM extends OpMode {
                 break;
 
             case 7:
-                if (colorSensor.red() > 2 && colorSensor.blue() < 2)
+                if (colorSensor.blue() >= 2)
                 {
                     stopDriving();
                     stopAndReset();
@@ -197,7 +197,7 @@ public class BlueAutonSM extends OpMode {
                 break;
 
             case 10:
-                if (colorSensor.red() > 2 && colorSensor.blue() < 2)
+                if (colorSensor.blue() >= 2)
                 {
                     stopDriving();
                     commandNumber++;

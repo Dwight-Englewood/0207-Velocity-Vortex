@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // on its previous condition and on the present values of its inputs.
 
 //@Disabled
-@Autonomous(name = "BlueStateMachine", group = "ITERATIVE_AUTON")
+@Autonomous(name = "ShootingStateMachine", group = "ITERATIVE_AUTON")
 public class ShootingAutonSM extends OpMode {
 
     long start_time = 0;
@@ -96,16 +96,19 @@ public class ShootingAutonSM extends OpMode {
                 } else if (timer.milliseconds() < 4500) {
                     shooter.setPower(1.0);
                     elevator.setPower(0.0);
-                } else if (timer.milliseconds() > 4500) {
+                } else if (timer.milliseconds() < 10000) {
                     shooter.setPower(0.0);
                     elevator.setPower(0.0);
-                    commandNumber++;
+                }
+                else if (timer.milliseconds() > 10000)
+                {
+                    commandNumber++;                                                                                                                                                                                                                                                                                                                                                                                                                                                            
                 }
                 break;
 
             case 3:
                 stopAndReset();
-                driveToPosition(45, 0);
+                driveToPosition(75, 0);
                 commandNumber++;
                 break;
             case 4:

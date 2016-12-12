@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Disabled
-@Autonomous(name = "DRIVE SHOOT FAR", group = "LINEAR_AUTON")
+//@Disabled
+@Autonomous(name = "DRIVE SHOOT FAR (MAYBE BAD LMAO)", group = "LINEAR_AUTON")
 public class timeAutonDriveShootFar extends OpMode {
 
     DcMotor rightMotor;
