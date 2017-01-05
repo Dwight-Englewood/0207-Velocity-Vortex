@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package OldAge;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import static org.firstinspires.ftc.teamcode.OFFICIAL_PROGRAM.Tri.STOP;
-import static org.firstinspires.ftc.teamcode.OFFICIAL_PROGRAM.Tri.IN;
-import static org.firstinspires.ftc.teamcode.OFFICIAL_PROGRAM.Tri.OUT;
+import static OldAge.OFFICIAL_PROGRAM.Tri.STOP;
+import static OldAge.OFFICIAL_PROGRAM.Tri.IN;
+import static OldAge.OFFICIAL_PROGRAM.Tri.OUT;
 
 @TeleOp(name="TELEBOP", group="Iterative Opmode")
 //@Disabled

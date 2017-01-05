@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.helperFunction;
+import OldAge.helperFunction;
 
 @TeleOp(name="TELEBOP2", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 @Disabled
