@@ -1,5 +1,6 @@
 package OldAge;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -13,7 +14,7 @@ import static OldAge.OFFICIAL_PROGRAM.Tri.IN;
 import static OldAge.OFFICIAL_PROGRAM.Tri.OUT;
 
 @TeleOp(name="TELEBOP", group="Iterative Opmode")
-//@Disabled
+@Disabled
 public class OFFICIAL_PROGRAM extends OpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
