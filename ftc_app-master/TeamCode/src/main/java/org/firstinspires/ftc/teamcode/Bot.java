@@ -65,6 +65,9 @@ public class Bot
 
         // Running to target false
         runningToTarget = false;
+
+        // Set color sensor
+        colorSensor.enableLed(false);
     }
 
     // Driving Methods
