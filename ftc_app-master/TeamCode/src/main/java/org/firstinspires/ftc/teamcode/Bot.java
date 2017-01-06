@@ -61,51 +61,107 @@ public class Bot
 
     }
 
-    // Movement Methods - make one public drive and a bunch of smaller for each specific drive. used the drive method to choose which one will be used
+    // Driving Methods
     // TODO: brian's idea for driving - implement in teleop program
     public void drive(int direction, int power)
     {
-
+        if (direction == 0){driveForwards(power);}
+        else if (direction == 1){driveBackwards(power);}
+        else if (direction == 2){driveLeft(power);}
+        else if (direction == 3){driveRight(power);}
+        else if (direction == 4){turnRight(power);}
+        else if (direction == 5){turnLeft(power);}
     }
 
-    public void driveForward(int power)
+    // 0
+    private void driveForwards(int power)
     {
-
+        FL.setPower(power);
+        BL.setPower(power);
+        FR.setPower(power);
+        BR.setPower(power);
     }
 
-    public void driveBackwards(int power)
+    // 1
+    private void driveBackwards(int power)
     {
-
+        FL.setPower(-power);
+        BL.setPower(-power);
+        FR.setPower(-power);
+        BR.setPower(-power);
     }
 
-    public void driveLeft(int power)
+    // 2
+    private void driveLeft(int power)
     {
-
+        FL.setPower(-power);
+        BL.setPower(power);
+        FR.setPower(power);
+        BR.setPower(-power);
     }
 
-    public void driveRight(int power)
+    // 3
+    private void driveRight(int power)
     {
-
+        FL.setPower(power);
+        BL.setPower(-power);
+        FR.setPower(-power);
+        BR.setPower(power);
     }
 
-    public void driveForwardLeft(int power)
+    // 4
+    private void turnRight(int power)
     {
-
+        FL.setPower(power);
+        BL.setPower(power);
+        FR.setPower(-power);
+        BR.setPower(-power);
     }
 
-    public void driveBackwardLeft(int power)
+    // 5
+    private  void turnLeft(int power)
     {
-
+        FL.setPower(-power);
+        BL.setPower(-power);
+        FR.setPower(power);
+        BR.setPower(power);
     }
 
-    public void driveForwardRight(int power)
-    {
+    // Move-to Methods
 
+    public void runToPosition(int direction, int power, double target)
+    {
+        int targetInt = distanceToRevs(target);
+
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FL.setTargetPosition(targetInt);
+        BL.setTargetPosition(targetInt);
+        FR.setTargetPosition(targetInt);
+        BR.setTargetPosition(targetInt);
+
+        drive(direction, power);
     }
 
-    public void driveBackwardRight(int power)
+    private void stopAndReset()
     {
+        try {Thread.sleep(500);} catch (InterruptedException e) {}
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
+    private void runUsingEncoders()
+    {
+        try {Thread.sleep(500);} catch (InterruptedException e) {}
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     // Motor Methods
@@ -159,5 +215,15 @@ public class Bot
     public int getBlue()
     {
         return colorSensor.blue();
+    }
+
+    // Helper Methods
+    public static int distanceToRevs (double distance)
+    {
+        // TODO: REMEASURE THINGIES (CIRCUMFERENCE)
+        //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
+        final double wheelCirc = 31.9185813;
+        final double gearMotorTickThing = 833.33;
+        return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 }
