@@ -26,7 +26,7 @@ public class Bot
     private CRServo rServo;
 
     private boolean runningToTarget;
-    ElapsedTime timer = new ElapsedTime(0);
+    private boolean strafing;
 
     HardwareMap hwMap;
     //Class Fields
@@ -58,20 +58,35 @@ public class Bot
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         lServo.setDirection(DcMotorSimple.Direction.REVERSE);
         rServo.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        FL.setPower(0);
+        BL.setPower(0);
+        FR.setPower(0);
+        BR.setPower(0);
+        elevator.setPower(0);
+        shooter.setPower(0);
+        lServo.setPower(0);
+        rServo.setPower(0);
 
         // Running to target false
         runningToTarget = false;
 
-        // Set color sensor
+        // Set color sensor LED
         colorSensor.enableLed(false);
     }
 
     // Driving Methods
-    // TODO: brian's idea for driving - implement in teleop program
     public void drive(int direction, double power)
     {
         if (direction == 0){driveForwards(power);}
@@ -80,6 +95,17 @@ public class Bot
         else if (direction == 3){driveRight(power);}
         else if (direction == 4){turnRight(power);}
         else if (direction == 5){turnLeft(power);}
+        else if (direction == 6){driveLeftTrain(power);}
+        else if (direction == 7){driveRightTrain(power);}
+    }
+
+    public void drive()
+    {
+        FL.setPower(0);
+        BL.setPower(0);
+        FR.setPower(0);
+        BR.setPower(0);
+        strafing = false;
     }
 
     // 0
@@ -107,6 +133,7 @@ public class Bot
         BL.setPower(power);
         FR.setPower(power);
         BR.setPower(-power);
+        strafing = true;
     }
 
     // 3
@@ -116,6 +143,7 @@ public class Bot
         BL.setPower(-power);
         FR.setPower(-power);
         BR.setPower(power);
+        strafing = true;
     }
 
     // 4
@@ -132,6 +160,20 @@ public class Bot
     {
         FL.setPower(-power);
         BL.setPower(-power);
+        FR.setPower(power);
+        BR.setPower(power);
+    }
+
+    // 6
+    private void driveLeftTrain(double power)
+    {
+        FL.setPower(power);
+        BL.setPower(power);
+    }
+
+    // 7
+    private void driveRightTrain(double power)
+    {
         FR.setPower(power);
         BR.setPower(power);
     }
@@ -243,12 +285,8 @@ public class Bot
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 
-    public boolean getIsRunningToTarget()
-    {
-        return runningToTarget;
-    }
+    public boolean getIsRunningToTarget() {return runningToTarget;}
 
-    public double getCurrentTimeMs() { return timer.milliseconds(); }
-
-    public void resetCurrentTime() { timer.reset(); }
+    public void setIsStrafing(boolean s) {strafing = s;}
+    public boolean getIsStrafing() {return strafing;}
 }

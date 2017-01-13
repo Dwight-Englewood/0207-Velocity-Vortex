@@ -43,12 +43,9 @@ public class TELEBOP extends OpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-    Bot robot;
-
-    public TELEBOP()
-    {
-        robot = new Bot();
-    }
+    Bot robot = new Bot();
+    boolean strafingLeft = false;
+    boolean strafingRight = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -58,7 +55,6 @@ public class TELEBOP extends OpMode
     {
         telemetry.addData("Status", "Initialized");
         robot.init(hardwareMap);
-        telemetry.addData("Status", "Initialized");
     }
 
     /*
@@ -74,7 +70,6 @@ public class TELEBOP extends OpMode
     public void start()
     {
         runtime.reset();
-        robot.resetCurrentTime();
     }
 
     /*
@@ -86,49 +81,86 @@ public class TELEBOP extends OpMode
         telemetry.addData("Status", "Running: " + runtime.toString());
 
         // Driving commands (left/right stick brian zhang method)
-        if (gamepad1.left_stick_y > 0)
-            robot.drive(0,1);
-        else if (gamepad1.left_stick_y < 0)
-            robot.drive(1,1);
-        else if (gamepad1.left_stick_x < 0)
-            robot.drive(2,1);
-        else if (gamepad1.left_stick_x > 0)
-            robot.drive(3,1);
-        else if (gamepad1.right_stick_x > 0)
-            robot.drive(4,1);
-        else if (gamepad1.right_stick_x < 0)
-            robot.drive(5,1);
+        /*if (gamepad1.dpad_up) { robot.drive(0,1); }
+        else if (gamepad1.dpad_down) { robot.drive(1,1); }
+        else if (gamepad1.dpad_left) { robot.drive(2,1); }
+        else if (gamepad1.dpad_right) { robot.drive(3,1); }
+        else if (gamepad1.right_stick_x > 0.5) { robot.drive(4,1); }
+        else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
+        else { robot.drive(); }*/
+
+        // Driving commands (tank controls + strafe)
+        if (!robot.getIsStrafing())
+        {
+            if (gamepad1.dpad_up)
+            {
+                robot.drive(6, 1);
+            }
+            else if (gamepad1.dpad_down)
+            {
+                robot.drive(6, -1);
+            }
+            else
+            {
+                robot.drive(6, 0);
+            }
+
+            if (gamepad1.left_stick_y > 0.5)
+            {
+                robot.drive(7, 1);
+            }
+            else if (gamepad1.left_stick_y < -0.5)
+            {
+                robot.drive(7, -1);
+            }
+            else
+            {
+                robot.drive(7, 0);
+            }
+
+            if (gamepad1.left_bumper)
+            {
+                robot.drive(2,1);
+                strafingLeft = true;
+            }
+
+            if (gamepad1.right_bumper)
+            {
+                robot.drive(3,1);
+                strafingRight = true;
+            }
+        }
         else
-            robot.drive(0,0);
+        {
+            if (!gamepad1.left_bumper && strafingLeft)
+            {
+                robot.drive();
+                strafingLeft = false;
+            }
+            else if (!gamepad1.right_bumper && strafingRight)
+            {
+                robot.drive();
+                strafingRight = false;
+            }
+        }
 
         // Shooting and elevating commands
-        if (gamepad2.right_trigger > 0.5)
-            robot.setShooter(1);
-        else
-            robot.setShooter(0);
+        if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
+        else                                    {robot.setShooter(0);}
 
-        if (gamepad2.left_trigger > 0.5)
-            robot.setElevator(1);
-        else if (gamepad2.left_bumper)
-            robot.setElevator(-1);
-        else
-            robot.setElevator(0);
+        if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1);}
+        else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
+        else                                    {robot.setElevator(0);}
 
         // Left servo commands
-        if (gamepad1.a || gamepad2.a)
-            robot.leftServoOut();
-        else if (gamepad1.b || gamepad2.b)
-            robot.leftServoIn();
-        else
-            robot.leftServoStop();
+        if (gamepad1.a || gamepad2.a)           {robot.leftServoOut();}
+        else if (gamepad1.b || gamepad2.b)      {robot.leftServoIn();}
+        else                                    {robot.leftServoStop();}
 
         // Right servo commands
-        if (gamepad1.x || gamepad2.x)
-            robot.rightServoOut();
-        else if (gamepad1.y || gamepad2.y)
-            robot.rightServoIn();
-        else
-            robot.rightServoStop();
+        if (gamepad1.x || gamepad2.x)           {robot.rightServoOut();}
+        else if (gamepad1.y || gamepad2.y)      {robot.rightServoIn();}
+        else                                    {robot.rightServoStop();}
 
         telemetry.update();
     }
@@ -138,5 +170,4 @@ public class TELEBOP extends OpMode
      */
     @Override
     public void stop() {}
-
 }
