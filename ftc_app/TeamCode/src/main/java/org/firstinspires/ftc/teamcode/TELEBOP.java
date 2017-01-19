@@ -153,7 +153,7 @@ public class TELEBOP extends OpMode
         else                                    {robot.setElevator(0);}
 
         // Left servo commands
-       /* if (gamepad1.a || gamepad2.a)           {robot.leftServoOut();}
+        if (gamepad1.a || gamepad2.a)           {robot.leftServoOut();}
         else if (gamepad1.b || gamepad2.b)      {robot.leftServoIn();}
         else                                    {robot.leftServoStop();}
 
@@ -161,7 +161,11 @@ public class TELEBOP extends OpMode
         if (gamepad1.x || gamepad2.x)           {robot.rightServoOut();}
         else if (gamepad1.y || gamepad2.y)      {robot.rightServoIn();}
         else                                    {robot.rightServoStop();}
-        */
+
+        telemetry.addData("FR POS: ", robot.getCurPosFR());
+        telemetry.addData("BR POS: ", robot.getCurPosBR());
+        telemetry.addData("FL POS: ", robot.getCurPosFL());
+        telemetry.addData("BL POS: ", robot.getCurPosBL());
         telemetry.update();
     }
 

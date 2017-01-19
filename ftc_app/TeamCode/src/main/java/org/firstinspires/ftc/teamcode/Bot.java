@@ -21,9 +21,9 @@ public class Bot
     private DcMotor BR;
     private DcMotor elevator;
     private DcMotor shooter;
-    //private ColorSensor colorSensor;
-    //private CRServo lServo;
-    //private CRServo rServo;
+    private ColorSensor colorSensor;
+    private CRServo lServo;
+    private CRServo rServo;
 
     private boolean runningToTarget;
     private boolean strafing;
@@ -49,9 +49,9 @@ public class Bot
         BR = hwMap.dcMotor.get("BR");
         elevator = hwMap.dcMotor.get("elevator");
         shooter = hwMap.dcMotor.get("shooter");
-        //colorSensor = hwMap.colorSensor.get("colorSensor");
-        //lServo = hwMap.crservo.get("lServo");
-        //rServo = hwMap.crservo.get("rServo");
+        colorSensor = hwMap.colorSensor.get("colorSensor");
+        lServo = hwMap.crservo.get("lServo");
+        rServo = hwMap.crservo.get("rServo");
 
         // Set motor/servo modes
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -67,8 +67,8 @@ public class Bot
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //lServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        //rServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        lServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        rServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         FL.setPower(0);
         BL.setPower(0);
@@ -76,14 +76,14 @@ public class Bot
         BR.setPower(0);
         elevator.setPower(0);
         shooter.setPower(0);
-        //lServo.setPower(0);
-        //rServo.setPower(0);
+        lServo.setPower(0);
+        rServo.setPower(0);
 
         // Running to target false
         runningToTarget = false;
 
         // Set color sensor LED
-        //colorSensor.enableLed(false);
+        colorSensor.enableLed(false);
     }
 
     // Driving Methods
@@ -230,7 +230,7 @@ public class Bot
     }
 
     // Servo Methods
-    /*public void leftServoOut()
+    public void leftServoOut()
     {
         lServo.setDirection(DcMotorSimple.Direction.REVERSE);
         lServo.setPower(1.0);
@@ -274,7 +274,7 @@ public class Bot
     {
         return colorSensor.blue();
     }
-    */
+
     // Helper Methods
     public int distanceToRevs (double distance)
     {
@@ -289,4 +289,9 @@ public class Bot
 
     public void setIsStrafing(boolean s) {strafing = s;}
     public boolean getIsStrafing() {return strafing;}
+
+    public int getCurPosFL() {return FL.getCurrentPosition();}
+    public int getCurPosBL() {return BL.getCurrentPosition();}
+    public int getCurPosFR() {return FR.getCurrentPosition();}
+    public int getCurPosBR() {return BR.getCurrentPosition();}
 }
