@@ -81,16 +81,16 @@ public class TELEBOP extends OpMode
         telemetry.addData("Status", "Running: " + runtime.toString());
 
         // Driving commands (left/right stick brian zhang method)
-        /*if (gamepad1.dpad_up) { robot.drive(0,1); }
-        else if (gamepad1.dpad_down) { robot.drive(1,1); }
-        else if (gamepad1.dpad_left) { robot.drive(2,1); }
-        else if (gamepad1.dpad_right) { robot.drive(3,1); }
-        else if (gamepad1.right_stick_x > 0.5) { robot.drive(4,1); }
+        if (gamepad1.left_stick_y < -0.5)       { robot.drive(0,1); }
+        else if (gamepad1.left_stick_y > 0.5)   { robot.drive(1,1); }
+        else if (gamepad1.left_stick_x > 0.5)   { robot.drive(2,1); }
+        else if (gamepad1.left_stick_x < -0.5)  { robot.drive(3,1); }
+        else if (gamepad1.right_stick_x > 0.5)  { robot.drive(4,1); }
         else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
-        else { robot.drive(); }*/
+        else { robot.drive(); }
 
-        // Driving commands (tank controls + strafe)
-        if (!robot.getIsStrafing())
+        // Driving commands (tank controls + strafe) BUILT FOR DUMB MODE
+        /*if (!robot.getIsStrafing())
         {
             if (gamepad1.dpad_up)
             {
@@ -142,7 +142,7 @@ public class TELEBOP extends OpMode
                 robot.drive();
                 strafingRight = false;
             }
-        }
+        }*/
 
         // Shooting and elevating commands
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
