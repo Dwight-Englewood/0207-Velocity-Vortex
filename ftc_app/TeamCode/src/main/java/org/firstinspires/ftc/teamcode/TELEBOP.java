@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 @TeleOp(name="Telebop", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class TELEBOP extends OpMode
@@ -51,9 +52,12 @@ public class TELEBOP extends OpMode
 
     int lServoPush = 0;
     int rServoPush = 0;
-
-    /*
-     * Code to run ONCE when the driver hits INIT
+    public enum ServoStates {STOP, IN, OUT};
+    private ServoStates rservo = ServoStates.STOP;
+    private long rtime;
+    private ServoStates lservo = ServoStates.STOP;
+    private long ltime;
+    /*to run ONCE when the driver hits INIT
      */
     @Override
     public void init()
@@ -158,31 +162,42 @@ public class TELEBOP extends OpMode
         else                                    {robot.setElevator(0);}
 
         // Left servo commands
-        if (gamepad2.a)
-        {
-            robot.leftServoOut();
-        }
-        else if (gamepad2.b)
-        {
-            robot.leftServoIn();
-        }
-        else
-        {
+        //b out a in right
+        //x out y in left
+        if (!(rservo.equals(ServoStates.OUT) || rservo.equals(ServoStates.IN))) {
+            if (gamepad2.b && !lservo.equals(ServoStates.OUT)) {
+                robot.leftServoOut();
+                lservo = ServoStates.OUT;
+                ltime = System.currentTimeMillis();
+            } else if (gamepad2.a) {
+                robot.leftServoIn();
+                lservo = ServoStates.IN;
+                ltime = System.currentTimeMillis();
+            } else {
+                robot.leftServoStop();
+                lservo = ServoStates.STOP;
+            }
+        } else if (System.currentTimeMillis() - ltime >= 2000) {
             robot.leftServoStop();
+        } else {
         }
+
 
         // Right servo commands
         if (gamepad2.x)
         {
             robot.rightServoOut();
+            rservo = ServoStates.OUT;
         }
         else if (gamepad2.y)
         {
             robot.rightServoIn();
+            rservo = ServoStates.IN;
         }
         else
         {
             robot.rightServoStop();
+            rservo = ServoStates.STOP;
         }
 
 
