@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //a device that can be in one of a set number of stable conditions depending
 // on its previous condition and on the present values of its inputs.
 
-/*@Disabled
-@Autonomous(name = "ShootingStateMachineFar", group = "ITERATIVE_AUTON")
+@Disabled
+@Autonomous(name = "USING THIS IN 2017 LUL", group = "ITERATIVE_AUTON")
 public class ShootingAutonSMFar extends OpMode {
 
     long start_time = 0;
@@ -58,7 +58,7 @@ public class ShootingAutonSMFar extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("Left Position", leftMotor.getCurrentPosition());
+       /* telemetry.addData("Left Position", leftMotor.getCurrentPosition());
         telemetry.addData("Right Position", rightMotor.getCurrentPosition());
         telemetry.addData("Command", commandNumber);
         telemetry.addData("current time", timer.seconds());
@@ -114,13 +114,13 @@ public class ShootingAutonSMFar extends OpMode {
                 commandNumber++;
                 break;
         }
-        telemetry.update();
+        telemetry.update();*/
     }
 
     @Override
     public void stop() {}
 
-    public void driveToPosition(double target, int powerSelection)
+   /* public void driveToPosition(double target, int powerSelection)
     {
         int  targetInt = helperFunction.distanceToRevs(target);
 
@@ -188,5 +188,5 @@ public class ShootingAutonSMFar extends OpMode {
         try { Thread.sleep(500); } catch (InterruptedException e) {}
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-}*/
+    }*/
+}

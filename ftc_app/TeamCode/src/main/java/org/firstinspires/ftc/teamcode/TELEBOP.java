@@ -164,7 +164,7 @@ public class TELEBOP extends OpMode
         // Left servo commands
         //b out a in right
         //x out y in left
-        if (!(rservo.equals(ServoStates.OUT) || rservo.equals(ServoStates.IN))) {
+        if (!(lservo.equals(ServoStates.OUT) || lservo.equals(ServoStates.IN))) {
             if (gamepad2.b && !lservo.equals(ServoStates.OUT)) {
                 robot.leftServoOut();
                 lservo = ServoStates.OUT;
@@ -181,9 +181,26 @@ public class TELEBOP extends OpMode
             robot.leftServoStop();
         } else {
         }
+        if (!(rservo.equals(ServoStates.OUT) || rservo.equals(ServoStates.IN))) {
+            if (gamepad2.b && !rservo.equals(ServoStates.OUT)) {
+                robot.rightServoOut();
+                rservo = ServoStates.OUT;
+                rtime = System.currentTimeMillis();
+            } else if (gamepad2.a) {
+                robot.rightServoIn();
+                rservo = ServoStates.IN;
+                rtime = System.currentTimeMillis();
+            } else {
+                robot.leftServoStop();
+                rservo = ServoStates.STOP;
+            }
+        } else if (System.currentTimeMillis() - ltime >= 2000) {
+            robot.rightServoStop();
+        } else {
+        }
 
 
-        // Right servo commands
+        // 9Right servo commands
         if (gamepad2.x)
         {
             robot.rightServoOut();

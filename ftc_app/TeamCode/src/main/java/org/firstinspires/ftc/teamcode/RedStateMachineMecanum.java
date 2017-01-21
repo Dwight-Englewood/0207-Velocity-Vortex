@@ -21,6 +21,7 @@ public class RedStateMachineMecanum extends OpMode {
     int commandNumber = 1;
 
     private int x = 0;
+    private int y = 0;
 
     @Override
     public void init()
@@ -74,20 +75,20 @@ public class RedStateMachineMecanum extends OpMode {
                 {
                     robot.setShooter(1);
                 }
-                else if (timer.milliseconds() < 3500)
+                else if (timer.milliseconds() < 4000)
                 {
                     robot.setShooter(0);
                     robot.setElevator(1);
                 }
-                else if (timer.milliseconds() < 4000)
+                else if (timer.milliseconds() < 4500)
                 {
                     robot.setElevator(0);
                 }
-                else if (timer.milliseconds() < 5000 )
+                else if (timer.milliseconds() < 5500 )
                 {
                     robot.setShooter(1);
                 }
-                else if (timer.milliseconds() > 5000)
+                else if (timer.milliseconds() > 5500)
                 {
                     robot.setShooter(0);
                     commandNumber++;
@@ -95,12 +96,19 @@ public class RedStateMachineMecanum extends OpMode {
                 break;
 
             case 3:
-                robot.runToRight(.7, 5000);
-                commandNumber++;
+                robot.runUsingEncoders();
+                if (y == 0)
+                {
+                    timer.reset();
+                    robot.chill();
+                    y++;
+                }
+                else if (timer.milliseconds() < 500){}
+                else if (timer.milliseconds() < 3000){robot.drive(3,.5);}
+                else if (timer.milliseconds() > 3000){robot.drive(); commandNumber++;}
                 break;
 
             case 4:
-                robot.runUsingEncoders();
                 robot.drive(0, 0.3);
                 commandNumber++;
                 x=1;
@@ -137,7 +145,6 @@ public class RedStateMachineMecanum extends OpMode {
                 break;
 
             case 7:
-                robot.runUsingEncoders();
                 robot.drive(0, 0.3);
                 commandNumber++;
                 break;

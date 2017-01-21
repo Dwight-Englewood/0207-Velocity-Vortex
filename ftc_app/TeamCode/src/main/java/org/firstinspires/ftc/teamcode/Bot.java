@@ -74,8 +74,7 @@ public class Bot
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        lServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        rServo.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
         FL.setPower(0);
         BL.setPower(0);
@@ -83,8 +82,8 @@ public class Bot
         BR.setPower(0);
         elevator.setPower(0);
         shooter.setPower(0);
-        lServo.setPower(0);
-        rServo.setPower(0);
+        leftServoStop();
+        rightServoStop();
 
         // Running to target false
         runningToTarget = false;
@@ -303,7 +302,7 @@ public class Bot
 
     public void leftServoStop()
     {
-        lServo.setPower(0);
+        lServo.setPower(.01);
     }
 
     public void rightServoOut()
