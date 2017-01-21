@@ -3,13 +3,14 @@ package OldAge;
 /*plotnw*/
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 //a device that can be in one of a set number of stable conditions depending
 // on its previous condition and on the present values of its inputs.
 
-//@Disabled
+/*@Disabled
 @Autonomous(name = "ShootingStateMachineFar", group = "ITERATIVE_AUTON")
 public class ShootingAutonSMFar extends OpMode {
 
@@ -188,4 +189,4 @@ public class ShootingAutonSMFar extends OpMode {
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-}
+}*/

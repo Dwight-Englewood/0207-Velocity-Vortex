@@ -103,28 +103,28 @@ public class TELEBOP extends OpMode
         {
             if (gamepad1.right_stick_y > 0.5)
             {
-                robot.drive(6, 1);
-            }
-            else if (gamepad1.right_stick_y < -0.5)
-            {
-                robot.drive(6, -1);
-            }
-            else
-            {
-                robot.drive(6, 0);
-            }
-
-            if (gamepad1.left_stick_y > 0.5)
-            {
                 robot.drive(7, 1);
             }
-            else if (gamepad1.left_stick_y < -0.5)
+            else if (gamepad1.right_stick_y < -0.5)
             {
                 robot.drive(7, -1);
             }
             else
             {
                 robot.drive(7, 0);
+            }
+
+            if (gamepad1.left_stick_y > 0.5)
+            {
+                robot.drive(6, 1);
+            }
+            else if (gamepad1.left_stick_y < -0.5)
+            {
+                robot.drive(6, -1);
+            }
+            else
+            {
+                robot.drive(6, 0);
             }
 
             if (gamepad1.left_trigger > 0.5)

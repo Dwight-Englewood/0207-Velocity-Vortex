@@ -29,6 +29,11 @@ public class Bot
     private boolean runningToTarget;
     private boolean strafing;
 
+    int FRtarget;
+    int BRtarget;
+    int FLtarget;
+    int BLtarget;
+
     HardwareMap hwMap;
     //Class Fields
 
@@ -201,6 +206,52 @@ public class Bot
         drive(direction, power);
     }
 
+    public void runToLeft(double power, double target)
+    {
+        int targetInt = distanceToRevs(target);
+        stopAndReset();
+
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FLtarget = -targetInt;
+        BLtarget = targetInt;
+        FRtarget = targetInt;
+        BRtarget = -targetInt;
+
+        FL.setTargetPosition(-targetInt);
+        BL.setTargetPosition(targetInt);
+        FR.setTargetPosition(targetInt);
+        BR.setTargetPosition(-targetInt);
+
+        drive (2,1);
+    }
+
+    public void runToRight(double power, double target)
+    {
+        int targetInt = distanceToRevs(target);
+        stopAndReset();
+
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FLtarget = targetInt;
+        BLtarget = -targetInt;
+        FRtarget = -targetInt;
+        BRtarget = targetInt;
+
+        FL.setTargetPosition(targetInt);
+        BL.setTargetPosition(-targetInt);
+        FR.setTargetPosition(-targetInt);
+        BR.setTargetPosition(targetInt);
+
+        drive (3,1);
+    }
+
     private void stopAndReset()
     {
         try {Thread.sleep(500);} catch (InterruptedException e) {}
@@ -219,6 +270,11 @@ public class Bot
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void chill()
+    {
+        try {Thread.sleep(500);} catch (InterruptedException e) {}
     }
 
     // Motor Methods
@@ -288,6 +344,10 @@ public class Bot
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 
+    public void setIsRunningToTarget(boolean x)
+    {
+        runningToTarget = x;
+    }
     public boolean getIsRunningToTarget() {return runningToTarget;}
 
     public void setIsStrafing(boolean s) {strafing = s;}
