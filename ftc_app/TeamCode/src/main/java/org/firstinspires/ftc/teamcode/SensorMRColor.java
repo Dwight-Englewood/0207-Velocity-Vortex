@@ -58,7 +58,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //@Disabled
 public class SensorMRColor extends LinearOpMode {
 
-  ColorSensor colorSensor;    // Hardware Device Object
+  ColorSensor colorSensorB;    // Hardware Device Object
+  ColorSensor colorSensorR;
 
 
   @Override
@@ -76,10 +77,11 @@ public class SensorMRColor extends LinearOpMode {
 
 
     // get a reference to our ColorSensor object.
-    colorSensor = hardwareMap.colorSensor.get("color sensor");
-
+    colorSensorB = hardwareMap.colorSensor.get("colorSensorB");
+    colorSensorR = hardwareMap.colorSensor.get("colorSensorR");
     // Set the LED in the beginning
-    colorSensor.enableLed(false);
+    colorSensorB.enableLed(false);
+    colorSensorR.enableLed(false);
 
     // wait for the start button to be pressed.
     waitForStart();
@@ -89,10 +91,8 @@ public class SensorMRColor extends LinearOpMode {
     while (opModeIsActive()) {
 
       // check the status of the x button on either gamepad.
-      telemetry.addData("Clear", colorSensor.alpha());
-      telemetry.addData("Red  ", colorSensor.red());
-      telemetry.addData("Green", colorSensor.green());
-      telemetry.addData("Blue ", colorSensor.blue());
+      telemetry.addData("Red  ", colorSensorR.red());
+      telemetry.addData("Blue ", colorSensorB.blue());
 
       telemetry.update();
       }
