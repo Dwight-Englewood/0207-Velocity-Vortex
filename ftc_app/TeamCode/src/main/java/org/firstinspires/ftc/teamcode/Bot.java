@@ -21,7 +21,8 @@ public class Bot
     private DcMotor BR;
     private DcMotor elevator;
     private DcMotor shooter;
-    private ColorSensor colorSensor;
+    private ColorSensor colorSensorB;
+    private ColorSensor colorSensorR;
     private CRServo lServo;
     private CRServo rServo;
 
@@ -49,7 +50,8 @@ public class Bot
         BR = hwMap.dcMotor.get("BR");
         elevator = hwMap.dcMotor.get("elevator");
         shooter = hwMap.dcMotor.get("shooter");
-        colorSensor = hwMap.colorSensor.get("colorSensor");
+        colorSensorB = hwMap.colorSensor.get("colorSensorB");
+        colorSensorR = hwMap.colorSensor.get("colorSensorR");
         lServo = hwMap.crservo.get("lServo");
         rServo = hwMap.crservo.get("rServo");
 
@@ -83,7 +85,8 @@ public class Bot
         runningToTarget = false;
 
         // Set color sensor LED
-        colorSensor.enableLed(false);
+        colorSensorR.enableLed(false);
+        colorSensorR.enableLed(false);
     }
 
     // Driving Methods
@@ -167,15 +170,15 @@ public class Bot
     // 6
     private void driveLeftTrain(double power)
     {
-        FL.setPower(power);
-        BL.setPower(power);
+        FL.setPower(-power);
+        BL.setPower(-power);
     }
 
     // 7
     private void driveRightTrain(double power)
     {
-        FR.setPower(power);
-        BR.setPower(power);
+        FR.setPower(-power);
+        BR.setPower(-power);
     }
 
     // Move-to Methods
@@ -267,12 +270,12 @@ public class Bot
     // Sensor Methods
     public int getRed()
     {
-        return colorSensor.red();
+        return colorSensorR.red();
     }
 
     public int getBlue()
     {
-        return colorSensor.blue();
+        return colorSensorB.blue();
     }
 
     // Helper Methods
@@ -281,7 +284,7 @@ public class Bot
         // TODO: REMEASURE THINGIES (CIRCUMFERENCE)
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = 833.33;
+        final double gearMotorTickThing = 2240; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 
@@ -294,4 +297,10 @@ public class Bot
     public int getCurPosBL() {return BL.getCurrentPosition();}
     public int getCurPosFR() {return FR.getCurrentPosition();}
     public int getCurPosBR() {return BR.getCurrentPosition();}
+
+    public int getMaxPowFL() {return FL.getMaxSpeed();}
+    public int getMaxPowBL() {return BL.getMaxSpeed();}
+    public int getMaxPowFR() {return FR.getMaxSpeed();}
+    public int getMaxPowBR() {return BR.getMaxSpeed();}
+
 }

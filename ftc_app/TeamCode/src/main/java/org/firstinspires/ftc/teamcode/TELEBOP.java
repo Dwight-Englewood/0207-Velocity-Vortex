@@ -1,4 +1,4 @@
-/*
+ /*
 Copyright (c) 2016 Robert Atkinson
 
 All rights reserved.
@@ -43,9 +43,14 @@ public class TELEBOP extends OpMode
 {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
+
     boolean strafingLeft = false;
     boolean strafingRight = false;
+
+    int lServoPush = 0;
+    int rServoPush = 0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -81,22 +86,22 @@ public class TELEBOP extends OpMode
         telemetry.addData("Status", "Running: " + runtime.toString());
 
         // Driving commands (left/right stick brian zhang method)
-        if (gamepad1.left_stick_y < -0.5)       { robot.drive(0,1); }
+        /*if (gamepad1.left_stick_y < -0.5)       { robot.drive(0,1); }
         else if (gamepad1.left_stick_y > 0.5)   { robot.drive(1,1); }
         else if (gamepad1.left_stick_x > 0.5)   { robot.drive(2,1); }
         else if (gamepad1.left_stick_x < -0.5)  { robot.drive(3,1); }
         else if (gamepad1.right_stick_x > 0.5)  { robot.drive(4,1); }
         else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
         else { robot.drive(); }
-
+        */
         // Driving commands (tank controls + strafe) BUILT FOR DUMB MODE
-        /*if (!robot.getIsStrafing())
+        if (!robot.getIsStrafing())
         {
-            if (gamepad1.dpad_up)
+            if (gamepad1.right_stick_y > 0.5)
             {
                 robot.drive(6, 1);
             }
-            else if (gamepad1.dpad_down)
+            else if (gamepad1.right_stick_y < -0.5)
             {
                 robot.drive(6, -1);
             }
@@ -118,13 +123,13 @@ public class TELEBOP extends OpMode
                 robot.drive(7, 0);
             }
 
-            if (gamepad1.left_bumper)
+            if (gamepad1.left_trigger > 0.5)
             {
                 robot.drive(2,1);
                 strafingLeft = true;
             }
 
-            if (gamepad1.right_bumper)
+            if (gamepad1.right_trigger > 0.5)
             {
                 robot.drive(3,1);
                 strafingRight = true;
@@ -132,17 +137,17 @@ public class TELEBOP extends OpMode
         }
         else
         {
-            if (!gamepad1.left_bumper && strafingLeft)
+            if (gamepad1.left_trigger == 0 && strafingLeft)
             {
                 robot.drive();
                 strafingLeft = false;
             }
-            else if (!gamepad1.right_bumper && strafingRight)
+            else if (gamepad1.right_trigger == 0 && strafingRight)
             {
                 robot.drive();
                 strafingRight = false;
             }
-        }*/
+        }
 
         // Shooting and elevating commands
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
@@ -153,19 +158,38 @@ public class TELEBOP extends OpMode
         else                                    {robot.setElevator(0);}
 
         // Left servo commands
-        if (gamepad1.a || gamepad2.a)           {robot.leftServoOut();}
-        else if (gamepad1.b || gamepad2.b)      {robot.leftServoIn();}
-        else                                    {robot.leftServoStop();}
+        if (gamepad2.a)
+        {
+            robot.leftServoOut();
+        }
+        else if (gamepad2.b)
+        {
+            robot.leftServoIn();
+        }
+        else
+        {
+            robot.leftServoStop();
+        }
 
         // Right servo commands
-        if (gamepad1.x || gamepad2.x)           {robot.rightServoOut();}
-        else if (gamepad1.y || gamepad2.y)      {robot.rightServoIn();}
-        else                                    {robot.rightServoStop();}
+        if (gamepad2.x)
+        {
+            robot.rightServoOut();
+        }
+        else if (gamepad2.y)
+        {
+            robot.rightServoIn();
+        }
+        else
+        {
+            robot.rightServoStop();
+        }
 
-        telemetry.addData("FR POS: ", robot.getCurPosFR());
-        telemetry.addData("BR POS: ", robot.getCurPosBR());
-        telemetry.addData("FL POS: ", robot.getCurPosFL());
-        telemetry.addData("BL POS: ", robot.getCurPosBL());
+
+        telemetry.addData("FR MaxPow ", robot.getMaxPowFR());
+        telemetry.addData("BR MaxPow ", robot.getMaxPowBR());
+        telemetry.addData("FL MaxPow ", robot.getMaxPowFL());
+        telemetry.addData("BL MaxPow ", robot.getMaxPowBL());
         telemetry.update();
     }
 
