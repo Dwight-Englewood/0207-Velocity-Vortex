@@ -27,6 +27,7 @@ public class BlueStateMachineMecanum extends OpMode {
     int commandNumber = 1;
 
     private int x = 0;
+    private int y = 0;
 
     int FRtarget;
     int BRtarget;
@@ -64,7 +65,7 @@ public class BlueStateMachineMecanum extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0, 0.3, 28.5);
+                robot.runToPosition(0, 0.7, 36);
                 commandNumber++;
                 break;
 
@@ -72,49 +73,83 @@ public class BlueStateMachineMecanum extends OpMode {
                 if (x == 0)
                 {
                     timer.reset();
+                    robot.chill();
                     x++;
                 }
-                if (timer.milliseconds() < 500)
+                if (timer.milliseconds() < 3000)
                 {
 
                 }
-                else if (timer.milliseconds() < 1500)
+                else if (timer.milliseconds() < 4000)
                 {
                     robot.setShooter(1);
                 }
-                else if (timer.milliseconds() < 3000)
+                else if (timer.milliseconds() < 6000)
                 {
                     robot.setShooter(0);
                     robot.setElevator(1);
                 }
-                else if (timer.milliseconds() < 3500)
+                else if (timer.milliseconds() < 6500)
                 {
                     robot.setElevator(0);
                 }
-                else if (timer.milliseconds() < 4500 )
+                else if (timer.milliseconds() < 7500 )
                 {
                     robot.setShooter(1);
                 }
-                else if (timer.milliseconds() > 4500)
+                else if (timer.milliseconds() > 7500)
                 {
                     robot.setShooter(0);
+                    timer.reset();
+                    robot.runUsingEncoders();
+                    robot.drive();
                     commandNumber++;
                 }
                 break;
 
             case 3:
-                robot.runToPosition(3, 0.7, 100);
-                commandNumber++;
+                if (y == 0)
+                {
+                    timer.reset();
+                    robot.chill();
+                    y++;
+                }
+                else if (timer.milliseconds() < 500){}
+                else if (timer.milliseconds() < 3000){robot.drive(3, 1);}
+                else if (timer.milliseconds() > 3000){robot.drive(); commandNumber++;}
                 break;
 
             case 4:
-                robot.runUsingEncoders();
-                robot.drive(0, 0.3);
-                commandNumber++;
+                if (y == 1)
+                {
+                    timer.reset();
+                    robot.chill();
+                    y++;
+                }
+                else if (timer.milliseconds() < 500){}
+                else if (timer.milliseconds() < 2500){robot.drive(0,.5);}
+                else if (timer.milliseconds() > 2500){robot.drive(); commandNumber++;}
                 x=1;
                 break;
 
             case 5:
+                if (y == 2)
+                {
+                    timer.reset();
+                    robot.chill();
+                    y++;
+                }
+                else if (timer.milliseconds() < 500){}
+                else if (timer.milliseconds() < 2500){robot.drive(3,1);}
+                else if (timer.milliseconds() > 2500){robot.drive(); commandNumber++;}
+                break;
+
+            case 6:
+                robot.drive(0,.3);
+                commandNumber++;
+                break;
+
+            case 7:
                 if (robot.getBlue() >= 2)
                 {
                     robot.drive();
@@ -123,8 +158,7 @@ public class BlueStateMachineMecanum extends OpMode {
                 }
                 break;
 
-            case 6:
-                //runningToTarget = false;
+            case 8:
                 if (x == 1)
                 {
                     timer.reset();
@@ -144,14 +178,11 @@ public class BlueStateMachineMecanum extends OpMode {
                     commandNumber++;
                 }
                 break;
-
-            case 7:
-                robot.runUsingEncoders();
+            case 9:
                 robot.drive(0, 0.3);
                 commandNumber++;
                 break;
-
-            case 8:
+            case 10:
                 if (robot.getBlue() >= 2)
                 {
                     robot.drive();
@@ -159,7 +190,7 @@ public class BlueStateMachineMecanum extends OpMode {
                     x = 2;
                 }
                 break;
-            case 9:
+            case 11:
                 if (x == 2)
                 {
                     timer.reset();

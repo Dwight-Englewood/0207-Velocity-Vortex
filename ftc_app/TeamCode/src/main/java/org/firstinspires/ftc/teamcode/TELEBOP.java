@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -55,8 +56,14 @@ public class TELEBOP extends OpMode
     public enum ServoStates {STOP, IN, OUT};
     private ServoStates rservo = ServoStates.STOP;
     private long rtime;
+    private boolean rservoinorout = false;
+    private boolean rservoactive = false;
+    private boolean lservoinorout = false;
+    //private int rcount = 0;
+    //private int lcount = 0;
     private ServoStates lservo = ServoStates.STOP;
     private long ltime;
+    private boolean lservoactive = false;
     /*to run ONCE when the driver hits INIT
      */
     @Override
@@ -164,12 +171,121 @@ public class TELEBOP extends OpMode
         // Left servo commands
         //b out a in right
         //x out y in left
-        if (!(lservo.equals(ServoStates.OUT) || lservo.equals(ServoStates.IN))) {
-            if (gamepad2.b && !lservo.equals(ServoStates.OUT)) {
+        //left servo stuff
+        if (gamepad2.y) {
+            lservo = ServoStates.OUT;
+            ltime = System.currentTimeMillis();
+            lservoactive = true;
+            //lcount++;
+        } else if (gamepad2.x) {
+            lservo = ServoStates.IN;
+            ltime = System.currentTimeMillis();
+            lservoactive = true;
+            //lcount--;
+        } else {
+            ;
+        }
+        if (lservoactive) {
+            lservoactive = true;
+            switch (lservo) {
+                case STOP:
+                    //ltime = System.currentTimeMillis();
+                    //lservo = ServoStates.OUT;
+                    break;
+                case OUT:
+                    if (System.currentTimeMillis() - ltime < 300) {
+                        ;
+                    } else {
+                        lservo = ServoStates.STOP;
+                        lservoactive = false;
+                        //lcount++;
+                    }
+                    break;
+                case IN:
+                    if (System.currentTimeMillis() - ltime < 300) {
+                        ;
+                    } else {
+                        lservo = ServoStates.STOP;
+                        lservoactive = false;
+                        //lcount--;
+                    }
+                    break;
+            }
+        }
+        switch (lservo) {
+            case OUT:
+                robot.leftServoOut();
+                break;
+            case IN:
+                robot.leftServoIn();
+                break;
+            case STOP:
+                robot.leftServoReset();
+                robot.leftServoStop();
+                break;
+        }
+        //right servo
+        if (gamepad2.b) {
+            rservo = ServoStates.OUT;
+            rtime = System.currentTimeMillis();
+            rservoactive = true;
+        } else if (gamepad2.a) {
+            rservo = ServoStates.IN;
+            rtime = System.currentTimeMillis();
+            rservoactive = true;
+        } else {
+            ;
+        }
+        if (rservoactive) {
+            rservoactive = true;
+            switch (rservo) {
+                case STOP:
+                    //ltime = System.currentTimeMillis();
+                    //lservo = ServoStates.OUT;
+                    break;
+                case OUT:
+                    if (System.currentTimeMillis() - rtime < 300) {
+                        ;
+                    } else {
+                        rservo = ServoStates.STOP;
+                        rservoactive = false;
+                        //rcount++;
+                    }
+                    break;
+                case IN:
+                    if (System.currentTimeMillis() - rtime < 300) {
+                        ;
+                    } else {
+                        rservo = ServoStates.STOP;
+                        rservoactive = false;
+                        //rcount--;
+                    }
+                    break;
+            }
+        }
+        switch (rservo) {
+            case OUT:
+                robot.rightServoOut();
+                break;
+            case IN:
+                robot.rightServoIn();
+                break;
+            case STOP:
+                robot.rightServoStop();
+                break;
+        }
+
+
+
+
+
+
+       /* if (!(lservo.equals(ServoStates.OUT) || lservo.equals(ServoStates.IN))) {
+            if (gamepad2.x && !lservo.equals(ServoStates.OUT)) {
                 robot.leftServoOut();
                 lservo = ServoStates.OUT;
                 ltime = System.currentTimeMillis();
-            } else if (gamepad2.a) {
+            } else if (gamepad2.y) {
                 robot.leftServoIn();
                 lservo = ServoStates.IN;
                 ltime = System.currentTimeMillis();
@@ -177,9 +293,12 @@ public class TELEBOP extends OpMode
                 robot.leftServoStop();
                 lservo = ServoStates.STOP;
             }
-        } else if (System.currentTimeMillis() - ltime >= 2000) {
+        } else if (System.currentTimeMillis() - ltime >= 200) {
             robot.leftServoStop();
+        } else if (System.currentTimeMillis() - ltime <= 200) {
+            ;
         } else {
+            robot.leftServoStop();
         }
         if (!(rservo.equals(ServoStates.OUT) || rservo.equals(ServoStates.IN))) {
             if (gamepad2.b && !rservo.equals(ServoStates.OUT)) {
@@ -191,37 +310,21 @@ public class TELEBOP extends OpMode
                 rservo = ServoStates.IN;
                 rtime = System.currentTimeMillis();
             } else {
-                robot.leftServoStop();
+                robot.rightServoStop();
                 rservo = ServoStates.STOP;
             }
-        } else if (System.currentTimeMillis() - ltime >= 2000) {
+        } else if (System.currentTimeMillis() - rtime >= 200) {
             robot.rightServoStop();
+        } else if (System.currentTimeMillis() - rtime <= 200) {
+            ;
         } else {
-        }
-
-
-        // 9Right servo commands
-        if (gamepad2.x)
-        {
-            robot.rightServoOut();
-            rservo = ServoStates.OUT;
-        }
-        else if (gamepad2.y)
-        {
-            robot.rightServoIn();
-            rservo = ServoStates.IN;
-        }
-        else
-        {
             robot.rightServoStop();
-            rservo = ServoStates.STOP;
-        }
+        }*/
 
 
-        telemetry.addData("FR MaxPow ", robot.getMaxPowFR());
-        telemetry.addData("BR MaxPow ", robot.getMaxPowBR());
-        telemetry.addData("FL MaxPow ", robot.getMaxPowFL());
-        telemetry.addData("BL MaxPow ", robot.getMaxPowBL());
+        telemetry.addData("lservo", lservo);
+        telemetry.addData("rservo", rservo);
+
         telemetry.update();
     }
 

@@ -302,9 +302,11 @@ public class Bot
 
     public void leftServoStop()
     {
-        lServo.setPower(.01);
+        lServo.setPower(-.1);
     }
-
+    public void leftServoReset() {
+        lServo.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
     public void rightServoOut()
     {
         rServo.setDirection(DcMotorSimple.Direction.FORWARD);
