@@ -35,7 +35,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -183,7 +182,7 @@ public class TELEBOP extends OpMode
             lservoactive = true;
             //lcount--;
         } else {
-            ;
+
         }
         if (lservoactive) {
             lservoactive = true;
@@ -275,12 +274,8 @@ public class TELEBOP extends OpMode
                 break;
         }
 
-
-
-
-
-
-       /* if (!(lservo.equals(ServoStates.OUT) || lservo.equals(ServoStates.IN))) {
+        //bad servo programming
+        /*if (!(lservo.equals(ServoStates.OUT) || lservo.equals(ServoStates.IN))) {
             if (gamepad2.x && !lservo.equals(ServoStates.OUT)) {
                 robot.leftServoOut();
                 lservo = ServoStates.OUT;
