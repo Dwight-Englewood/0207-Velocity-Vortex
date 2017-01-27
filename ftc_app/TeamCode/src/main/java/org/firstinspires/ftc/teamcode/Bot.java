@@ -21,10 +21,15 @@ public class Bot
     private DcMotor BR;
     private DcMotor elevator;
     private DcMotor shooter;
+    //private DcMotor lCap;
+    //private DcMotor rCap;
     private ColorSensor colorSensorB;
     private ColorSensor colorSensorR;
     private CRServo lServo;
     private CRServo rServo;
+    //private Servo clamp;
+    //private Servo forkDropOne;
+    //private Servo forkDropTwo;
 
     private boolean runningToTarget;
     private boolean strafing;
@@ -55,6 +60,11 @@ public class Bot
         BR = hwMap.dcMotor.get("BR");
         elevator = hwMap.dcMotor.get("elevator");
         shooter = hwMap.dcMotor.get("shooter");
+        //lCap = hwMap.dcMotor.get("lCap");
+        //rCap = hwMap.dcMotor.get("rCap");
+        //clamp = hwMap.servo.get("clamp");
+        //forkDropOne = hwMap.servo.get("forkDropOne");
+        //forkDropTwo = hwMap.servo.get("forkDropTwo");
         colorSensorB = hwMap.colorSensor.get("colorSensorB");
         colorSensorR = hwMap.colorSensor.get("colorSensorR");
         lServo = hwMap.crservo.get("lServo");
@@ -74,7 +84,8 @@ public class Bot
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
+        //lCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         FL.setPower(0);
         BL.setPower(0);
@@ -82,6 +93,8 @@ public class Bot
         BR.setPower(0);
         elevator.setPower(0);
         shooter.setPower(0);
+        //lCap.setPower(0);
+        //rCap.setPower(0);
         leftServoStop();
         rightServoStop();
 
@@ -104,6 +117,8 @@ public class Bot
         else if (direction == 5){turnLeft(power);}
         else if (direction == 6){driveLeftTrain(power);}
         else if (direction == 7){driveRightTrain(power);}
+        else if (direction == 8){driveDiagLeft(power);}
+        else if (direction == 9){driveDiagRight(power);}
     }
 
     public void drive()
@@ -183,6 +198,20 @@ public class Bot
     {
         FR.setPower(-power);
         BR.setPower(-power);
+    }
+
+    // 8
+    private void driveDiagLeft(double power)
+    {
+        FL.setPower(power);
+        BR.setPower(power);
+    }
+
+    // 9
+    private void driveDiagRight(double power)
+    {
+        FR.setPower(power);
+        BL.setPower(power);
     }
 
     // Move-to Methods

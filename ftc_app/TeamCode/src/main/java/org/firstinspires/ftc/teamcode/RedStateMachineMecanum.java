@@ -102,8 +102,8 @@ public class RedStateMachineMecanum extends OpMode {
                     y++;
                 }
                 else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 3000){robot.drive(2, 1);}
-                else if (timer.milliseconds() > 3000){robot.drive(); commandNumber++;}
+                else if (timer.milliseconds() < 7500){robot.drive(8, 1);}
+                else if (timer.milliseconds() > 7500){robot.drive(); commandNumber++;}
                 break;
 
             case 4:
@@ -114,10 +114,11 @@ public class RedStateMachineMecanum extends OpMode {
                     y++;
                 }
                 else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 2500){robot.drive(0,.5);}
+                else if (timer.milliseconds() < 2500){robot.drive(2,1);}
                 else if (timer.milliseconds() > 2500){robot.drive(); commandNumber++;}
                 x=1;
                 break;
+
             case 5:
                 if (y == 2)
                 {
@@ -126,9 +127,9 @@ public class RedStateMachineMecanum extends OpMode {
                     y++;
                 }
                 else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 2500){robot.drive(2,1);}
-                else if (timer.milliseconds() > 2500){robot.drive(); commandNumber++;}
-                break;
+                else if (timer.milliseconds() < 1500){robot.drive(3,1);}
+                else if (timer.milliseconds() > 1500){robot.drive(); commandNumber++;}
+
             case 6:
                 robot.drive(0,.3);
                 commandNumber++;
