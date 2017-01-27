@@ -40,6 +40,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Telebop", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
+//TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
 public class TELEBOP extends OpMode
 {
     /* Declare OpMode members. */
