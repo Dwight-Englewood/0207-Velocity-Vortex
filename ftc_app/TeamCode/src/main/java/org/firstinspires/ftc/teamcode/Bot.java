@@ -121,6 +121,20 @@ public class Bot
         else if (direction == 9){driveDiagRight(power);}
     }
 
+    public void driveInvert(int direction, double power)
+    {
+        if (direction == 0){driveForwards(power);}
+        else if (direction == 2){driveBackwards(power);}
+        else if (direction == 3){driveLeft(power);}
+        else if (direction == 5){driveRight(power);}
+        else if (direction == 6){turnRight(power);}
+        else if (direction == 8){turnLeft(power);}
+        else if (direction == 9){driveLeftTrain(power);}
+        else if (direction == 11){driveRightTrain(power);}
+        else if (direction == 12){driveDiagLeft(power);}
+        else if (direction == 14){driveDiagRight(power);}
+    }
+
     public void drive()
     {
         FL.setPower(0);

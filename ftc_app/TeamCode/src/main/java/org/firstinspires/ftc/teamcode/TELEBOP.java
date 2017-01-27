@@ -48,6 +48,7 @@ public class TELEBOP extends OpMode
     private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
 
+
     boolean strafingLeft = false;
     boolean strafingRight = false;
 
@@ -118,39 +119,40 @@ public class TELEBOP extends OpMode
         {
             if (gamepad1.right_stick_y > 0.5)
             {
-                robot.drive(7, 1 * invert);
+                robot.driveInvert(10 + invert, 1 * invert);
+                //needs to be 6 when invert = -1, 7 when invert = 1
             }
             else if (gamepad1.right_stick_y < -0.5)
             {
-                robot.drive(7, (-1) * invert);
+                robot.driveInvert(10 + invert, (-1) * invert);
             }
             else
             {
-                robot.drive(7, 0);
+                robot.driveInvert(11, 0);
             }
 
             if (gamepad1.left_stick_y > 0.5)
             {
-                robot.drive(6, 1 * invert);
+                robot.driveInvert(10 - invert, 1 * invert);
             }
             else if (gamepad1.left_stick_y < -0.5)
             {
-                robot.drive(6, (-1) * invert);
+                robot.driveInvert(10 - invert, (-1) * invert);
             }
             else
             {
-                robot.drive(6, 0);
+                robot.driveInvert(9, 0);
             }
 
             if (gamepad1.left_trigger > 0.5)
             {
-                robot.drive(2,1 * invert);
+                robot.driveInvert(4 + invert,1 * invert);
                 strafingLeft = true;
             }
 
             if (gamepad1.right_trigger > 0.5)
             {
-                robot.drive(3,1 * invert);
+                robot.driveInvert(4 + invert,1 * invert);
                 strafingRight = true;
             }
         }
@@ -282,48 +284,7 @@ public class TELEBOP extends OpMode
                 robot.rightServoStop();
                 break;
         }
-
-        //bad servo programming
-        /*if (!(lservo.equals(ServoStates.OUT) || lservo.equals(ServoStates.IN))) {
-            if (gamepad2.x && !lservo.equals(ServoStates.OUT)) {
-                robot.leftServoOut();
-                lservo = ServoStates.OUT;
-                ltime = System.currentTimeMillis();
-            } else if (gamepad2.y) {
-                robot.leftServoIn();
-                lservo = ServoStates.IN;
-                ltime = System.currentTimeMillis();
-            } else {
-                robot.leftServoStop();
-                lservo = ServoStates.STOP;
-            }
-        } else if (System.currentTimeMillis() - ltime >= 200) {
-            robot.leftServoStop();
-        } else if (System.currentTimeMillis() - ltime <= 200) {
-            ;
-        } else {
-            robot.leftServoStop();
-        }
-        if (!(rservo.equals(ServoStates.OUT) || rservo.equals(ServoStates.IN))) {
-            if (gamepad2.b && !rservo.equals(ServoStates.OUT)) {
-                robot.rightServoOut();
-                rservo = ServoStates.OUT;
-                rtime = System.currentTimeMillis();
-            } else if (gamepad2.a) {
-                robot.rightServoIn();
-                rservo = ServoStates.IN;
-                rtime = System.currentTimeMillis();
-            } else {
-                robot.rightServoStop();
-                rservo = ServoStates.STOP;
-            }
-        } else if (System.currentTimeMillis() - rtime >= 200) {
-            robot.rightServoStop();
-        } else if (System.currentTimeMillis() - rtime <= 200) {
-            ;
-        } else {
-            robot.rightServoStop();
-        }*/
+        
 
 
         telemetry.addData("lservo", lservo);
