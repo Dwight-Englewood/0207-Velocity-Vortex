@@ -51,7 +51,7 @@ public class BlueStateMachineMecanum extends OpMode {
         telemetry.addData("Command", commandNumber);
         telemetry.addData("current time", timer.seconds());
 
-        if (robot.getIsRunningToTarget() && (Math.abs(robot.getCurPosFL() - FLtarget) > 25 || Math.abs(robot.getMaxPowBL() - BLtarget) > 25 || (Math.abs(robot.getCurPosFR() - FRtarget) > 25) || (Math.abs(robot.getCurPosBR() - BRtarget) > 25)))
+        if (robot.getIsRunningToTarget() && (Math.abs(robot.getCurPosFL() - FLtarget) > 25 && Math.abs(robot.getMaxPowBL() - BLtarget) > 25 && (Math.abs(robot.getCurPosFR() - FRtarget) > 25) && (Math.abs(robot.getCurPosBR() - BRtarget) > 25)))
         {
             telemetry.addData("inLoop", robot.getIsRunningToTarget());
             telemetry.update();

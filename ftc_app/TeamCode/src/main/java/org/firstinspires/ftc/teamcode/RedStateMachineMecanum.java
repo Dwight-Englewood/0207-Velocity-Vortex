@@ -27,7 +27,6 @@ public class RedStateMachineMecanum extends OpMode {
 
     @Override
     public void start() { super.start();}
-    //ELEVATE LONGER, DRIVE FARTEHR FORWARD, FIX STRIFING
     @Override
     public void loop()
     {
@@ -42,7 +41,16 @@ public class RedStateMachineMecanum extends OpMode {
 
         if (robot.getIsRunningToTarget())
         {
-            if (Math.abs(robot.getCurPosFL() - Math.abs(robot.FLtarget)) > 25 || Math.abs(robot.getCurPosBL() - Math.abs(robot.BLtarget)) > 25 || (Math.abs(robot.getCurPosFR() - Math.abs(robot.FRtarget)) > 25) || (Math.abs(robot.getCurPosBR() - Math.abs(robot.BRtarget)) > 25))
+            if (robot.isRunningDiagLeft)
+            {
+                if ((Math.abs(robot.getCurPosBL() - robot.BLtarget) < 25) && (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25));
+                {
+                    robot.setIsRunningToTarget(false);
+                    robot.isRunningDiagLeft = false;
+                    //robot.drive();
+                }
+            }
+            else if (Math.abs(robot.getCurPosFL() - Math.abs(robot.FLtarget)) > 25 && Math.abs(robot.getCurPosBL() - Math.abs(robot.BLtarget)) > 25 && (Math.abs(robot.getCurPosFR() - Math.abs(robot.FRtarget)) > 25) && (Math.abs(robot.getCurPosBR() - Math.abs(robot.BRtarget)) > 25))
                 robot.setIsRunningToTarget(false);
             telemetry.addData("inLoop", robot.getIsRunningToTarget());
             telemetry.update();
@@ -87,40 +95,32 @@ public class RedStateMachineMecanum extends OpMode {
                 else if (timer.milliseconds() > 7500)
                 {
                     robot.setShooter(0);
-                    timer.reset();
-                    robot.runUsingEncoders();
                     robot.drive();
                     commandNumber++;
                 }
                 break;
 
             case 3:
-                if (y == 0)
-                {
-                    timer.reset();
-                    robot.chill();
-                    y++;
-                }
-                else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 7500){robot.drive(8, 1);}
-                else if (timer.milliseconds() > 7500){robot.drive(); commandNumber++;}
+                robot.runDiagLeft(1, 500);
+                commandNumber++;
                 break;
 
             case 4:
-                if (y == 1)
+                if (y == 0)
                 {
+                    robot.runUsingEncoders();
                     timer.reset();
                     robot.chill();
                     y++;
                 }
                 else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 2500){robot.drive(2,1);}
+                else if (timer.milliseconds() < 2500){robot.drive(2, 1);}
                 else if (timer.milliseconds() > 2500){robot.drive(); commandNumber++;}
                 x=1;
                 break;
 
             case 5:
-                if (y == 2)
+                if (y == 1)
                 {
                     timer.reset();
                     robot.chill();
@@ -166,7 +166,7 @@ public class RedStateMachineMecanum extends OpMode {
                 break;
 
             case 9:
-                robot.drive(0, 0.3);
+                robot.drive(1, 0.3);
                 commandNumber++;
                 break;
 
