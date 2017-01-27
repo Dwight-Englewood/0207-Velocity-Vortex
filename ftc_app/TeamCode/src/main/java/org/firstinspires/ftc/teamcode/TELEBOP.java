@@ -61,6 +61,8 @@ public class TELEBOP extends OpMode
     private boolean lservoinorout = false;
     //private int rcount = 0;
     //private int lcount = 0;
+    private int invert = 1;
+    private long invertLen = 1;
     private ServoStates lservo = ServoStates.STOP;
     private long ltime;
     private boolean lservoactive = false;
@@ -106,15 +108,21 @@ public class TELEBOP extends OpMode
         else { robot.drive(); }
         */
         // Driving commands (tank controls + strafe) BUILT FOR DUMB MODE
+        if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
+            invert = invert * (-1);
+            invertLen = System.currentTimeMillis();
+        } else {
+            ;
+        }
         if (!robot.getIsStrafing())
         {
             if (gamepad1.right_stick_y > 0.5)
             {
-                robot.drive(7, 1);
+                robot.drive(7, 1 * invert);
             }
             else if (gamepad1.right_stick_y < -0.5)
             {
-                robot.drive(7, -1);
+                robot.drive(7, (-1) * invert);
             }
             else
             {
@@ -123,11 +131,11 @@ public class TELEBOP extends OpMode
 
             if (gamepad1.left_stick_y > 0.5)
             {
-                robot.drive(6, 1);
+                robot.drive(6, 1 * invert);
             }
             else if (gamepad1.left_stick_y < -0.5)
             {
-                robot.drive(6, -1);
+                robot.drive(6, (-1) * invert);
             }
             else
             {
@@ -136,13 +144,13 @@ public class TELEBOP extends OpMode
 
             if (gamepad1.left_trigger > 0.5)
             {
-                robot.drive(2,1);
+                robot.drive(2,1 * invert);
                 strafingLeft = true;
             }
 
             if (gamepad1.right_trigger > 0.5)
             {
-                robot.drive(3,1);
+                robot.drive(3,1 * invert);
                 strafingRight = true;
             }
         }
