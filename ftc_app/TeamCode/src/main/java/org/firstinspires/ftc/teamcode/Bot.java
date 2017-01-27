@@ -39,6 +39,8 @@ public class Bot
     int FLtarget;
     int BLtarget;
 
+    boolean isRunningDiagLeft;
+
     HardwareMap hwMap;
     //Class Fields
 
@@ -215,14 +217,14 @@ public class Bot
     }
 
     // 8
-    private void driveDiagLeft(double power)
+    private void driveDiagRight(double power)
     {
         FL.setPower(power);
         BR.setPower(power);
     }
 
     // 9
-    private void driveDiagRight(double power)
+    private void driveDiagLeft(double power)
     {
         FR.setPower(power);
         BL.setPower(power);
@@ -292,6 +294,26 @@ public class Bot
         BR.setTargetPosition(targetInt);
 
         drive (3,1);
+    }
+
+    public void runDiagLeft(double power, double target)
+    {
+        isRunningDiagLeft = true;
+        int targetInt = distanceToRevs(target);
+        stopAndReset();
+
+        BL.setTargetPosition(BLtarget);
+        FR.setTargetPosition(FRtarget);
+
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        BLtarget = targetInt;
+        FRtarget = targetInt;
+
+
+        driveDiagLeft(power);
+
     }
 
     private void stopAndReset()
