@@ -284,7 +284,7 @@ public class TELEBOP extends OpMode
                 robot.rightServoStop();
                 break;
         }
-        
+
 
 
         telemetry.addData("lservo", lservo);
