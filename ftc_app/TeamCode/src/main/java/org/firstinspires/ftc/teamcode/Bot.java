@@ -284,21 +284,25 @@ public class Bot
 
     public void runDiagLeft(double power, double target)
     {
-        isRunningDiagLeft = true;
         int targetInt = distanceToRevs(target);
         stopAndReset();
 
-        BL.setTargetPosition(BLtarget);
-        FR.setTargetPosition(FRtarget);
-
-        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        FLtarget = 0;
         BLtarget = targetInt;
         FRtarget = targetInt;
+        BRtarget = 0;
 
+        FL.setTargetPosition(0);
+        BL.setTargetPosition(targetInt);
+        FR.setTargetPosition(targetInt);
+        BR.setTargetPosition(0);
 
-        driveDiagLeft(power);
+        drive(0,power);
 
     }
 
@@ -353,7 +357,7 @@ public class Bot
 
     public void leftServoStop()
     {
-        lServo.setPower(-.1);
+        lServo.setPower(0);
     }
     public void leftServoReset() {
         lServo.setDirection(DcMotorSimple.Direction.FORWARD);
