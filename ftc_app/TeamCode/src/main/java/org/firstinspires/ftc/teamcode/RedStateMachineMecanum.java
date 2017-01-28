@@ -15,9 +15,10 @@ public class RedStateMachineMecanum extends OpMode {
     ElapsedTime timer = new ElapsedTime(0);
 
     int commandNumber = 1;
+    boolean isCase5 = true;
 
     private int x = 0;
-    private int y = 0;
+    private int y = 1;
 
     @Override
     public void init()
@@ -41,17 +42,10 @@ public class RedStateMachineMecanum extends OpMode {
 
         if (robot.getIsRunningToTarget())
         {
-            if (robot.isRunningDiagLeft)
+            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 50) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 50) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 50) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 50))
             {
-                if ((Math.abs(robot.getCurPosBL() - robot.BLtarget) < 25) && (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25));
-                {
-                    robot.setIsRunningToTarget(false);
-                    robot.isRunningDiagLeft = false;
-                    //robot.drive();
-                }
-            }
-            else if (Math.abs(robot.getCurPosFL() - Math.abs(robot.FLtarget)) > 25 && Math.abs(robot.getCurPosBL() - Math.abs(robot.BLtarget)) > 25 && (Math.abs(robot.getCurPosFR() - Math.abs(robot.FRtarget)) > 25) && (Math.abs(robot.getCurPosBR() - Math.abs(robot.BRtarget)) > 25))
                 robot.setIsRunningToTarget(false);
+            }
             telemetry.addData("inLoop", robot.getIsRunningToTarget());
             telemetry.update();
             return;
@@ -71,28 +65,28 @@ public class RedStateMachineMecanum extends OpMode {
                     robot.chill();
                     x++;
                 }
-                if (timer.milliseconds() < 3000)
+                /*if (timer.milliseconds() < 2000)
                 {
 
                 }
-                else if (timer.milliseconds() < 4000)
+                else if (timer.milliseconds() < 3000)
                 {
                     robot.setShooter(1);
                 }
-                else if (timer.milliseconds() < 6000)
+                else if (timer.milliseconds() < 5000)
                 {
                     robot.setShooter(0);
                     robot.setElevator(1);
                 }
-                else if (timer.milliseconds() < 6500)
+                else if (timer.milliseconds() < 5500)
                 {
                     robot.setElevator(0);
                 }
-                else if (timer.milliseconds() < 7500 )
+                else if (timer.milliseconds() < 6500 )
                 {
                     robot.setShooter(1);
-                }
-                else if (timer.milliseconds() > 7500)
+                }*/
+                else if (timer.milliseconds() > 500)
                 {
                     robot.setShooter(0);
                     robot.drive();
@@ -101,45 +95,45 @@ public class RedStateMachineMecanum extends OpMode {
                 break;
 
             case 3:
-                robot.runDiagLeft(1, 500);
+                robot.runDiagLeft(1,250);
                 commandNumber++;
                 break;
 
             case 4:
-                if (y == 0)
+                if (y == 1)
                 {
+                    robot.drive();
                     robot.runUsingEncoders();
                     timer.reset();
-                    robot.chill();
                     y++;
                 }
                 else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 2500){robot.drive(2, 1);}
-                else if (timer.milliseconds() > 2500){robot.drive(); commandNumber++;}
+                else if (timer.milliseconds() < 5000){robot.drive(2, 1);}
+                else if (timer.milliseconds() > 5000) {robot.drive(); commandNumber++;}
                 x=1;
                 break;
 
             case 5:
-                if (y == 1)
+                if (y == 2)
                 {
                     timer.reset();
-                    robot.chill();
                     y++;
                 }
                 else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 1500){robot.drive(3,1);}
-                else if (timer.milliseconds() > 1500){robot.drive(); commandNumber++;}
+                else if (timer.milliseconds() < 900){robot.drive(3,1);}
+                else if (timer.milliseconds() > 900){robot.drive(); commandNumber++;}
+                break;
 
             case 6:
-                robot.drive(0,.3);
+                robot.drive(0, .3);
                 commandNumber++;
                 break;
 
             case 7:
-                if (robot.getRed() >= 2)
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
-                    //robot.runToPosition();
+                    robot.runToPosition(0, .2, 8);
                     commandNumber++;
                 }
                 break;
@@ -148,17 +142,18 @@ public class RedStateMachineMecanum extends OpMode {
                 if (x == 1)
                 {
                     timer.reset();
+                    robot.runUsingEncoders();
                     x++;
                 }
-                if (timer.seconds() > 0.5 && timer.seconds() < 1.5)
+                else if (timer.milliseconds() < 1500)
                 {
                     robot.leftServoOut();
                 }
-                if (timer.seconds() > 1.5 && timer.seconds() < 2.5)
+                else if (timer.milliseconds() < 3000)
                 {
                     robot.leftServoIn();
                 }
-                if (timer.seconds() > 2.5)
+                else if (timer.milliseconds() > 3000)
                 {
                     robot.leftServoStop();
                     commandNumber++;
@@ -167,13 +162,15 @@ public class RedStateMachineMecanum extends OpMode {
 
             case 9:
                 robot.drive(1, 0.3);
+                try{Thread.sleep(1000);} catch (InterruptedException e){}
                 commandNumber++;
                 break;
 
             case 10:
-                if (robot.getRed() >= 2)
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
+                    robot.runToPosition(1, .2, 5);
                     commandNumber++;
                     x = 2;
                 }
@@ -184,15 +181,15 @@ public class RedStateMachineMecanum extends OpMode {
                     timer.reset();
                     x++;
                 }
-                if (timer.seconds() > 0.5 && timer.seconds() < 1.5)
+                if (timer.seconds() > 0.5 && timer.seconds() < 2.0)
                 {
                     robot.leftServoOut();
                 }
-                if (timer.seconds() > 1.5 && timer.seconds() < 2.5)
+                if (timer.seconds() > 2.0 && timer.seconds() < 3.5)
                 {
                     robot.leftServoIn();
                 }
-                if (timer.seconds() > 2.5)
+                if (timer.seconds() > 3.5)
                 {
                     robot.leftServoStop();
                     commandNumber++;
