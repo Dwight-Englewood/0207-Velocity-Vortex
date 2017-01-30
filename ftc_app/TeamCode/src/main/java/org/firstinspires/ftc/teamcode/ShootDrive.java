@@ -62,7 +62,7 @@ public class ShootDrive extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0, 0.7, 42);
+                robot.runToPosition(0.7, 42);
                 commandNumber++;
                 break;
 

@@ -62,7 +62,7 @@ public class ShootDriveFarThing extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0, 0.7, 81);
+                robot.runToPosition( 0.7, 81);
                 commandNumber++;
                 break;
 

@@ -42,7 +42,7 @@ public class RedStateMachineMecanum extends OpMode {
 
         if (robot.getIsRunningToTarget())
         {
-            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 50) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 50) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 50) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 50))
+            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 25) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 25) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 25) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 25))
             {
                 robot.setIsRunningToTarget(false);
             }
@@ -54,7 +54,7 @@ public class RedStateMachineMecanum extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0, 0.7, 36);
+                robot.runToPosition(0.7, 36);
                 commandNumber++;
                 break;
 
@@ -133,7 +133,7 @@ public class RedStateMachineMecanum extends OpMode {
                 if (robot.getRed() >= 3)
                 {
                     robot.drive();
-                    robot.runToPosition(0, .2, 8);
+                    robot.runToPosition(.2, 8);
                     commandNumber++;
                 }
                 break;
@@ -170,7 +170,7 @@ public class RedStateMachineMecanum extends OpMode {
                 if (robot.getRed() >= 3)
                 {
                     robot.drive();
-                    robot.runToPosition(1, .2, 5);
+                    robot.runToPosition(.2, 8);
                     commandNumber++;
                     x = 2;
                 }

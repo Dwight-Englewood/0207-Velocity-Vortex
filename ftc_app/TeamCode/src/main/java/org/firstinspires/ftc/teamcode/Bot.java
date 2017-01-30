@@ -232,7 +232,7 @@ public class Bot
 
     // Move-to Methods
 
-    public void runToPosition(int direction, double power, double target)
+    public void runToPosition(double power, double target)
     {
         int targetInt = distanceToRevs(target);
         stopAndReset();
@@ -247,7 +247,43 @@ public class Bot
         FR.setTargetPosition(targetInt);
         BR.setTargetPosition(targetInt);
 
-        drive(direction, power);
+        drive(0, power);
+    }
+
+    public void runTurnLeft(double power, double target)
+    {
+        int targetInt = distanceToRevs(target);
+        stopAndReset();
+
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FL.setTargetPosition(-targetInt);
+        BL.setTargetPosition(targetInt);
+        FR.setTargetPosition(-targetInt);
+        BR.setTargetPosition(targetInt);
+
+        drive(0, power);
+    }
+
+    public void runTurnRight(double power, double target)
+    {
+        int targetInt = distanceToRevs(target);
+        stopAndReset();
+
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FL.setTargetPosition(targetInt);
+        BL.setTargetPosition(-targetInt);
+        FR.setTargetPosition(targetInt);
+        BR.setTargetPosition(-targetInt);
+
+        drive(0, power);
     }
 
     public void runToLeft(double power, double target)
@@ -270,7 +306,7 @@ public class Bot
         FR.setTargetPosition(targetInt);
         BR.setTargetPosition(-targetInt);
 
-        drive (2,1);
+        drive (0,power);
     }
 
     public void runToRight(double power, double target)
@@ -293,7 +329,7 @@ public class Bot
         FR.setTargetPosition(-targetInt);
         BR.setTargetPosition(targetInt);
 
-        drive (3,1);
+        drive (0,power);
     }
 
     public void runDiagLeft(double power, double target)
@@ -317,7 +353,29 @@ public class Bot
         BR.setTargetPosition(0);
 
         drive(0,power);
+    }
 
+    public void runDiagRight(double power, double target)
+    {
+        int targetInt = distanceToRevs(target);
+        stopAndReset();
+
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FLtarget = targetInt;
+        BLtarget = 0;
+        FRtarget = 0;
+        BRtarget = targetInt;
+
+        FL.setTargetPosition(targetInt);
+        BL.setTargetPosition(0);
+        FR.setTargetPosition(0);
+        BR.setTargetPosition(targetInt);
+
+        drive(0,power);
     }
 
     private void stopAndReset()
@@ -410,7 +468,7 @@ public class Bot
         // TODO: REMEASURE THINGIES (CIRCUMFERENCE)
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = 2240; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth
+        final double gearMotorTickThing = 2240; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 
