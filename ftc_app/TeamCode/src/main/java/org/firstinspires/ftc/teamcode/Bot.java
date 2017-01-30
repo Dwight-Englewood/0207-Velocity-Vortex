@@ -21,15 +21,15 @@ public class Bot
     private DcMotor BR;
     private DcMotor elevator;
     private DcMotor shooter;
-    //private DcMotor lCap;
-    //private DcMotor rCap;
+    //private DcMotor leftCap;
+    //private DcMotor rightCap;
     private ColorSensor colorSensorB;
     private ColorSensor colorSensorR;
     private CRServo lServo;
     private CRServo rServo;
     //private Servo clamp;
-    //private Servo forkDropOne;
-    //private Servo forkDropTwo;
+    //private CRServo forkDropLeft;
+    //private CRServo forkDropRight;
 
     private boolean runningToTarget;
     private boolean strafing;
@@ -258,10 +258,15 @@ public class Bot
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FL.setTargetPosition(-targetInt);
+        FLtarget = targetInt;
+        BLtarget = targetInt;
+        FRtarget = -targetInt;
+        BRtarget = -targetInt;
+
+        FL.setTargetPosition(targetInt);
         BL.setTargetPosition(targetInt);
         FR.setTargetPosition(-targetInt);
-        BR.setTargetPosition(targetInt);
+        BR.setTargetPosition(-targetInt);
 
         drive(0, power);
     }
@@ -276,10 +281,15 @@ public class Bot
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FL.setTargetPosition(targetInt);
+        FLtarget = -targetInt;
+        BLtarget = -targetInt;
+        FRtarget = targetInt;
+        BRtarget = targetInt;
+
+        FL.setTargetPosition(-targetInt);
         BL.setTargetPosition(-targetInt);
         FR.setTargetPosition(targetInt);
-        BR.setTargetPosition(-targetInt);
+        BR.setTargetPosition(targetInt);
 
         drive(0, power);
     }

@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
- @TeleOp(name="Drive Only", group="Iterative Opmode")
+ @TeleOp(name="Bot Tester", group="Iterative Opmode")
  //@Disabled
  public class BotTester extends OpMode
  {
@@ -50,7 +50,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          telemetry.addData("Status", "Initialized");
          robot.init(hardwareMap);
      }
-
      @Override
      public void init_loop() {}
 
@@ -64,6 +63,27 @@ import com.qualcomm.robotcore.util.ElapsedTime;
      public void loop()
      {
          telemetry.addData("Status", "Running: " + runtime.toString());
+
+         if (gamepad1.x)
+         {
+             robot.runToLeft(1, 100);
+         }
+         else if (gamepad1.b)
+         {
+             robot.runToRight(1, 100);
+         }
+         else if (gamepad1.y)
+         {
+             robot.runTurnLeft(1, 37);
+         }
+         else if (gamepad1.a)
+         {
+             robot.runTurnRight(1, 37);
+         }
+         else if (!robot.getIsRunningToTarget())
+         {
+             robot.drive();
+         }
 
          telemetry.update();
      }
