@@ -39,8 +39,6 @@ public class Bot
     int FLtarget;
     int BLtarget;
 
-    boolean isRunningDiagLeft;
-
     HardwareMap hwMap;
     //Class Fields
 
@@ -62,11 +60,11 @@ public class Bot
         BR = hwMap.dcMotor.get("BR");
         elevator = hwMap.dcMotor.get("elevator");
         shooter = hwMap.dcMotor.get("shooter");
-        //lCap = hwMap.dcMotor.get("lCap");
-        //rCap = hwMap.dcMotor.get("rCap");
+        //leftCap = hwMap.dcMotor.get("leftCap");
+        //rightCap = hwMap.dcMotor.get("rightCap");
         //clamp = hwMap.servo.get("clamp");
-        //forkDropOne = hwMap.servo.get("forkDropOne");
-        //forkDropTwo = hwMap.servo.get("forkDropTwo");
+        //forkDropLeft = hwMap.servo.get("forkDropLeft");
+        //forkDropRight = hwMap.servo.get("forkDropRight");
         colorSensorB = hwMap.colorSensor.get("colorSensorB");
         colorSensorR = hwMap.colorSensor.get("colorSensorR");
         lServo = hwMap.crservo.get("lServo");
