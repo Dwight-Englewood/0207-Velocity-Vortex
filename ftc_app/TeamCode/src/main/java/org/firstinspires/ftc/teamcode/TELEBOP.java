@@ -119,12 +119,12 @@ public class TELEBOP extends OpMode
         {
             if (gamepad1.right_stick_y > 0.5)
             {
-                robot.driveInvert(10 - invert, 1 * invert);
+                robot.driveInvert(10 - invert, 1 * gamepad1.right_stick_y * invert);
                 //needs to be 6 when invert = -1, 7 when invert = 1
             }
             else if (gamepad1.right_stick_y < -0.5)
             {
-                robot.driveInvert(10 - invert, (-1) * invert);
+                robot.driveInvert(10 - invert, (-1) * invert * gamepad1.right_stick_y);
             }
             else
             {
@@ -133,11 +133,11 @@ public class TELEBOP extends OpMode
 
             if (gamepad1.left_stick_y > 0.5)
             {
-                robot.driveInvert(10 + invert, 1 * invert);
+                robot.driveInvert(10 + invert, 1 * invert * gamepad1.left_stick_y);
             }
             else if (gamepad1.left_stick_y < -0.5)
             {
-                robot.driveInvert(10 + invert, (-1) * invert);
+                robot.driveInvert(10 + invert, (-1) * invert * gamepad1.left_stick_y);
             }
             else
             {

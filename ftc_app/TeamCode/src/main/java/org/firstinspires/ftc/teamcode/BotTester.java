@@ -74,11 +74,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          }
          else if (gamepad1.y)
          {
-             robot.runTurnLeft(1, 37);
+             robot.runDiagRight(1, 50);
          }
          else if (gamepad1.a)
          {
-             robot.runTurnRight(1, 37);
+             robot.runDiagLeft(1, 50);
          }
          else if (!robot.getIsRunningToTarget())
          {
