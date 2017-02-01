@@ -15,7 +15,6 @@ public class RedStrafeAuton extends OpMode {
     ElapsedTime timer = new ElapsedTime(0);
 
     int commandNumber = 1;
-    boolean isCase5 = true;
 
     private int x = 0;
     private int y = 1;

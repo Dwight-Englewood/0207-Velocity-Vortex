@@ -7,9 +7,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 //@Disabled
-@Autonomous(name = "BlueStrafeAuton", group = "ITERATIVE_AUTON")
-public class BlueStrafeAuton extends OpMode {
+@Autonomous(name = "RedTurnAuton", group = "ITERATIVE_AUTON")
+public class RedTurnAuton extends OpMode {
 
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime(0);
@@ -41,7 +42,8 @@ public class BlueStrafeAuton extends OpMode {
 
         if (robot.getIsRunningToTarget())
         {
-            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 50) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 50) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 50) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 50))
+
+            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 150) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 150) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 150) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 150))
             {
                 robot.setIsRunningToTarget(false);
             }
@@ -64,7 +66,7 @@ public class BlueStrafeAuton extends OpMode {
                     robot.chill();
                     x++;
                 }
-                /*if (timer.milliseconds() < 2000)
+                if (timer.milliseconds() < 2000)
                 {
 
                 }
@@ -84,7 +86,7 @@ public class BlueStrafeAuton extends OpMode {
                 else if (timer.milliseconds() < 6500 )
                 {
                     robot.setShooter(1);
-                }*/
+                }
                 else if (timer.milliseconds() > 500)
                 {
                     robot.setShooter(0);
@@ -94,42 +96,34 @@ public class BlueStrafeAuton extends OpMode {
                 break;
 
             case 3:
-                robot.runDiagRight(1,250);
+                robot.runTurnLeft(.5, 48);
                 commandNumber++;
                 break;
 
             case 4:
-                if (y == 1)
-                {
-                    robot.drive();
-                    robot.runUsingEncoders();
-                    timer.reset();
-                    y++;
-                }
-                else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 5000){robot.drive(2, 1);}
-                else if (timer.milliseconds() > 5000) {robot.drive(); commandNumber++;}
-                x=1;
+
+                robot.runToPosition(.7, 50);
+                commandNumber++;
                 break;
 
             case 5:
-                if (y == 2)
-                {
-                    timer.reset();
-                    y++;
-                }
-                else if (timer.milliseconds() < 500){}
-                else if (timer.milliseconds() < 900){robot.drive(3,1);}
-                else if (timer.milliseconds() > 900){robot.drive(); commandNumber++;}
+                robot.runTurnRight(.5, 48);
+                commandNumber++;
                 break;
 
             case 6:
-                robot.drive(0, .3);
+                robot.runToLeft(1, 50);
                 commandNumber++;
                 break;
 
             case 7:
-                if (robot.getBlue() >= 3)
+                robot.runUsingEncoders();
+                robot.drive(0, .3);
+                commandNumber++;
+                break;
+
+            case 8:
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
                     robot.runToPosition(.2, 8);
@@ -137,7 +131,7 @@ public class BlueStrafeAuton extends OpMode {
                 }
                 break;
 
-            case 8:
+            case 9:
                 if (x == 1)
                 {
                     timer.reset();
@@ -159,14 +153,13 @@ public class BlueStrafeAuton extends OpMode {
                 }
                 break;
 
-            case 9:
+            case 10:
                 robot.drive(1, 0.3);
-                try{Thread.sleep(1000);} catch (InterruptedException e){}
                 commandNumber++;
                 break;
 
-            case 10:
-                if (robot.getBlue() >= 3)
+            case 11:
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
                     robot.runToPosition(.2, 8);
@@ -174,7 +167,7 @@ public class BlueStrafeAuton extends OpMode {
                     x = 2;
                 }
                 break;
-            case 11:
+            case 12:
                 if (x == 2)
                 {
                     timer.reset();

@@ -258,15 +258,15 @@ public class Bot
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FLtarget = targetInt;
-        BLtarget = targetInt;
-        FRtarget = -targetInt;
-        BRtarget = -targetInt;
+        FLtarget = -targetInt;
+        BLtarget = -targetInt;
+        FRtarget = targetInt;
+        BRtarget = targetInt;
 
-        FL.setTargetPosition(targetInt);
-        BL.setTargetPosition(targetInt);
-        FR.setTargetPosition(-targetInt);
-        BR.setTargetPosition(-targetInt);
+        FL.setTargetPosition(-targetInt);
+        BL.setTargetPosition(-targetInt);
+        FR.setTargetPosition(targetInt);
+        BR.setTargetPosition(targetInt);
 
         drive(0, power);
     }
@@ -281,15 +281,15 @@ public class Bot
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FLtarget = -targetInt;
-        BLtarget = -targetInt;
-        FRtarget = targetInt;
-        BRtarget = targetInt;
+        FLtarget = targetInt;
+        BLtarget = targetInt;
+        FRtarget = -targetInt;
+        BRtarget = -targetInt;
 
-        FL.setTargetPosition(-targetInt);
-        BL.setTargetPosition(-targetInt);
-        FR.setTargetPosition(targetInt);
-        BR.setTargetPosition(targetInt);
+        FL.setTargetPosition(targetInt);
+        BL.setTargetPosition(targetInt);
+        FR.setTargetPosition(-targetInt);
+        BR.setTargetPosition(-targetInt);
 
         drive(0, power);
     }
@@ -437,7 +437,7 @@ public class Bot
 
     public void leftServoStop()
     {
-        lServo.setPower(0);
+        lServo.setPower(-0.1);
     }
     public void leftServoReset() {
         lServo.setDirection(DcMotorSimple.Direction.FORWARD);
