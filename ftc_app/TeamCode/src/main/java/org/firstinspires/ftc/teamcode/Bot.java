@@ -25,8 +25,8 @@ public class Bot
     //private DcMotor rightCap;
     private ColorSensor colorSensorB;
     private ColorSensor colorSensorR;
-    private CRServo lServo;
-    private CRServo rServo;
+    private Servo lServo;
+    private Servo rServo;
     //private Servo clamp;
     //private CRServo forkDropLeft;
     //private CRServo forkDropRight;
@@ -67,8 +67,8 @@ public class Bot
         //forkDropRight = hwMap.servo.get("forkDropRight");
         colorSensorB = hwMap.colorSensor.get("colorSensorB");
         colorSensorR = hwMap.colorSensor.get("colorSensorR");
-        lServo = hwMap.crservo.get("lServo");
-        rServo = hwMap.crservo.get("rServo");
+        lServo = hwMap.servo.get("lServo");
+        rServo = hwMap.servo.get("rServo");
 
         // Set motor/servo modes
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -383,7 +383,7 @@ public class Bot
         FR.setTargetPosition(0);
         BR.setTargetPosition(targetInt);
 
-        drive(0,power);
+        drive(0, power);
     }
 
     private void stopAndReset()
@@ -425,38 +425,36 @@ public class Bot
     // Servo Methods
     public void leftServoOut()
     {
-        lServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        lServo.setPower(1.0);
+        lServo.setPosition(.45);
     }
 
     public void leftServoIn()
     {
-        lServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        lServo.setPower(1.0);
+        //lServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        //lServo.setPower(1.0);
+        lServo.setPosition(.54);
     }
 
     public void leftServoStop()
     {
-        lServo.setPower(-0.1);
+        lServo.setPosition(.49);
     }
     public void leftServoReset() {
-        lServo.setDirection(DcMotorSimple.Direction.FORWARD);
+
     }
     public void rightServoOut()
     {
-        rServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        rServo.setPower(1.0);
+        rServo.setPosition(.54);
     }
 
     public void rightServoIn()
     {
-        rServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        rServo.setPower(1.0);
+        rServo.setPosition(.46);
     }
 
     public void rightServoStop()
     {
-        rServo.setPower(0);
+        rServo.setPosition(.50);
     }
 
     // Sensor Methods
