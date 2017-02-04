@@ -41,8 +41,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Telebop", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
 //@Disabled
 //TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
-public class TELEBOP extends OpMode
-{
+public class TELEBOP extends OpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timer = new ElapsedTime();
@@ -60,6 +59,8 @@ public class TELEBOP extends OpMode
     private boolean rservoinorout = false;
     private boolean rservoactive = false;
     private boolean lservoinorout = false;
+    private double rsevoStop = .5;
+    private double lsevoStop = .5;
     //private int rcount = 0;
     //private int lcount = 0;
     private int invert = 1;
@@ -70,8 +71,7 @@ public class TELEBOP extends OpMode
     /*to run ONCE when the driver hits INIT
      */
     @Override
-    public void init()
-    {
+    public void init() {
         telemetry.addData("Status", "Initialized");
         robot.init(hardwareMap);
     }
@@ -86,8 +86,7 @@ public class TELEBOP extends OpMode
      * Code to run ONCE when the driver hits PLAY
      */
     @Override
-    public void start()
-    {
+    public void start() {
         runtime.reset();
     }
 
@@ -95,8 +94,7 @@ public class TELEBOP extends OpMode
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
-    public void loop()
-    {
+    public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
 
         // Driving commands (left/right stick brian zhang method)
@@ -115,56 +113,48 @@ public class TELEBOP extends OpMode
         } else {
             ;
         }
-        if (!robot.getIsStrafing())
-        {
-            if (gamepad1.right_stick_y > 0.5)
-            {
-                robot.driveInvert(10 + invert, 1 * invert);
+        //bo doesnt work
+        //i need to change values more precisely
+        //single joystick doesnt work when not inverted
+        //wtf
+        if (!robot.getIsStrafing()) {
+            if (gamepad1.right_stick_y > 0.15) {
+                robot.driveInvert(10 + invert, 1 * invert * gamepad1.right_stick_y);
                 //needs to be 6 when invert = -1, 7 when invert = 1
             }
-            else if (gamepad1.right_stick_y < -0.5)
-            {
-                robot.driveInvert(10 + invert, (-1) * invert);
+            else if (gamepad1.right_stick_y < -0.15) {
+                robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y));
             }
-            else
-            {
+            else {
                 robot.driveInvert(9, 0);
             }
 
-            if (gamepad1.left_stick_y > 0.5)
-            {
-                robot.driveInvert(10 - invert, 1 * invert);
+            if (gamepad1.left_stick_y > 0.15) {
+                robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y);
             }
-            else if (gamepad1.left_stick_y < -0.5)
-            {
-                robot.driveInvert(10 - invert, (-1) * invert);
+            else if (gamepad1.left_stick_y < -0.15) {
+                robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y));
             }
-            else
-            {
+            else {
                 robot.driveInvert(11, 0);
             }
 
-            if (gamepad1.left_trigger > 0.5)
-            {
+            if (gamepad1.left_trigger > 0.5) {
                 robot.driveInvert(4 - invert,1 * invert);
                 strafingLeft = true;
             }
 
-            if (gamepad1.right_trigger > 0.5)
-            {
+            if (gamepad1.right_trigger > 0.5) {
                 robot.driveInvert(4 + invert,1 * invert);
                 strafingRight = true;
             }
         }
-        else
-        {
-            if (gamepad1.left_trigger == 0 && strafingLeft)
-            {
+        else {
+            if (gamepad1.left_trigger == 0 && strafingLeft) {
                 robot.drive();
                 strafingLeft = false;
             }
-            else if (gamepad1.right_trigger == 0 && strafingRight)
-            {
+            else if (gamepad1.right_trigger == 0 && strafingRight) {
                 robot.drive();
                 strafingRight = false;
             }
@@ -182,6 +172,7 @@ public class TELEBOP extends OpMode
         //b out a in right
         //x out y in left
         //left servo stuff
+
         if (gamepad2.y) {
             lservo = ServoStates.OUT;
             ltime = System.currentTimeMillis();
@@ -230,7 +221,7 @@ public class TELEBOP extends OpMode
                 robot.leftServoIn();
                 break;
             case STOP:
-                robot.leftServoReset();
+                //r4obot.leftServoReset();
                 robot.leftServoStop();
                 break;
         }
@@ -285,10 +276,33 @@ public class TELEBOP extends OpMode
                 break;
         }
 
+        /*
+        if (gamepad1.a && (System.currentTimeMillis() - invertLen  > 100)) {
+            lsevoStop = lsevoStop + .01;
+            invertLen = System.currentTimeMillis();
+        }
 
+        if (gamepad1.b && (System.currentTimeMillis() - invertLen  > 100)) {
+            rsevoStop = rsevoStop + .01;
+            invertLen = System.currentTimeMillis();
+        }
 
+        if (gamepad1.x && (System.currentTimeMillis() - invertLen  > 100)) {
+            lsevoStop = lsevoStop - .01;
+            invertLen = System.currentTimeMillis();
+        }
+
+        if (gamepad1.y && (System.currentTimeMillis() - invertLen  > 100 )) {
+            rsevoStop = rsevoStop - .01;
+            invertLen = System.currentTimeMillis();
+        }
+*/
         telemetry.addData("lservo", lservo);
+        telemetry.addData("lsevoStop", lsevoStop);
+
         telemetry.addData("rservo", rservo);
+        telemetry.addData("rsevoStop", rsevoStop);
+
         telemetry.addData("invert", invert);
 
 

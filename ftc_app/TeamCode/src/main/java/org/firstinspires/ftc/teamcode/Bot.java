@@ -25,8 +25,8 @@ public class Bot
     //private DcMotor rightCap;
     private ColorSensor colorSensorB;
     private ColorSensor colorSensorR;
-    private Servo lServo;
-    private Servo rServo;
+    public Servo lServo;
+    public Servo rServo;
     //private Servo clamp;
     //private CRServo forkDropLeft;
     //private CRServo forkDropRight;
@@ -205,6 +205,8 @@ public class Bot
     {
         FL.setPower(-power);
         BL.setPower(-power);
+        FL.setPower(0);
+        BR.setPower(0);
     }
 
     // 7
@@ -212,6 +214,8 @@ public class Bot
     {
         FR.setPower(-power);
         BR.setPower(-power);
+        FL.setPower(0);
+        BL.setPower(0);
     }
 
     // 8
@@ -425,31 +429,28 @@ public class Bot
     // Servo Methods
     public void leftServoOut()
     {
-        lServo.setPosition(.45);
+        lServo.setPosition(.52);
     }
 
     public void leftServoIn()
     {
         //lServo.setDirection(DcMotorSimple.Direction.FORWARD);
         //lServo.setPower(1.0);
-        lServo.setPosition(.54);
+        lServo.setPosition(.44);
     }
 
     public void leftServoStop()
     {
-        lServo.setPosition(.49);
-    }
-    public void leftServoReset() {
-
+        lServo.setPosition(.48);
     }
     public void rightServoOut()
     {
-        rServo.setPosition(.54);
+        rServo.setPosition(.56);
     }
 
     public void rightServoIn()
     {
-        rServo.setPosition(.46);
+        rServo.setPosition(.44);
     }
 
     public void rightServoStop()
