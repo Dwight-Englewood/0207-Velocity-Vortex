@@ -78,7 +78,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          }
          else if (gamepad1.a)
          {
-             robot.runDiagLeft(1, 50);
+             robot.runDiagLeft(230);
          }
          else if (!robot.getIsRunningToTarget())
          {

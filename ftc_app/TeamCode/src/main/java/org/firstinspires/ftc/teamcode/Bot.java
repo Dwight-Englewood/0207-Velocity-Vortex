@@ -23,8 +23,8 @@ public class Bot
     private DcMotor shooter;
     //private DcMotor leftCap;
     //private DcMotor rightCap;
-    private ColorSensor colorSensorB;
-    private ColorSensor colorSensorR;
+    private ColorSensor colorSensorRight;
+    private ColorSensor colorSensorLeft;
     public Servo lServo;
     public Servo rServo;
     //private Servo clamp;
@@ -65,8 +65,8 @@ public class Bot
         //clamp = hwMap.servo.get("clamp");
         //forkDropLeft = hwMap.servo.get("forkDropLeft");
         //forkDropRight = hwMap.servo.get("forkDropRight");
-        colorSensorB = hwMap.colorSensor.get("colorSensorB");
-        colorSensorR = hwMap.colorSensor.get("colorSensorR");
+        colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
+        colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
 
@@ -87,6 +87,11 @@ public class Bot
         //lCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //rCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        //FL.setMaxSpeed(1000);
+        //BL.setMaxSpeed(1000);
+        //FR.setMaxSpeed(1000);
+        //BR.setMaxSpeed(1000);
+
         FL.setPower(0);
         BL.setPower(0);
         FR.setPower(0);
@@ -102,8 +107,8 @@ public class Bot
         runningToTarget = false;
 
         // Set color sensor LED
-        colorSensorR.enableLed(false);
-        colorSensorR.enableLed(false);
+        colorSensorLeft.enableLed(false);
+        colorSensorRight.enableLed(false);
     }
 
     // Driving Methods
@@ -205,8 +210,6 @@ public class Bot
     {
         FL.setPower(-power);
         BL.setPower(-power);
-        FL.setPower(0);
-        BR.setPower(0);
     }
 
     // 7
@@ -214,8 +217,6 @@ public class Bot
     {
         FR.setPower(-power);
         BR.setPower(-power);
-        FL.setPower(0);
-        BL.setPower(0);
     }
 
     // 8
@@ -243,6 +244,11 @@ public class Bot
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FLtarget = targetInt;
+        BLtarget = targetInt;
+        FRtarget = targetInt;
+        BRtarget = targetInt;
 
         FL.setTargetPosition(targetInt);
         BL.setTargetPosition(targetInt);
@@ -344,7 +350,7 @@ public class Bot
         drive (0,power);
     }
 
-    public void runDiagLeft(double power, double target)
+    public void runDiagLeft(double target)
     {
         int targetInt = distanceToRevs(target);
         stopAndReset();
@@ -364,7 +370,10 @@ public class Bot
         FR.setTargetPosition(targetInt);
         BR.setTargetPosition(0);
 
-        drive(0,power);
+        FL.setPower(1);
+        BL.setPower(1);
+        FR.setPower(1);
+        BR.setPower(1);
     }
 
     public void runDiagRight(double power, double target)
@@ -429,14 +438,14 @@ public class Bot
     // Servo Methods
     public void leftServoOut()
     {
-        lServo.setPosition(.52);
+        lServo.setPosition(.55);
     }
 
     public void leftServoIn()
     {
         //lServo.setDirection(DcMotorSimple.Direction.FORWARD);
         //lServo.setPower(1.0);
-        lServo.setPosition(.44);
+        lServo.setPosition(.40);
     }
 
     public void leftServoStop()
@@ -461,12 +470,12 @@ public class Bot
     // Sensor Methods
     public int getRed()
     {
-        return colorSensorR.red();
+        return colorSensorLeft.red();
     }
 
     public int getBlue()
     {
-        return colorSensorB.blue();
+        return colorSensorRight.blue();
     }
 
     // Helper Methods
@@ -476,7 +485,7 @@ public class Bot
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelCirc = 31.9185813;
 
-        final double gearMotorTickThing = 1120; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
+        final double gearMotorTickThing = 1220; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
 
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
@@ -499,5 +508,7 @@ public class Bot
     public int getMaxPowBL() {return BL.getMaxSpeed();}
     public int getMaxPowFR() {return FR.getMaxSpeed();}
     public int getMaxPowBR() {return BR.getMaxSpeed();}
+
+
 
 }

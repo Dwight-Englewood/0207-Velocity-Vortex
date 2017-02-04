@@ -51,7 +51,11 @@ public class RedStrafeAuton extends OpMode {
         }
         else if (robot.getIsRunningToTarget())
         {
-            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 25) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 25) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 25) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 25))
+            if (
+                    ((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 25) &&
+                            ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 25) &&
+                            ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 25) &&
+                            ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 25))
             {
                 robot.setIsRunningToTarget(false);
             }
@@ -104,19 +108,19 @@ public class RedStrafeAuton extends OpMode {
                 break;
 
             case 3:
-                robot.runDiagLeft(1,250);
+                robot.runDiagLeft(230);
                 isRunningDiagonally = true;
                 commandNumber++;
                 break;
 
             case 4:
                 isRunningDiagonally = false;
-                robot.runToLeft(1, 40);
+                robot.runToLeft(1, 100);
                 commandNumber++;
                 break;
 
             case 5:
-                robot.runToRight(1, 10);
+                robot.runToRight(1, 20);
                 commandNumber++;
                 break;
 
@@ -132,6 +136,7 @@ public class RedStrafeAuton extends OpMode {
                 {
                     robot.drive();
                     robot.runToPosition(.2, 8);
+                    x = 0;
                     commandNumber++;
                 }
                 break;
@@ -140,8 +145,8 @@ public class RedStrafeAuton extends OpMode {
                 if (x == 0)
                 {
                     timer.reset();
-                    robot.drive();
                     robot.runUsingEncoders();
+                    robot.drive();
                     x++;
                 }
                 else if (timer.milliseconds() < 1500)
@@ -163,7 +168,7 @@ public class RedStrafeAuton extends OpMode {
                 if (x == 1)
                 {
                     timer.reset();
-                    robot.drive(1, -.3);
+                    robot.drive(1, .3);
                     x++;
                 }
                 else if (timer.milliseconds() < 1000){}
