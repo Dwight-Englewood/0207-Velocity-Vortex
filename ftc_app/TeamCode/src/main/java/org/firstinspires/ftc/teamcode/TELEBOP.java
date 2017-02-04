@@ -117,6 +117,60 @@ public class TELEBOP extends OpMode {
         //i need to change values more precisely
         //single joystick doesnt work when not inverted
         //wtf
+        if (!robot.getIsStrafing())
+        {
+            if (gamepad1.right_stick_y > 0.5)
+            {
+                robot.drive(7, 1);
+            }
+            else if (gamepad1.right_stick_y < -0.5)
+            {
+                robot.drive(7, -1);
+            }
+            else
+            {
+                robot.drive(7, 0);
+            }
+
+            if (gamepad1.left_stick_y > 0.5)
+            {
+                robot.drive(6, 1);
+            }
+            else if (gamepad1.left_stick_y < -0.5)
+            {
+                robot.drive(6, -1);
+            }
+            else
+            {
+                robot.drive(6, 0);
+            }
+
+            if (gamepad1.left_trigger > 0.5)
+            {
+                robot.drive(2,1);
+                strafingLeft = true;
+            }
+
+            if (gamepad1.right_trigger > 0.5)
+            {
+                robot.drive(3,1);
+                strafingRight = true;
+            }
+        }
+        else
+        {
+            if (gamepad1.left_trigger == 0 && strafingLeft)
+            {
+                robot.drive();
+                strafingLeft = false;
+            }
+            else if (gamepad1.right_trigger == 0 && strafingRight)
+            {
+                robot.drive();
+                strafingRight = false;
+            }
+        }
+        /*
         if (!robot.getIsStrafing()) {
             if (gamepad1.right_stick_y > 0.15) {
                 robot.driveInvert(10 + invert, 1 * invert * gamepad1.right_stick_y);
@@ -167,7 +221,7 @@ public class TELEBOP extends OpMode {
         if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1);}
         else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
         else                                    {robot.setElevator(0);}
-
+        */
         // Left servo commands
         //b out a in right
         //x out y in left
