@@ -17,6 +17,7 @@ public class RedStrafeAuton extends OpMode {
     int commandNumber = 1;
 
     private int x = 0;
+    boolean isRunningDiagonally = false;
 
     @Override
     public void init()
@@ -38,7 +39,17 @@ public class RedStrafeAuton extends OpMode {
         telemetry.addData("Command", commandNumber);
         //      telemetry.addData("current time", timer.seconds());
 
-        if (robot.getIsRunningToTarget())
+        if (robot.getIsRunningToTarget() && isRunningDiagonally)
+        {
+            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 200) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 200) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 200) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 200))
+            {
+                robot.setIsRunningToTarget(false);
+            }
+            telemetry.addData("inLoop", robot.getIsRunningToTarget());
+            telemetry.update();
+            return;
+        }
+        else if (robot.getIsRunningToTarget())
         {
             if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 25) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 25) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 25) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 25))
             {
@@ -52,7 +63,7 @@ public class RedStrafeAuton extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0.7, 36);
+                robot.runToPosition(0.4, 36);
                 commandNumber++;
                 break;
 
@@ -94,10 +105,12 @@ public class RedStrafeAuton extends OpMode {
 
             case 3:
                 robot.runDiagLeft(1,250);
+                isRunningDiagonally = true;
                 commandNumber++;
                 break;
 
             case 4:
+                isRunningDiagonally = false;
                 robot.runToLeft(1, 40);
                 commandNumber++;
                 break;

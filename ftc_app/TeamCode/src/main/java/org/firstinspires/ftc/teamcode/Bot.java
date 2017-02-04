@@ -476,7 +476,7 @@ public class Bot
         // TODO: REMEASURE THINGIES (CIRCUMFERENCE)
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = 2240; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
+        final double gearMotorTickThing = 1220; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 

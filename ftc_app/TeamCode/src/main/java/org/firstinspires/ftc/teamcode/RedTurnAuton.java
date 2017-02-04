@@ -96,18 +96,18 @@ public class RedTurnAuton extends OpMode {
                 break;
 
             case 3:
-                robot.runTurnLeft(.5, 48);
+                robot.runTurnLeft(.3, 44);
                 commandNumber++;
                 break;
 
             case 4:
 
-                robot.runToPosition(.7, 50);
+                robot.runToPosition(.2, 50);
                 commandNumber++;
                 break;
 
             case 5:
-                robot.runTurnRight(.5, 48);
+                robot.runTurnRight(.3, 44);
                 commandNumber++;
                 break;
 
