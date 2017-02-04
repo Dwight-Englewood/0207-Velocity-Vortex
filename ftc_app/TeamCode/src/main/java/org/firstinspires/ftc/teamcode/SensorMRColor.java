@@ -88,17 +88,17 @@ public class SensorMRColor extends LinearOpMode {
 
     // while the op mode is active, loop and read the RGB data.
     // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
-    while (opModeIsActive()) {
-
-      // check the status of the x button on either gamepad.
+    while (opModeIsActive())
+    {
       telemetry.addData("Red  ", colorSensorR.red());
       telemetry.addData("Blue ", colorSensorB.blue());
 
       telemetry.update();
+      idle();
       }
 
 
-      idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
+       // Always call idle() at the bottom of your while(opModeIsActive()) loop
     }
   }
 

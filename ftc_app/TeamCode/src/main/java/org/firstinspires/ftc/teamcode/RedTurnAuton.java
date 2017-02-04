@@ -35,10 +35,10 @@ public class RedTurnAuton extends OpMode {
         telemetry.addData("BL Pos", robot.getCurPosBL());
         telemetry.addData("FR Pos", robot.getCurPosFR());
         telemetry.addData("BR Pos", robot.getCurPosBR());
-        telemetry.addData("Red Value", robot.getRed());
-        telemetry.addData("Blue Value", robot.getBlue());
+        //telemetry.addData("Red Value", robot.getRed());
+        //telemetry.addData("Blue Value", robot.getBlue());
         telemetry.addData("Command", commandNumber);
-        telemetry.addData("current time", timer.seconds());
+        //telemetry.addData("current time", timer.seconds());
 
         if (robot.getIsRunningToTarget())
         {
@@ -96,18 +96,18 @@ public class RedTurnAuton extends OpMode {
                 break;
 
             case 3:
-                robot.runTurnLeft(.5, 48);
+                robot.runTurnLeft(.3, 44);
                 commandNumber++;
                 break;
 
             case 4:
 
-                robot.runToPosition(.7, 50);
+                robot.runToPosition(.2, 50);
                 commandNumber++;
                 break;
 
             case 5:
-                robot.runTurnRight(.5, 48);
+                robot.runTurnRight(.3, 44);
                 commandNumber++;
                 break;
 
@@ -167,6 +167,7 @@ public class RedTurnAuton extends OpMode {
                     x = 2;
                 }
                 break;
+
             case 12:
                 if (x == 2)
                 {

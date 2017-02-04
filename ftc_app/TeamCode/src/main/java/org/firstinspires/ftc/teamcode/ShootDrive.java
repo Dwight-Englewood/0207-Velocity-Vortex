@@ -62,7 +62,7 @@ public class ShootDrive extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0.7, 42);
+                robot.runToPosition(0.4, 36);
                 commandNumber++;
                 break;
 
@@ -109,19 +109,9 @@ public class ShootDrive extends OpMode {
                     commandNumber++;
                 break;
             case 4:
-                if (x == 1)
-                {
-                    timer.reset();
-                    x++;
-                }
-                else if (timer.milliseconds() < 3000)
-                {
-                    robot.drive(0, 1);
-                }
-                else
-                {
-                    robot.drive();
-                }
+                robot.runToPosition(1, 115);
+                commandNumber++;
+                break;
         }
         telemetry.update();
     }
