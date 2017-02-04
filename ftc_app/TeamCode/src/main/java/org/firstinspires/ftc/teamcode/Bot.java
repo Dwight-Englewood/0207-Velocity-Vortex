@@ -25,8 +25,8 @@ public class Bot
     //private DcMotor rightCap;
     private ColorSensor colorSensorB;
     private ColorSensor colorSensorR;
-    private CRServo lServo;
-    private CRServo rServo;
+    public Servo lServo;
+    public Servo rServo;
     //private Servo clamp;
     //private CRServo forkDropLeft;
     //private CRServo forkDropRight;
@@ -67,8 +67,8 @@ public class Bot
         //forkDropRight = hwMap.servo.get("forkDropRight");
         colorSensorB = hwMap.colorSensor.get("colorSensorB");
         colorSensorR = hwMap.colorSensor.get("colorSensorR");
-        lServo = hwMap.crservo.get("lServo");
-        rServo = hwMap.crservo.get("rServo");
+        lServo = hwMap.servo.get("lServo");
+        rServo = hwMap.servo.get("rServo");
 
         // Set motor/servo modes
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -205,6 +205,8 @@ public class Bot
     {
         FL.setPower(-power);
         BL.setPower(-power);
+        FL.setPower(0);
+        BR.setPower(0);
     }
 
     // 7
@@ -212,6 +214,8 @@ public class Bot
     {
         FR.setPower(-power);
         BR.setPower(-power);
+        FL.setPower(0);
+        BL.setPower(0);
     }
 
     // 8
@@ -383,7 +387,7 @@ public class Bot
         FR.setTargetPosition(0);
         BR.setTargetPosition(targetInt);
 
-        drive(0,power);
+        drive(0, power);
     }
 
     private void stopAndReset()
@@ -425,38 +429,33 @@ public class Bot
     // Servo Methods
     public void leftServoOut()
     {
-        lServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        lServo.setPower(1.0);
+        lServo.setPosition(.52);
     }
 
     public void leftServoIn()
     {
-        lServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        lServo.setPower(1.0);
+        //lServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        //lServo.setPower(1.0);
+        lServo.setPosition(.44);
     }
 
     public void leftServoStop()
     {
-        lServo.setPower(-0.1);
-    }
-    public void leftServoReset() {
-        lServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        lServo.setPosition(.48);
     }
     public void rightServoOut()
     {
-        rServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        rServo.setPower(1.0);
+        rServo.setPosition(.56);
     }
 
     public void rightServoIn()
     {
-        rServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        rServo.setPower(1.0);
+        rServo.setPosition(.44);
     }
 
     public void rightServoStop()
     {
-        rServo.setPower(0);
+        rServo.setPosition(.50);
     }
 
     // Sensor Methods
@@ -476,7 +475,9 @@ public class Bot
         // TODO: REMEASURE THINGIES (CIRCUMFERENCE)
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelCirc = 31.9185813;
-        final double gearMotorTickThing = 1220; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
+
+        final double gearMotorTickThing = 1120; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
+
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 
