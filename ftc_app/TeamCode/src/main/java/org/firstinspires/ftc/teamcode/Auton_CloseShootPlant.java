@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // on its previous condition and on the present values of its inputs.
 
 //@Disabled
-@Autonomous(name = "Shoot Drive", group = "ITERATIVE_AUTON")
+@Autonomous(name = "Shoot Drive CLOSE", group = "SHOOTING")
 public class Auton_CloseShootPlant extends OpMode {
 
     long start_time = 0;

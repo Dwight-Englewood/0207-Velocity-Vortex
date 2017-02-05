@@ -481,7 +481,6 @@ public class Bot
     // Helper Methods
     public int distanceToRevs (double distance)
     {
-        // TODO: REMEASURE THINGIES (CIRCUMFERENCE)
         //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelCirc = 31.9185813;
 

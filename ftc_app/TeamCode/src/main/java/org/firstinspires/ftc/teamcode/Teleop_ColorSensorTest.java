@@ -40,6 +40,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /*
  *
@@ -58,47 +59,25 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //@Disabled
 public class Teleop_ColorSensorTest extends LinearOpMode {
 
-  ColorSensor colorSensorB;    // Hardware Device Object
-  ColorSensor colorSensorR;
-
+  Bot robot = new Bot();
 
   @Override
-  public void runOpMode() throws InterruptedException {
+  public void runOpMode() throws InterruptedException
+  {
+      robot.init(hardwareMap);
+      waitForStart();
 
+      while (opModeIsActive())
+      {
+          telemetry.addData("Red  ", robot.getRed());
+          telemetry.addData("Blue ", robot.getBlue());
 
-
-    // get a reference to the RelativeLayout so we can change the background
-    // color of the Robot Controller app to match the hue detected by the RGB sensor.
-
-    // bPrevState and bCurrState represent the previous and current state of the button.
-
-
-    // bLedOn represents the state of the LED.
-
-
-    // get a reference to our ColorSensor object.
-    colorSensorB = hardwareMap.colorSensor.get("colorSensorB");
-    colorSensorR = hardwareMap.colorSensor.get("colorSensorR");
-    // Set the LED in the beginning
-    colorSensorB.enableLed(false);
-    colorSensorR.enableLed(false);
-
-    // wait for the start button to be pressed.
-    waitForStart();
-
-    // while the op mode is active, loop and read the RGB data.
-    // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
-    while (opModeIsActive())
-    {
-      telemetry.addData("Red  ", colorSensorR.red());
-      telemetry.addData("Blue ", colorSensorB.blue());
-
-      telemetry.update();
-      idle();
+          telemetry.update();
+          idle();
       }
 
 
-       // Always call idle() at the bottom of your while(opModeIsActive()) loop
+
     }
   }
 
