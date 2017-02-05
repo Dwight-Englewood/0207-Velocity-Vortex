@@ -19,7 +19,7 @@ public class RedTurnAuton extends OpMode {
 
     private int x = 0;
     private int y = 1;
-    boolean diagRun = false;
+    boolean isGoingForward = false;
 
     @Override
     public void init()
@@ -40,12 +40,75 @@ public class RedTurnAuton extends OpMode {
         //telemetry.addData("Blue Value", robot.getBlue());
         telemetry.addData("Command", commandNumber);
         //telemetry.addData("current time", timer.seconds());
-        telemetry.addData("FL Delta", Math.abs(robot.getCurPosFL() - robot.FLtarget));
-        telemetry.addData("FR Delta", Math.abs(robot.getCurPosFR() - robot.FRtarget));
-        telemetry.addData("BL Delta", Math.abs(robot.getCurPosBL() - robot.BLtarget));
-        telemetry.addData("BR Delta", Math.abs(robot.getCurPosBR() - robot.BRtarget));
 
-        if (robot.getIsRunningToTarget() && diagRun)
+        if (robot.getIsRunningToTarget() && isGoingForward)
+        {
+            if (
+                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 10) &&
+                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 10) &&
+                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 10) &&
+                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 10)
+                    )
+            {
+                robot.drive();
+                robot.setIsRunningToTarget(false);
+            }
+            else if (
+                    (Math.abs(robot.getCurPosFL()) < 200) &&
+                    (Math.abs(robot.getCurPosFR()) < 200) &&
+                    (Math.abs(robot.getCurPosBL()) < 200) &&
+                    (Math.abs(robot.getCurPosBR()) < 200)
+                    )
+            {
+                robot.drive(0, .1);
+            }
+            else if (
+                    (Math.abs(robot.getCurPosFL()) < 1000) &&
+                    (Math.abs(robot.getCurPosFR()) < 1000) &&
+                    (Math.abs(robot.getCurPosBL()) < 1000) &&
+                    (Math.abs(robot.getCurPosBR()) < 1000)
+                    )
+            {
+                robot.drive(0, .3);
+            }
+            else if (
+                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 700) &&
+                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 700) &&
+                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 700) &&
+                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 700)
+                    )
+            {
+                robot.drive(0, .1);
+                robot.setIsRunningToTarget(false);
+            }
+            else if (
+                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 2000) &&
+                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 2000) &&
+                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 2000) &&
+                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 2000)
+                    )
+            {
+                robot.drive(0, .3);
+            }
+            else if (
+                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 2400) &&
+                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 2400) &&
+                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 2400) &&
+                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 2400)
+                    )
+            {
+                robot.drive(0, .5);
+            }
+            else
+            {
+                robot.drive(0, .7);
+            }
+
+            telemetry.addData("ingoodLoop", true);
+            telemetry.update();
+            return;
+        }
+        else if (robot.getIsRunningToTarget())
         {
             if (
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
@@ -56,51 +119,18 @@ public class RedTurnAuton extends OpMode {
             {
                 robot.drive();
                 robot.setIsRunningToTarget(false);
-                diagRun = false;
             }
-            else if (
-                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 1000) &&
-                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 1000) &&
-                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 1000) &&
-                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 1000)
-                    )
-            {
-                robot.drive(0, .3);
-            }
-            else if (
-                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 2500) &&
-                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 2500) &&
-                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 2500) &&
-                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 2500)
-                    )
-            {
-                robot.drive(0, .5);
-            }
-            telemetry.update();
-            telemetry.addData("inLoop", robot.getIsRunningToTarget());
-            return;
-        }
-        else if (robot.getIsRunningToTarget())
-        {
-            if (
-                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
-                            (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25) &&
-                            (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 25) &&
-                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25)
-                    )
-            {
-                robot.setIsRunningToTarget(false);
-            }
-            telemetry.update();
-            telemetry.addData("inLoop", robot.getIsRunningToTarget());
-            return;
-        }
 
+            telemetry.update();
+            telemetry.addData("inLoop", false);
+            return;
+        }
 
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0.35, 36);
+                isGoingForward = true;
+                robot.runToPosition(0.1, 36);
                 commandNumber++;
                 break;
 
@@ -141,18 +171,20 @@ public class RedTurnAuton extends OpMode {
                 break;
 
             case 3:
-                robot.runTurnLeft(.3, 16);
+                isGoingForward = false;
+                robot.runTurnLeft(0.3, 16);
                 commandNumber++;
                 break;
 
             case 4:
-                robot.runToPosition(.7, 175);
-                diagRun = true;
+                isGoingForward = true;
+                robot.runToPosition(0.1, 196);
                 commandNumber++;
                 break;
 
             case 5:
-                robot.runTurnRight(.3, 16);
+                isGoingForward = false;
+                robot.runTurnRight(0.3, 16);
                 commandNumber++;
                 break;
 
@@ -173,10 +205,10 @@ public class RedTurnAuton extends OpMode {
                 break;
 
             case 9:
-                if (robot.getRed() >= 3)
+                if (robot.getRed() >= 2)
                 {
                     robot.drive();
-                    robot.runToPosition(.2, 3);
+                    robot.runToPosition(.3, 3);
                     x = 0;
                     commandNumber++;
                 }
@@ -187,17 +219,18 @@ public class RedTurnAuton extends OpMode {
                 {
                     timer.reset();
                     robot.runUsingEncoders();
+                    robot.drive();
                     x++;
                 }
-                else if (timer.milliseconds() < 1500)
+                else if (timer.milliseconds() < 2500)
                 {
                     robot.leftServoOut();
                 }
-                else if (timer.milliseconds() < 3000)
+                else if (timer.milliseconds() < 4500)
                 {
                     robot.leftServoIn();
                 }
-                else if (timer.milliseconds() > 3000)
+                else if (timer.milliseconds() > 4500)
                 {
                     robot.leftServoStop();
                     commandNumber++;
@@ -205,35 +238,43 @@ public class RedTurnAuton extends OpMode {
                 break;
 
             case 11:
-                robot.drive(1, 0.3);
-                commandNumber++;
+                if (x == 1)
+                {
+                    timer.reset();
+                    robot.drive(1, .3);
+                    x++;
+                }
+                else if (timer.milliseconds() < 1000){}
+                else { commandNumber++; }
                 break;
 
             case 12:
-                if (robot.getRed() >= 3)
+                if (robot.getRed() >= 2)
                 {
                     robot.drive();
-                    robot.runToPosition(.2, 3);
+                    robot.runToPosition(.3, 5);
                     commandNumber++;
                     x = 2;
                 }
                 break;
 
             case 13:
-                if (x == 1)
+                if (x == 2)
                 {
                     timer.reset();
+                    robot.runUsingEncoders();
+                    robot.drive();
                     x++;
                 }
-                if (timer.seconds() > 0.5 && timer.seconds() < 2.0)
+                else if (timer.milliseconds() < 2500)
                 {
                     robot.leftServoOut();
                 }
-                if (timer.seconds() > 2.0 && timer.seconds() < 3.5)
+                else if (timer.milliseconds() < 4500)
                 {
                     robot.leftServoIn();
                 }
-                if (timer.seconds() > 3.5)
+                else if (timer.milliseconds() > 4500)
                 {
                     robot.leftServoStop();
                     commandNumber++;
