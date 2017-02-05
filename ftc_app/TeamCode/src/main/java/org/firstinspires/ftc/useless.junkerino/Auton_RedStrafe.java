@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.useless.junkerino;
 
 /*plotnw*/
 
@@ -9,21 +9,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 @Disabled
-@Autonomous(name = "Auton_BlueStrafe", group = "ITERATIVE_AUTON")
-public class Auton_BlueStrafe extends OpMode {
+@Autonomous(name = "Auton_RedStrafe", group = "ITERATIVE_AUTON")
+public class Auton_RedStrafe extends OpMode {
 
-    Bot robot = new Bot();
+    //Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime(0);
 
     int commandNumber = 1;
 
     private int x = 0;
-
+    boolean isRunningDiagonally = false;
 
     @Override
     public void init()
     {
-        robot.init(hardwareMap);
+        //robot.init(hardwareMap);
     }
 
     @Override
@@ -31,18 +31,32 @@ public class Auton_BlueStrafe extends OpMode {
     @Override
     public void loop()
     {
-        telemetry.addData("FL Pos", robot.getCurPosFL());
+        /*telemetry.addData("FL Pos", robot.getCurPosFL());
         telemetry.addData("BL Pos", robot.getCurPosBL());
         telemetry.addData("FR Pos", robot.getCurPosFR());
         telemetry.addData("BR Pos", robot.getCurPosBR());
-        telemetry.addData("Red Value", robot.getRed());
-        telemetry.addData("Blue Value", robot.getBlue());
+        //telemetry.addData("Red Value", robot.getRed());
+        //telemetry.addData("Blue Value", robot.getBlue());
         telemetry.addData("Command", commandNumber);
-        telemetry.addData("current time", timer.seconds());
+        //      telemetry.addData("current time", timer.seconds());
 
-        if (robot.getIsRunningToTarget())
+        if (robot.getIsRunningToTarget() && isRunningDiagonally)
         {
-            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 25) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 25) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 25) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 25))
+            if (((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 200) && ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 200) && ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 200) && ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 200))
+            {
+                robot.setIsRunningToTarget(false);
+            }
+            telemetry.addData("inLoop", robot.getIsRunningToTarget());
+            telemetry.update();
+            return;
+        }
+        else if (robot.getIsRunningToTarget())
+        {
+            if (
+                    ((Math.abs(robot.getCurPosFL() - robot.FLtarget)) < 25) &&
+                            ((Math.abs(robot.getCurPosFR() - robot.FRtarget)) < 25) &&
+                            ((Math.abs(robot.getCurPosBL() - robot.BLtarget)) < 25) &&
+                            ((Math.abs(robot.getCurPosBR() - robot.BRtarget)) < 25))
             {
                 robot.setIsRunningToTarget(false);
             }
@@ -54,7 +68,7 @@ public class Auton_BlueStrafe extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0.7, 36);
+                robot.runToPosition(0.4, 36);
                 commandNumber++;
                 break;
 
@@ -95,17 +109,19 @@ public class Auton_BlueStrafe extends OpMode {
                 break;
 
             case 3:
-                robot.runDiagRight(1,250);
+                robot.runDiagLeft(230);
+                isRunningDiagonally = true;
                 commandNumber++;
                 break;
 
             case 4:
-                robot.runToRight(1, 40);
+                isRunningDiagonally = false;
+                robot.runToLeft(1, 100);
                 commandNumber++;
                 break;
 
             case 5:
-                robot.runToLeft(1, 10);
+                robot.runToRight(1, 20);
                 commandNumber++;
                 break;
 
@@ -117,10 +133,11 @@ public class Auton_BlueStrafe extends OpMode {
                 break;
 
             case 7:
-                if (robot.getBlue() >= 3)
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
                     robot.runToPosition(.2, 8);
+                    x = 0;
                     commandNumber++;
                 }
                 break;
@@ -129,21 +146,21 @@ public class Auton_BlueStrafe extends OpMode {
                 if (x == 0)
                 {
                     timer.reset();
-                    robot.drive();
                     robot.runUsingEncoders();
+                    robot.drive();
                     x++;
                 }
                 else if (timer.milliseconds() < 1500)
                 {
-                   robot.rightServoOut();
+                    robot.leftServoOut();
                 }
                 else if (timer.milliseconds() < 3000)
                 {
-                    robot.rightServoIn();
+                    robot.leftServoIn();
                 }
                 else if (timer.milliseconds() > 3000)
                 {
-                    robot.rightServoStop();
+                    robot.leftServoStop();
                     commandNumber++;
                 }
                 break;
@@ -152,7 +169,7 @@ public class Auton_BlueStrafe extends OpMode {
                 if (x == 1)
                 {
                     timer.reset();
-                    robot.drive(1, -.3);
+                    robot.drive(1, .3);
                     x++;
                 }
                 else if (timer.milliseconds() < 1000){}
@@ -160,7 +177,7 @@ public class Auton_BlueStrafe extends OpMode {
                 break;
 
             case 10:
-                if (robot.getBlue() >= 3)
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
                     robot.runToPosition(.2, 8);
@@ -169,7 +186,7 @@ public class Auton_BlueStrafe extends OpMode {
                 }
                 break;
             case 11:
-                if (x == 0)
+                if (x == 2)
                 {
                     timer.reset();
                     robot.drive();
@@ -178,21 +195,21 @@ public class Auton_BlueStrafe extends OpMode {
                 }
                 else if (timer.milliseconds() < 1500)
                 {
-                    robot.rightServoOut();
+                    robot.leftServoOut();
                 }
                 else if (timer.milliseconds() < 3000)
                 {
-                    robot.rightServoIn();
+                    robot.leftServoIn();
                 }
                 else if (timer.milliseconds() > 3000)
                 {
-                    robot.rightServoStop();
+                    robot.leftServoStop();
                     commandNumber++;
                 }
                 break;
         }
         telemetry.addData("inLoop", robot.getIsRunningToTarget());
-        telemetry.update();
+        telemetry.update();*/
     }
 
     @Override
