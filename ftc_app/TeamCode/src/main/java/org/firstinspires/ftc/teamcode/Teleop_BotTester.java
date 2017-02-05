@@ -37,9 +37,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
- @TeleOp(name="Bot Tester", group="Iterative Opmode")
+ @TeleOp(name="Bot Tester", group="TESTING")
  //@Disabled
- public class BotTester extends OpMode
+ public class Teleop_BotTester extends OpMode
  {
      private ElapsedTime runtime = new ElapsedTime();
      Bot robot = new Bot();

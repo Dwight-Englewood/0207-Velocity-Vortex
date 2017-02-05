@@ -38,10 +38,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Telebop", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Telebop", group="MAIN")  // @Autonomous(...) is the other common choice
 //@Disabled
 //TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
-public class TELEBOP extends OpMode {
+public class Teleop_TELEBOP extends OpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timer = new ElapsedTime();

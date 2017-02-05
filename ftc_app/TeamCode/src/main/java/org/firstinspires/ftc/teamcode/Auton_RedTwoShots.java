@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 //@Disabled
-@Autonomous(name = "RedTurnAuton", group = "ITERATIVE_AUTON")
-public class RedTurnAuton extends OpMode {
+@Autonomous(name = "Red Two Shot", group = "RED")
+public class Auton_RedTwoShots extends OpMode {
 
     Bot robot = new Bot();
     ElapsedTime timer = new ElapsedTime(0);

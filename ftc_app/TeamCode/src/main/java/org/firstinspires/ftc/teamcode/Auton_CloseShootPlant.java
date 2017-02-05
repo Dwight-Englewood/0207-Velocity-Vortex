@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 //@Disabled
 @Autonomous(name = "Shoot Drive", group = "ITERATIVE_AUTON")
-public class ShootDrive extends OpMode {
+public class Auton_CloseShootPlant extends OpMode {
 
     long start_time = 0;
     long current_time;
