@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 @Disabled
-@Autonomous(name = "Auton_BlueStrafe", group = "ITERATIVE_AUTON")
+@Autonomous(name = "Auton_BlueStrafe", group = "BLUE")
 public class Auton_BlueStrafe extends OpMode {
 
     //Bot robot = new Bot();
