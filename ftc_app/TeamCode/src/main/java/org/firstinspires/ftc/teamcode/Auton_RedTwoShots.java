@@ -229,6 +229,8 @@ public class Auton_RedTwoShots extends OpMode {
                 else if (timer.milliseconds() < 4500)
                 {
                     robot.leftServoIn();
+                    robot.drive(1, 0.3);
+                    x = 2;
                 }
                 else if (timer.milliseconds() > 4500)
                 {
@@ -238,14 +240,15 @@ public class Auton_RedTwoShots extends OpMode {
                 break;
 
             case 11:
-                if (x == 1)
+                /*if (x == 1)
                 {
                     timer.reset();
                     robot.drive(1, .3);
                     x++;
                 }
                 else if (timer.milliseconds() < 1000){}
-                else { commandNumber++; }
+                else { commandNumber++; }*/
+                commandNumber++;
                 break;
 
             case 12:
