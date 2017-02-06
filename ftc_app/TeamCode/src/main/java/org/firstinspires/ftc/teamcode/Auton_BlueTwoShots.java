@@ -232,9 +232,9 @@ public class Auton_BlueTwoShots extends OpMode {
                     robot.drive(1, 0.3);
                     x = 2;
                 }
-                else if (timer.milliseconds() > 4500)
+                else if (timer.milliseconds() > 3500)
                 {
-                    robot.rightServoStop();
+                    //robot.rightServoStop();
                     commandNumber++;
                 }
                 break;
