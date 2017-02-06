@@ -283,6 +283,9 @@ public class Auton_BlueTwoShots extends OpMode {
                     commandNumber++;
                 }
                 break;
+
+            case 14:
+                break;
         }
         telemetry.addData("inLoop", robot.getIsRunningToTarget());
         telemetry.update();
