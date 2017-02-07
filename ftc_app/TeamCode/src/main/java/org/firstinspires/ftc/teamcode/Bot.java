@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
  * Created by aburur on 1/5/17.
@@ -65,8 +66,12 @@ public class Bot
         //clamp = hwMap.servo.get("clamp");
         //forkDropLeft = hwMap.servo.get("forkDropLeft");
         //forkDropRight = hwMap.servo.get("forkDropRight");
+
         colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
+        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e));
         colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
+        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26));
+
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
 

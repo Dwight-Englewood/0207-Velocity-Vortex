@@ -178,13 +178,13 @@ public class Auton_RedTwoShots extends OpMode {
 
             case 4:
                 isGoingForward = true;
-                robot.runToPosition(0.1, 196);
+                robot.runToPosition(0.1, 197);
                 commandNumber++;
                 break;
 
             case 5:
                 isGoingForward = false;
-                robot.runTurnRight(0.3, 16);
+                robot.runTurnRight(0.3, 15);
                 commandNumber++;
                 break;
 
@@ -205,10 +205,10 @@ public class Auton_RedTwoShots extends OpMode {
                 break;
 
             case 9:
-                if (robot.getRed() >= 2)
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
-                    robot.runToPosition(.3, 3);
+                    robot.runToPosition(.3, 5);
                     x = 0;
                     commandNumber++;
                 }
@@ -252,7 +252,7 @@ public class Auton_RedTwoShots extends OpMode {
                 break;
 
             case 12:
-                if (robot.getRed() >= 2)
+                if (robot.getRed() >= 3)
                 {
                     robot.drive();
                     robot.runToPosition(.3, 5);
@@ -282,9 +282,6 @@ public class Auton_RedTwoShots extends OpMode {
                     robot.leftServoStop();
                     commandNumber++;
                 }
-                break;
-
-            case 14:
                 break;
         }
         telemetry.addData("inLoop", robot.getIsRunningToTarget());

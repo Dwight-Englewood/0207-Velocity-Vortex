@@ -205,10 +205,10 @@ public class Auton_BlueTwoShots extends OpMode {
                 break;
 
             case 9:
-                if (robot.getBlue() >= 2)
+                if (robot.getBlue() >= 3)
                 {
                     robot.drive();
-                    robot.runToPosition(.3, 3);
+                    robot.runToPosition(.3, 5);
                     x = 0;
                     commandNumber++;
                 }
@@ -252,7 +252,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 break;
 
             case 12:
-                if (robot.getBlue() >= 2)
+                if (robot.getBlue() >= 3)
                 {
                     robot.drive();
                     robot.runToPosition(.3, 5);
@@ -282,9 +282,6 @@ public class Auton_BlueTwoShots extends OpMode {
                     robot.rightServoStop();
                     commandNumber++;
                 }
-                break;
-
-            case 14:
                 break;
         }
         telemetry.addData("inLoop", robot.getIsRunningToTarget());

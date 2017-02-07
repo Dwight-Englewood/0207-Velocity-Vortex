@@ -40,7 +40,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /*
  *
@@ -58,19 +60,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @TeleOp(name = "MR COLOR SENSOR TESTING", group = "TESTING")
 //@Disabled
 public class Teleop_ColorSensorTest extends LinearOpMode {
-
-  Bot robot = new Bot();
+    Bot robot = new Bot();
 
   @Override
   public void runOpMode() throws InterruptedException
   {
+
       robot.init(hardwareMap);
+
       waitForStart();
 
       while (opModeIsActive())
       {
-          telemetry.addData("Red  ", robot.getRed());
-          telemetry.addData("Blue ", robot.getBlue());
+          telemetry.addData("BLUE  ", robot.getBlue());
+          telemetry.addData("RED ", robot.getRed());
 
           telemetry.update();
           idle();
