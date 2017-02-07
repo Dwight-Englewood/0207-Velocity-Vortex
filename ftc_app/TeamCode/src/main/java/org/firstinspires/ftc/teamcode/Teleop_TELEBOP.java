@@ -107,12 +107,12 @@ public class Teleop_TELEBOP extends OpMode {
         else { robot.drive(); }
         */
         // Driving commands (tank controls + strafe) BUILT FOR DUMB MODE
-        if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
+        /*if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
             invert = invert * (-1);
             invertLen = System.currentTimeMillis();
         } else {
             ;
-        }
+        }*/
         //bo doesnt work
         //i need to change values more precisely
         //single joystick doesnt work when not inverted
@@ -151,7 +151,7 @@ public class Teleop_TELEBOP extends OpMode {
                 strafingLeft = true;
             }
 
-            if (gamepad1.right_trigger > 0.5)
+            else if (gamepad1.right_trigger > 0.5)
             {
                 robot.drive(3,1);
                 strafingRight = true;
@@ -212,7 +212,7 @@ public class Teleop_TELEBOP extends OpMode {
                 robot.drive();
                 strafingRight = false;
             }
-        }
+        }*/
 
         // Shooting and elevating commands
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
@@ -221,7 +221,7 @@ public class Teleop_TELEBOP extends OpMode {
         if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1);}
         else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
         else                                    {robot.setElevator(0);}
-        */
+
         // Left servo commands
         //b out a in right
         //x out y in left

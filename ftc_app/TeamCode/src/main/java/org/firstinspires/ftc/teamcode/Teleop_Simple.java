@@ -159,14 +159,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
              }
          }
 
-         /*// Shooting and elevating commands
+         // Shooting and elevating commands
          if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
          else                                    {robot.setShooter(0);}
 
          if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1);}
          else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
          else                                    {robot.setElevator(0);}
-
+        /*
          // Left servo commands
          //b out a in right
          //x out y in left

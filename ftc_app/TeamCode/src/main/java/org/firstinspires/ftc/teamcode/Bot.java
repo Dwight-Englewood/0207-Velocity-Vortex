@@ -445,28 +445,25 @@ public class Bot
     {
         lServo.setPosition(.55);
     }
-
     public void leftServoIn()
     {
         //lServo.setDirection(DcMotorSimple.Direction.FORWARD);
         //lServo.setPower(1.0);
         lServo.setPosition(.40);
     }
-
     public void leftServoStop()
     {
         lServo.setPosition(.48);
     }
+
     public void rightServoOut()
     {
-        rServo.setPosition(.56);
+        rServo.setPosition(.66);
     }
-
     public void rightServoIn()
     {
-        rServo.setPosition(.44);
+        rServo.setPosition(.34);
     }
-
     public void rightServoStop()
     {
         rServo.setPosition(.50);
