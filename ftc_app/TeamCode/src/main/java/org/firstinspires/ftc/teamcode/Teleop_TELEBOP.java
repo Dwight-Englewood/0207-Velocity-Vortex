@@ -353,25 +353,12 @@ public class Teleop_TELEBOP extends OpMode {
 
 */
         // lift methods
-        if (gamepad1.x)
-        {
-            robot.dropForks(1);
-        }
-        else
-        {
-            robot.dropForks(0);
-        }
 
         if (gamepad1.a)
         {
-            robot.closeClamp();
+            robot.lowerCap();
         }
-        else if (gamepad1.y)
-        {
-            robot.openClamp();
-        }
-
-        if (gamepad1.b)
+        else if (gamepad1.b)
         {
             robot.liftCap();
         }

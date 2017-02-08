@@ -74,6 +74,9 @@ public class Bot
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
 
+        leftCap.setMaxSpeed(3000);
+        rightCap.setMaxSpeed(3000);
+        
         // Set motor/servo modes
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -502,14 +505,14 @@ public class Bot
 
     public void liftCap()
     {
-        leftCap.setPower(1);
-        rightCap.setPower(1);
+        leftCap.setPower(.5);
+        rightCap.setPower(.5);
     }
 
     public void lowerCap()
     {
-        leftCap.setPower(-1);
-        rightCap.setPower(-1);
+        leftCap.setPower(-.5);
+        rightCap.setPower(-.5);
     }
 
     public void stopLiftCap ()
