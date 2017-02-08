@@ -108,6 +108,7 @@ public class Bot
         rightServoStop();
         forkDropLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         forkDropRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        clamp.setPosition(0);
 
         // Running to target false
         runningToTarget = false;
@@ -497,6 +498,7 @@ public class Bot
     {
         clamp.setPosition(.5);
     }
+
 
     public void liftCap()
     {

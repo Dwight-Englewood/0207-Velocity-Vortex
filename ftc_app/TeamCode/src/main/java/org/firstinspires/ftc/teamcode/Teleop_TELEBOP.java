@@ -350,7 +350,38 @@ public class Teleop_TELEBOP extends OpMode {
             rsevoStop = rsevoStop - .01;
             invertLen = System.currentTimeMillis();
         }
+
 */
+        // lift methods
+        if (gamepad1.x)
+        {
+            robot.dropForks(1);
+        }
+        else
+        {
+            robot.dropForks(0);
+        }
+
+        if (gamepad1.a)
+        {
+            robot.closeClamp();
+        }
+        else if (gamepad1.y)
+        {
+            robot.openClamp();
+        }
+
+        if (gamepad1.b)
+        {
+            robot.liftCap();
+        }
+        else
+        {
+            robot.stopLiftCap();
+        }
+
+
+
         telemetry.addData("lservo", lservo);
         telemetry.addData("lsevoStop", lsevoStop);
 
