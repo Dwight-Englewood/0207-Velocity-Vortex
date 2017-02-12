@@ -113,10 +113,7 @@ public class Teleop_TELEBOP extends OpMode {
         } else {
             ;
         }*/
-        //bo doesnt work
-        //i need to change values more precisely
-        //single joystick doesnt work when not inverted
-        //wtf
+
         if (!robot.getIsStrafing())
         {
             if (gamepad1.right_stick_y > 0.5)
@@ -227,12 +224,12 @@ public class Teleop_TELEBOP extends OpMode {
         //x out y in left
         //left servo stuff
 
-        if (gamepad2.y) {
+        if (gamepad2.x) {
             lservo = ServoStates.OUT;
             ltime = System.currentTimeMillis();
             lservoactive = true;
             //lcount++;
-        } else if (gamepad2.x) {
+        } else if (gamepad2.y) {
             lservo = ServoStates.IN;
             ltime = System.currentTimeMillis();
             lservoactive = true;
@@ -353,7 +350,7 @@ public class Teleop_TELEBOP extends OpMode {
 
 */
         // lift methods
-
+        /*
         if (gamepad1.a)
         {
             robot.lowerCap();
@@ -366,7 +363,7 @@ public class Teleop_TELEBOP extends OpMode {
         {
             robot.stopLiftCap();
         }
-
+        */
 
 
         telemetry.addData("lservo", lservo);
@@ -376,7 +373,6 @@ public class Teleop_TELEBOP extends OpMode {
         telemetry.addData("rsevoStop", rsevoStop);
 
         telemetry.addData("invert", invert);
-
 
         telemetry.update();
     }

@@ -178,7 +178,7 @@ public class Auton_RedTwoShots extends OpMode {
 
             case 4:
                 isGoingForward = true;
-                robot.runToPosition(0.1, 197);
+                robot.runToPosition(0.1, 199);
                 commandNumber++;
                 break;
 

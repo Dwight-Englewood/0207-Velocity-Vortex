@@ -21,15 +21,15 @@ public class Bot
     private DcMotor BR;
     private DcMotor elevator;
     private DcMotor shooter;
-    private DcMotor leftCap;
-    private DcMotor rightCap;
+    //private DcMotor leftCap;
+    //private DcMotor rightCap;
     private ColorSensor colorSensorRight;
     private ColorSensor colorSensorLeft;
     public Servo lServo;
     public Servo rServo;
-    private Servo clamp;
-    private CRServo forkDropLeft;
-    private CRServo forkDropRight;
+    //private Servo clamp;
+    //private CRServo forkDropLeft;
+    //private CRServo forkDropRight;
 
     private boolean runningToTarget;
     private boolean strafing;
@@ -60,11 +60,11 @@ public class Bot
         BR = hwMap.dcMotor.get("BR");
         elevator = hwMap.dcMotor.get("elevator");
         shooter = hwMap.dcMotor.get("shooter");
-        leftCap = hwMap.dcMotor.get("leftCap");
-        rightCap = hwMap.dcMotor.get("rightCap");
-        clamp = hwMap.servo.get("clamp");
-        forkDropLeft = hwMap.crservo.get("forkDropLeft");
-        forkDropRight = hwMap.crservo.get("forkDropRight");
+        //leftCap = hwMap.dcMotor.get("leftCap");
+        //rightCap = hwMap.dcMotor.get("rightCap");
+        //clamp = hwMap.servo.get("clamp");
+        //forkDropLeft = hwMap.crservo.get("forkDropLeft");
+        //forkDropRight = hwMap.crservo.get("forkDropRight");
 
         colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
         colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e));
@@ -74,8 +74,8 @@ public class Bot
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
 
-        leftCap.setMaxSpeed(3000);
-        rightCap.setMaxSpeed(3000);
+        //leftCap.setMaxSpeed(3000);
+        //rightCap.setMaxSpeed(3000);
         
         // Set motor/servo modes
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -91,8 +91,8 @@ public class Bot
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //FL.setMaxSpeed(1000);
         //BL.setMaxSpeed(1000);
@@ -105,13 +105,13 @@ public class Bot
         BR.setPower(0);
         elevator.setPower(0);
         shooter.setPower(0);
-        leftCap.setPower(0);
-        rightCap.setPower(0);
+        //leftCap.setPower(0);
+        //rightCap.setPower(0);
         leftServoStop();
         rightServoStop();
-        forkDropLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        forkDropRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        clamp.setPosition(0);
+        //forkDropLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        //forkDropRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        //clamp.setPosition(0);
 
         // Running to target false
         runningToTarget = false;
@@ -486,7 +486,7 @@ public class Bot
     }
 
     // Cap Methods
-    public void dropForks (int power)
+    /*public void dropForks (int power)
     {
         forkDropLeft.setPower(power);
         forkDropRight.setPower(power);
@@ -519,7 +519,7 @@ public class Bot
     {
         leftCap.setPower(0);
         rightCap.setPower(0);
-    }
+    }*/
 
     // Helper Methods
     public int distanceToRevs (double distance)

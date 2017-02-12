@@ -32,20 +32,20 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
- @TeleOp(name="Drive Only", group="TESTING")  // @Autonomous(...) is the other common choice
- @Disabled
- public class Teleop_Simple extends OpMode
- {
+ @TeleOp(name="Telebop_Invert", group="MAIN")  // @Autonomous(...) is the other common choice
+ //@Disabled
+ //TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
+ public class Teleop_Invert extends OpMode {
      /* Declare OpMode members. */
      private ElapsedTime runtime = new ElapsedTime();
      private ElapsedTime timer = new ElapsedTime();
      Bot robot = new Bot();
+
 
      boolean strafingLeft = false;
      boolean strafingRight = false;
@@ -58,16 +58,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
      private boolean rservoinorout = false;
      private boolean rservoactive = false;
      private boolean lservoinorout = false;
-     //private int rcount = 0;
-     //private int lcount = 0;
+     private double rsevoStop = .5;
+     private double lsevoStop = .5;
+     private int rcount = 0;
+     private int lcount = 0;
+     private int invert = 1;
+     private long invertLen = 1;
      private ServoStates lservo = ServoStates.STOP;
      private long ltime;
      private boolean lservoactive = false;
      /*to run ONCE when the driver hits INIT
       */
      @Override
-     public void init()
-     {
+     public void init() {
          telemetry.addData("Status", "Initialized");
          robot.init(hardwareMap);
      }
@@ -82,8 +85,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
       * Code to run ONCE when the driver hits PLAY
       */
      @Override
-     public void start()
-     {
+     public void start() {
          runtime.reset();
      }
 
@@ -91,8 +93,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
       * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
       */
      @Override
-     public void loop()
-     {
+     public void loop() {
          telemetry.addData("Status", "Running: " + runtime.toString());
 
          // Driving commands (left/right stick brian zhang method)
@@ -104,56 +105,52 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
          else { robot.drive(); }
          */
-         // Driving commands (tank controls + strafe) BUILT FOR DUMB MODE
-         if (!robot.getIsStrafing())
-         {
-             if (gamepad1.right_stick_y > 0.5)
-             {
-                 robot.drive(7, 1);
+
+         if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
+             invert = invert * (-1);
+             invertLen = System.currentTimeMillis();
+         } else {
+             ;
+         }
+
+         if (!robot.getIsStrafing()) {
+             if (gamepad1.right_stick_y > 0.15) {
+                 robot.driveInvert(10 + invert, 1 * invert * gamepad1.right_stick_y);
+                 //needs to be 6 when invert = -1, 7 when invert = 1
              }
-             else if (gamepad1.right_stick_y < -0.5)
-             {
-                 robot.drive(7, -1);
+             else if (gamepad1.right_stick_y < -0.15) {
+                 robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y));
              }
-             else
-             {
-                 robot.drive(7, 0);
+             else {
+                 robot.driveInvert(9, 0);
              }
 
-             if (gamepad1.left_stick_y > 0.5)
-             {
-                 robot.drive(6, 1);
+             if (gamepad1.left_stick_y > 0.15) {
+                 robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y);
              }
-             else if (gamepad1.left_stick_y < -0.5)
-             {
-                 robot.drive(6, -1);
+             else if (gamepad1.left_stick_y < -0.15) {
+                 robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y));
              }
-             else
-             {
-                 robot.drive(6, 0);
+             else {
+                 robot.driveInvert(11, 0);
              }
 
-             if (gamepad1.left_trigger > 0.5)
-             {
-                 robot.drive(2,1);
+             if (gamepad1.left_trigger > 0.5) {
+                 robot.driveInvert(4 - invert,1 * invert);
                  strafingLeft = true;
              }
 
-             if (gamepad1.right_trigger > 0.5)
-             {
-                 robot.drive(3,1);
+             if (gamepad1.right_trigger > 0.5) {
+                 robot.driveInvert(4 + invert,1 * invert);
                  strafingRight = true;
              }
          }
-         else
-         {
-             if (gamepad1.left_trigger == 0 && strafingLeft)
-             {
+         else {
+             if (gamepad1.left_trigger == 0 && strafingLeft) {
                  robot.drive();
                  strafingLeft = false;
              }
-             else if (gamepad1.right_trigger == 0 && strafingRight)
-             {
+             else if (gamepad1.right_trigger == 0 && strafingRight) {
                  robot.drive();
                  strafingRight = false;
              }
@@ -166,17 +163,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1);}
          else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
          else                                    {robot.setElevator(0);}
-        /*
+
          // Left servo commands
          //b out a in right
          //x out y in left
          //left servo stuff
-         if (gamepad2.y) {
+
+         if (gamepad2.x && lcount < 4) {
              lservo = ServoStates.OUT;
              ltime = System.currentTimeMillis();
              lservoactive = true;
              //lcount++;
-         } else if (gamepad2.x) {
+         } else if (gamepad2.y && lcount > -1) {
              lservo = ServoStates.IN;
              ltime = System.currentTimeMillis();
              lservoactive = true;
@@ -197,7 +195,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                      } else {
                          lservo = ServoStates.STOP;
                          lservoactive = false;
-                         //lcount++;
+                         lcount++;
                      }
                      break;
                  case IN:
@@ -206,7 +204,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                      } else {
                          lservo = ServoStates.STOP;
                          lservoactive = false;
-                         //lcount--;
+                         lcount--;
                      }
                      break;
              }
@@ -219,16 +217,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                  robot.leftServoIn();
                  break;
              case STOP:
-                 robot.leftServoReset();
+                 //robot.leftServoReset();
                  robot.leftServoStop();
                  break;
          }
          //right servo
-         if (gamepad2.b) {
+         if (gamepad2.b && rcount < 4) {
              rservo = ServoStates.OUT;
              rtime = System.currentTimeMillis();
              rservoactive = true;
-         } else if (gamepad2.a) {
+         } else if (gamepad2.a && rcount > -1) {
              rservo = ServoStates.IN;
              rtime = System.currentTimeMillis();
              rservoactive = true;
@@ -248,7 +246,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                      } else {
                          rservo = ServoStates.STOP;
                          rservoactive = false;
-                         //rcount++;
+                         rcount++;
                      }
                      break;
                  case IN:
@@ -257,7 +255,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                      } else {
                          rservo = ServoStates.STOP;
                          rservoactive = false;
-                         //rcount--;
+                         rcount--;
                      }
                      break;
              }
@@ -274,51 +272,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                  break;
          }
 
-         //bad servo programming
-         /*if (!(lservo.equals(ServoStates.OUT) || lservo.equals(ServoStates.IN))) {
-             if (gamepad2.x && !lservo.equals(ServoStates.OUT)) {
-                 robot.leftServoOut();
-                 lservo = ServoStates.OUT;
-                 ltime = System.currentTimeMillis();
-             } else if (gamepad2.y) {
-                 robot.leftServoIn();
-                 lservo = ServoStates.IN;
-                 ltime = System.currentTimeMillis();
-             } else {
-                 robot.leftServoStop();
-                 lservo = ServoStates.STOP;
-             }
-         } else if (System.currentTimeMillis() - ltime >= 200) {
-             robot.leftServoStop();
-         } else if (System.currentTimeMillis() - ltime <= 200) {
-             ;
-         } else {
-             robot.leftServoStop();
-         }
-         if (!(rservo.equals(ServoStates.OUT) || rservo.equals(ServoStates.IN))) {
-             if (gamepad2.b && !rservo.equals(ServoStates.OUT)) {
-                 robot.rightServoOut();
-                 rservo = ServoStates.OUT;
-                 rtime = System.currentTimeMillis();
-             } else if (gamepad2.a) {
-                 robot.rightServoIn();
-                 rservo = ServoStates.IN;
-                 rtime = System.currentTimeMillis();
-             } else {
-                 robot.rightServoStop();
-                 rservo = ServoStates.STOP;
-             }
-         } else if (System.currentTimeMillis() - rtime >= 200) {
-             robot.rightServoStop();
-         } else if (System.currentTimeMillis() - rtime <= 200) {
-             ;
-         } else {
-             robot.rightServoStop();
-         }*/
 
 
          telemetry.addData("lservo", lservo);
+         telemetry.addData("lsevoStop", lsevoStop);
+
          telemetry.addData("rservo", rservo);
+         telemetry.addData("rsevoStop", rsevoStop);
+
+         telemetry.addData("invert", invert);
 
          telemetry.update();
      }
