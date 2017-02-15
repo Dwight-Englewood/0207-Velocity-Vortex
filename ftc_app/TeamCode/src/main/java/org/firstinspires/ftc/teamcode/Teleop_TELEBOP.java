@@ -216,9 +216,9 @@ public class Teleop_TELEBOP extends OpMode {
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
         else                                    {robot.setShooter(0);}
 
-        if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1);}
-        else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
-        else                                    {robot.setElevator(0);}
+        if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1); robot.setIntakeServo(1);}
+        else if (gamepad2.left_bumper)          {robot.setElevator(-1); robot.setIntakeServo(-1);}
+        else                                    {robot.setElevator(0); robot.setIntakeServo(0 );}
 
         // Left servo commands
         //b out a in right
@@ -389,7 +389,7 @@ public class Teleop_TELEBOP extends OpMode {
                 {
                     robot.leftServoIn();
                 }
-                
+
             }
             else
             {

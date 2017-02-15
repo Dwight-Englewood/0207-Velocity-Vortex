@@ -31,56 +31,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package org.firstinspires.ftc.teamcode;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.view.View;
-
-import com.qualcomm.ftcrobotcontroller.R;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 /*
- *
  * This is an example LinearOpMode that shows how to use
- * a Modern Robotics Color Sensor.
- *
- * The op mode assumes that the color sensor
- * is configured with a name of "color sensor".
- *
- * You can use the X button on gamepad1 to toggle the LED on and off.
+ * a Modern Robotics Optical Distance Sensor
+ * It assumes that the ODS sensor is configured with a name of "sensor_ods".
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "COLOR SENSOR TESTING", group = "TESTING")
+@TeleOp(name = "Sensor Tester", group = "TESTING")
 //@Disabled
-public class Teleop_ColorSensorTest extends LinearOpMode {
-    Bot robot = new Bot();
+public class Teleop_SensorTest extends LinearOpMode {// Hardware Device Object
 
+  Bot robot = new Bot();
   @Override
-  public void runOpMode() throws InterruptedException
-  {
+  public void runOpMode() {
 
-      robot.init(hardwareMap);
+    // get a reference to our Light Sensor object.
 
-      waitForStart();
+    // wait for the start button to be pressed.
+    waitForStart();
+    robot.init(hardwareMap);
+    // while the op mode is active, loop and read the light levels.
+    // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
+    while (opModeIsActive()) {
 
-      while (opModeIsActive())
-      {
-          telemetry.addData("BLUE  ", robot.getBlue());
-          telemetry.addData("RED ", robot.getRed());
+      // send the info back to driver station using telemetry function.
+      telemetry.addData("Line Light",    robot.getLineLight());
+      telemetry.addData("BLUE  ", robot.getBlue());
+      telemetry.addData("RED ", robot.getRed());
+      telemetry.addData("Intake", robot.getIntake());
 
-          telemetry.update();
-          idle();
-      }
-
-
-
+      telemetry.update();
+      idle();
     }
   }
-
+}

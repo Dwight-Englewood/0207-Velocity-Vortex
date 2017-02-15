@@ -30,6 +30,7 @@ public class Bot
     private ColorSensor colorSensorIntake;
 
     private OpticalDistanceSensor opticalLineFinder;
+    private OpticalDistanceSensor opticalWallFinder;
 
     public Servo lServo;
     public Servo rServo;
@@ -37,6 +38,7 @@ public class Bot
 
     //private CRServo forkDropLeft;
     //private CRServo forkDropRight;
+    private CRServo intakeServo;
 
     private boolean runningToTarget;
     private boolean strafing;
@@ -76,6 +78,7 @@ public class Bot
 
         //forkDropLeft = hwMap.crservo.get("forkDropLeft");
         //forkDropRight = hwMap.crservo.get("forkDropRight");
+        intakeServo = hwMap.crservo.get("intakeServo");
 
         colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
         colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e));
@@ -91,6 +94,9 @@ public class Bot
 
         opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
         opticalLineFinder.enableLed(true);
+
+        opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
+        opticalWallFinder.enableLed(false);
 
         //leftCap.setMaxSpeed(3000);
         //rightCap.setMaxSpeed(3000);
@@ -486,6 +492,8 @@ public class Bot
     {
         rServo.setPosition(.50);
     }
+
+    public void setIntakeServo(int power) { intakeServo.setPower(power); }
 
     // Sensor Methods
     public int getRed()
