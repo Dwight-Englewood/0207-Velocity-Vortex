@@ -68,6 +68,7 @@ public class Teleop_TELEBOP extends OpMode {
     private ServoStates lservo = ServoStates.STOP;
     private long ltime;
     private boolean lservoactive = false;
+    private boolean hittingBeacon = false;
     /*to run ONCE when the driver hits INIT
      */
     @Override
@@ -97,7 +98,7 @@ public class Teleop_TELEBOP extends OpMode {
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
 
-        // Driving commands (left/right stick brian zhang method)
+        // Old Driving commands
         /*if (gamepad1.left_stick_y < -0.5)       { robot.drive(0,1); }
         else if (gamepad1.left_stick_y > 0.5)   { robot.drive(1,1); }
         else if (gamepad1.left_stick_x > 0.5)   { robot.drive(2,1); }
@@ -106,7 +107,7 @@ public class Teleop_TELEBOP extends OpMode {
         else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
         else { robot.drive(); }
         */
-        // Driving commands (tank controls + strafe) BUILT FOR DUMB MODE
+        // Driving commands (tank controls + strafe)
         /*if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
             invert = invert * (-1);
             invertLen = System.currentTimeMillis();
@@ -365,15 +366,39 @@ public class Teleop_TELEBOP extends OpMode {
         }
         */
 
+        if (gamepad1.b)
+        {
+            if (!hittingBeacon)
+            {
+                hittingBeacon = true;
+            }
 
-        telemetry.addData("lservo", lservo);
-        telemetry.addData("lsevoStop", lsevoStop);
+            if (robot.getLineLight() > 16)
+            {
+                robot.drive();
+                if (hittingBeacon)
+                {
+                    timer.reset();
+                    hittingBeacon = false;
+                }
+                else if (timer.milliseconds() < 1000)
+                {
+                    robot.leftServoOut();
+                }
+                else
+                {
+                    robot.leftServoIn();
+                }
+                
+            }
+            else
+            {
+                robot.drive(0, .1);
+            }
+        }
 
-        telemetry.addData("rservo", rservo);
-        telemetry.addData("rsevoStop", rsevoStop);
 
-        telemetry.addData("invert", invert);
-
+        telemetry.addData("Intake color", robot.getIntake());
         telemetry.update();
     }
 

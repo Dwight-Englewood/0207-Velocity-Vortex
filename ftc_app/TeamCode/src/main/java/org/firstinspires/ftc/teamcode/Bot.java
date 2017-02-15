@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
@@ -23,11 +24,17 @@ public class Bot
     private DcMotor shooter;
     //private DcMotor leftCap;
     //private DcMotor rightCap;
+
     private ColorSensor colorSensorRight;
     private ColorSensor colorSensorLeft;
+    private ColorSensor colorSensorIntake;
+
+    private OpticalDistanceSensor opticalLineFinder;
+
     public Servo lServo;
     public Servo rServo;
     //private Servo clamp;
+
     //private CRServo forkDropLeft;
     //private CRServo forkDropRight;
 
@@ -53,7 +60,7 @@ public class Bot
     {
         hwMap = hwm;
 
-        // Defining the motors/sensors/etc.
+        // Defining the motors/sensors/servos/etc.
         FL = hwMap.dcMotor.get("FL");
         BL = hwMap.dcMotor.get("BL");
         FR = hwMap.dcMotor.get("FR");
@@ -62,17 +69,28 @@ public class Bot
         shooter = hwMap.dcMotor.get("shooter");
         //leftCap = hwMap.dcMotor.get("leftCap");
         //rightCap = hwMap.dcMotor.get("rightCap");
+
         //clamp = hwMap.servo.get("clamp");
+        lServo = hwMap.servo.get("lServo");
+        rServo = hwMap.servo.get("rServo");
+
         //forkDropLeft = hwMap.crservo.get("forkDropLeft");
         //forkDropRight = hwMap.crservo.get("forkDropRight");
 
         colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
         colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e));
+        colorSensorRight.enableLed(false);
+
         colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
         colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26));
+        colorSensorLeft.enableLed(false);
 
-        lServo = hwMap.servo.get("lServo");
-        rServo = hwMap.servo.get("rServo");
+        colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
+        //TODO: colorSensorIntake.setI2cAddress()
+        colorSensorIntake.enableLed(true);
+
+        opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
+        opticalLineFinder.enableLed(true);
 
         //leftCap.setMaxSpeed(3000);
         //rightCap.setMaxSpeed(3000);
@@ -94,11 +112,6 @@ public class Bot
         //leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //FL.setMaxSpeed(1000);
-        //BL.setMaxSpeed(1000);
-        //FR.setMaxSpeed(1000);
-        //BR.setMaxSpeed(1000);
-
         FL.setPower(0);
         BL.setPower(0);
         FR.setPower(0);
@@ -107,8 +120,10 @@ public class Bot
         shooter.setPower(0);
         //leftCap.setPower(0);
         //rightCap.setPower(0);
+
         leftServoStop();
         rightServoStop();
+
         //forkDropLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         //forkDropRight.setDirection(DcMotorSimple.Direction.REVERSE);
         //clamp.setPosition(0);
@@ -452,8 +467,6 @@ public class Bot
     }
     public void leftServoIn()
     {
-        //lServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        //lServo.setPower(1.0);
         lServo.setPosition(.40);
     }
     public void leftServoStop()
@@ -484,6 +497,24 @@ public class Bot
     {
         return colorSensorRight.blue();
     }
+
+    public String getIntake()
+    {
+        if (colorSensorIntake.blue() > colorSensorIntake.red() && colorSensorIntake.blue() > 3)
+        {
+            return "blue";
+        }
+        else if (colorSensorIntake.red() > colorSensorIntake.blue() && colorSensorIntake.red() > 3)
+        {
+            return "red";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public double getLineLight() { return opticalLineFinder.getLightDetected(); }
 
     // Cap Methods
     /*public void dropForks (int power)
