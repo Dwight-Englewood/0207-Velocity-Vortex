@@ -10,3 +10,6 @@ On the gamepad
 * Sticks and triggers output doubles
 	
 * Buttons outpu:qt boolean values
+
+
+testset
