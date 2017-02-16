@@ -168,49 +168,6 @@ public class Teleop_TELEBOP extends OpMode {
                 strafingRight = false;
             }
         }
-        /*
-        if (!robot.getIsStrafing()) {
-            if (gamepad1.right_stick_y > 0.15) {
-                robot.driveInvert(10 + invert, 1 * invert * gamepad1.right_stick_y);
-                //needs to be 6 when invert = -1, 7 when invert = 1
-            }
-            else if (gamepad1.right_stick_y < -0.15) {
-                robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y));
-            }
-            else {
-                robot.driveInvert(9, 0);
-            }
-
-            if (gamepad1.left_stick_y > 0.15) {
-                robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y);
-            }
-            else if (gamepad1.left_stick_y < -0.15) {
-                robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y));
-            }
-            else {
-                robot.driveInvert(11, 0);
-            }
-
-            if (gamepad1.left_trigger > 0.5) {
-                robot.driveInvert(4 - invert,1 * invert);
-                strafingLeft = true;
-            }
-
-            if (gamepad1.right_trigger > 0.5) {
-                robot.driveInvert(4 + invert,1 * invert);
-                strafingRight = true;
-            }
-        }
-        else {
-            if (gamepad1.left_trigger == 0 && strafingLeft) {
-                robot.drive();
-                strafingLeft = false;
-            }
-            else if (gamepad1.right_trigger == 0 && strafingRight) {
-                robot.drive();
-                strafingRight = false;
-            }
-        }*/
 
         // Shooting and elevating commands
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
@@ -328,28 +285,6 @@ public class Teleop_TELEBOP extends OpMode {
                 break;
         }
 
-        /*
-        if (gamepad1.a && (System.currentTimeMillis() - invertLen  > 100)) {
-            lsevoStop = lsevoStop + .01;
-            invertLen = System.currentTimeMillis();
-        }
-
-        if (gamepad1.b && (System.currentTimeMillis() - invertLen  > 100)) {
-            rsevoStop = rsevoStop + .01;
-            invertLen = System.currentTimeMillis();
-        }
-
-        if (gamepad1.x && (System.currentTimeMillis() - invertLen  > 100)) {
-            lsevoStop = lsevoStop - .01;
-            invertLen = System.currentTimeMillis();
-        }
-
-        if (gamepad1.y && (System.currentTimeMillis() - invertLen  > 100 )) {
-            rsevoStop = rsevoStop - .01;
-            invertLen = System.currentTimeMillis();
-        }
-
-*/
         // lift methods
         /*
         if (gamepad1.a)
@@ -366,6 +301,7 @@ public class Teleop_TELEBOP extends OpMode {
         }
         */
 
+        // Automated Beacon Lineup/Hit
         if (gamepad1.b)
         {
             if (!hittingBeacon)

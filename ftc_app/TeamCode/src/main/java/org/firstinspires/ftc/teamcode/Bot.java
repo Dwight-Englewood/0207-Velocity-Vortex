@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -15,15 +14,15 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 
 public class Bot
 {
-    //Instance Fields
+    // Instance Fields - declaration of hardware and software fields
     private DcMotor FL;
     private DcMotor BL;
     private DcMotor FR;
     private DcMotor BR;
     private DcMotor elevator;
     private DcMotor shooter;
-    //private DcMotor leftCap;
-    //private DcMotor rightCap;
+    private DcMotor leftCap;
+    private DcMotor rightCap;
 
     private ColorSensor colorSensorRight;
     private ColorSensor colorSensorLeft;
@@ -34,10 +33,6 @@ public class Bot
 
     public Servo lServo;
     public Servo rServo;
-    //private Servo clamp;
-
-    //private CRServo forkDropLeft;
-    //private CRServo forkDropRight;
     private Servo intakeServo;
 
     private boolean runningToTarget;
@@ -49,37 +44,35 @@ public class Bot
     int BLtarget;
 
     HardwareMap hwMap;
-    //Class Fields
 
-    //Constructor(s)
+    // Class Fields
+
+    // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
     {
 
     }
 
-    // Initialization Method
+    // Initialization Method - initialize all fields to their corrosponding hardware
     public void init (HardwareMap hwm)
     {
         hwMap = hwm;
 
-        // Defining the motors/sensors/servos/etc.
+        // Initializing the motors/sensors
         FL = hwMap.dcMotor.get("FL");
         BL = hwMap.dcMotor.get("BL");
         FR = hwMap.dcMotor.get("FR");
         BR = hwMap.dcMotor.get("BR");
         elevator = hwMap.dcMotor.get("elevator");
         shooter = hwMap.dcMotor.get("shooter");
-        //leftCap = hwMap.dcMotor.get("leftCap");
-        //rightCap = hwMap.dcMotor.get("rightCap");
+        leftCap = hwMap.dcMotor.get("leftCap");
+        rightCap = hwMap.dcMotor.get("rightCap");
 
-        //clamp = hwMap.servo.get("clamp");
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
-
-        //forkDropLeft = hwMap.crservo.get("forkDropLeft");
-        //forkDropRight = hwMap.crservo.get("forkDropRight");
         intakeServo = hwMap.servo.get("intakeServo");
 
+        // Initializing sensors - setting LEDs on/off
         colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
         colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // for 0x3c
         colorSensorRight.enableLed(false);
@@ -97,9 +90,6 @@ public class Bot
 
         opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
         opticalWallFinder.enableLed(true);
-
-        //leftCap.setMaxSpeed(3000);
-        //rightCap.setMaxSpeed(3000);
         
         // Set motor/servo modes
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -115,8 +105,8 @@ public class Bot
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         FL.setPower(0);
         BL.setPower(0);
@@ -124,22 +114,15 @@ public class Bot
         BR.setPower(0);
         elevator.setPower(0);
         shooter.setPower(0);
-        //leftCap.setPower(0);
-        //rightCap.setPower(0);
+        leftCap.setPower(0);
+        rightCap.setPower(0);
 
         leftServoStop();
         rightServoStop();
 
-        //forkDropLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        //forkDropRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        //clamp.setPosition(0);
-
-        // Running to target false
+        // Initialize booleans to false
         runningToTarget = false;
-
-        // Set color sensor LED
-        colorSensorLeft.enableLed(false);
-        colorSensorRight.enableLed(false);
+        strafing = false;
     }
 
     // Driving Methods
@@ -528,22 +511,6 @@ public class Bot
     public double getWallDistance() { return opticalWallFinder.getLightDetected(); }
 
     // Cap Methods
-    /*public void dropForks (int power)
-    {
-        forkDropLeft.setPower(power);
-        forkDropRight.setPower(power);
-    }
-
-    public void closeClamp ()
-    {
-        clamp.setPosition(1);
-    }
-
-    public void openClamp ()
-    {
-        clamp.setPosition(.5);
-    }
-
 
     public void liftCap()
     {
@@ -561,7 +528,7 @@ public class Bot
     {
         leftCap.setPower(0);
         rightCap.setPower(0);
-    }*/
+    }
 
     // Helper Methods
     public int distanceToRevs (double distance)
@@ -587,12 +554,4 @@ public class Bot
     public int getCurPosBL() {return BL.getCurrentPosition();}
     public int getCurPosFR() {return FR.getCurrentPosition();}
     public int getCurPosBR() {return BR.getCurrentPosition();}
-
-    public int getMaxPowFL() {return FL.getMaxSpeed();}
-    public int getMaxPowBL() {return BL.getMaxSpeed();}
-    public int getMaxPowFR() {return FR.getMaxSpeed();}
-    public int getMaxPowBR() {return BR.getMaxSpeed();}
-
-
-
 }
