@@ -41,107 +41,112 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  //@Disabled
  //TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
  public class Teleop_Invert extends OpMode {
-     /* Declare OpMode members. */
      private ElapsedTime runtime = new ElapsedTime();
      private ElapsedTime timer = new ElapsedTime();
      Bot robot = new Bot();
 
-
+     //These booleans are used to determine whether to skip the driving section
      boolean strafingLeft = false;
      boolean strafingRight = false;
 
-     int lServoPush = 0;
-     int rServoPush = 0;
+     //Enum used to store state of a servo
      public enum ServoStates {STOP, IN, OUT};
+
+     //variables to store the servo states
      private ServoStates rservo = ServoStates.STOP;
+     private ServoStates lservo = ServoStates.STOP;
+
+     //temporary variiables used to store the time at which the servo button was pressed
      private long rtime;
-     private boolean rservoinorout = false;
+     private long ltime;
+
+     //boolean that stores whether the servo is currently moving, and thus whether to ignore relvant inputs
      private boolean rservoactive = false;
-     private boolean lservoinorout = false;
-     private double rsevoStop = .5;
-     private double lsevoStop = .5;
+     private boolean lservoactive = false;
+
+     //counters for how many times the servo has been extended, and thus to track whether pressing it again will
+     //make it fall out
      private int rcount = 0;
      private int lcount = 0;
+
+     //int used to control inversion. int for reasons explained later
      private int invert = 1;
+
+     //adds a timeout to the invert button, to prevent rapid switching of invert and back
      private long invertLen = 1;
-     private ServoStates lservo = ServoStates.STOP;
-     private long ltime;
-     private boolean lservoactive = false;
-     /*to run ONCE when the driver hits INIT
-      */
+
+
      @Override
      public void init() {
          telemetry.addData("Status", "Initialized");
          robot.init(hardwareMap);
      }
 
-     /*
-      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-      */
+
      @Override
      public void init_loop() {}
 
-     /*
-      * Code to run ONCE when the driver hits PLAY
-      */
      @Override
      public void start() {
          runtime.reset();
      }
 
-     /*
-      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-      */
      @Override
      public void loop() {
          telemetry.addData("Status", "Running: " + runtime.toString());
 
-         // Driving commands (left/right stick brian zhang method)
-         /*if (gamepad1.left_stick_y < -0.5)       { robot.drive(0,1); }
-         else if (gamepad1.left_stick_y > 0.5)   { robot.drive(1,1); }
-         else if (gamepad1.left_stick_x > 0.5)   { robot.drive(2,1); }
-         else if (gamepad1.left_stick_x < -0.5)  { robot.drive(3,1); }
-         else if (gamepad1.right_stick_x > 0.5)  { robot.drive(4,1); }
-         else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
-         else { robot.drive(); }
-         */
-
+         /* Invert Button
+            We check whether the left bumper is presed, and the last invert was more than half a second ago.
+            Without that check, invert would switch many times per second, since the person controlling the
+            invert button cannot press it for only one cycle of the teleop.
+          */
          if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
-             invert = invert * (-1);
-             invertLen = System.currentTimeMillis();
+             invert = invert * (-1); //change the sign of invert
+             invertLen = System.currentTimeMillis(); //reset invertlen, which stores when the last inversion was
          } else {
-             ;
+             ; //Do nothing. The else is here for readability.
          }
 
-         if (!robot.getIsStrafing()) {
+         /* Driving, based on joysticks
+
+          */
+         if (!robot.getIsStrafing()) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
              if (gamepad1.right_stick_y > 0.15) {
                  robot.driveInvert(10 + invert, 1 * invert * gamepad1.right_stick_y);
-                 //needs to be 6 when invert = -1, 7 when invert = 1
+                 /* First instance of the invert
+                    The way that invert is implemented is through a single variable that can be two values: 1, or -1
+                    This makes it simple to reverse motor directions, as we just multiply the power by invert.
+                    What is more difficult is switching which joystick controls which drive trains
+                    I implemented this by modifying the original robot.drive function
+                    The new, robot.driveInvert function has each drive train centered around a value
+                    then, by adding the value of invert, the value passed to robot.driveInvert will
+                    be for the correct motor
+                  */
              }
              else if (gamepad1.right_stick_y < -0.15) {
-                 robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y));
+                 robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y)); //See comment starting at line 116
              }
              else {
                  robot.driveInvert(9, 0);
              }
 
              if (gamepad1.left_stick_y > 0.15) {
-                 robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y);
+                 robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y); //See comment starting at line 116
              }
              else if (gamepad1.left_stick_y < -0.15) {
-                 robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y));
+                 robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y)); //See comment starting at line 116
              }
              else {
                  robot.driveInvert(11, 0);
              }
 
              if (gamepad1.left_trigger > 0.5) {
-                 robot.driveInvert(4 - invert,1 * invert);
+                 robot.driveInvert(4 - invert,1 * invert); //See comment starting at line 116
                  strafingLeft = true;
              }
 
              if (gamepad1.right_trigger > 0.5) {
-                 robot.driveInvert(4 + invert,1 * invert);
+                 robot.driveInvert(4 + invert,1 * invert); //See comment starting at line 116
                  strafingRight = true;
              }
          }
@@ -156,7 +161,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
              }
          }
 
-         // Shooting and elevating commands
+
          if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
          else                                    {robot.setShooter(0);}
 
@@ -164,21 +169,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
          else                                    {robot.setElevator(0);}
 
-         // Left servo commands
-         //b out a in right
-         //x out y in left
-         //left servo stuff
-
          if (gamepad2.x && lcount < 4) {
              lservo = ServoStates.OUT;
              ltime = System.currentTimeMillis();
              lservoactive = true;
-             //lcount++;
          } else if (gamepad2.y && lcount > -1) {
              lservo = ServoStates.IN;
              ltime = System.currentTimeMillis();
              lservoactive = true;
-             //lcount--;
          } else {
 
          }
@@ -186,8 +184,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
              lservoactive = true;
              switch (lservo) {
                  case STOP:
-                     //ltime = System.currentTimeMillis();
-                     //lservo = ServoStates.OUT;
+
                      break;
                  case OUT:
                      if (System.currentTimeMillis() - ltime < 300) {
@@ -217,11 +214,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                  robot.leftServoIn();
                  break;
              case STOP:
-                 //robot.leftServoReset();
                  robot.leftServoStop();
                  break;
          }
-         //right servo
          if (gamepad2.b && rcount < 4) {
              rservo = ServoStates.OUT;
              rtime = System.currentTimeMillis();
@@ -237,8 +232,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
              rservoactive = true;
              switch (rservo) {
                  case STOP:
-                     //ltime = System.currentTimeMillis();
-                     //lservo = ServoStates.OUT;
                      break;
                  case OUT:
                      if (System.currentTimeMillis() - rtime < 300) {
@@ -272,22 +265,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                  break;
          }
 
-
-
-         telemetry.addData("lservo", lservo);
-         telemetry.addData("lsevoStop", lsevoStop);
-
-         telemetry.addData("rservo", rservo);
-         telemetry.addData("rsevoStop", rsevoStop);
-
          telemetry.addData("invert", invert);
 
          telemetry.update();
      }
 
-     /*
-      * Code to run ONCE after the driver hits STOP
-      */
      @Override
      public void stop() {}
  }
