@@ -38,7 +38,7 @@ public class Bot
 
     //private CRServo forkDropLeft;
     //private CRServo forkDropRight;
-    private CRServo intakeServo;
+    private Servo intakeServo;
 
     private boolean runningToTarget;
     private boolean strafing;
@@ -78,25 +78,25 @@ public class Bot
 
         //forkDropLeft = hwMap.crservo.get("forkDropLeft");
         //forkDropRight = hwMap.crservo.get("forkDropRight");
-        intakeServo = hwMap.crservo.get("intakeServo");
+        intakeServo = hwMap.servo.get("intakeServo");
 
         colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
-        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e));
+        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // for 0x3c
         colorSensorRight.enableLed(false);
 
         colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
-        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26));
+        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // for 0x4c
         colorSensorLeft.enableLed(false);
 
         colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
-        //TODO: colorSensorIntake.setI2cAddress()
+        //TODO: colorSensorIntake.setI2cAddress() // for 0x5c
         colorSensorIntake.enableLed(true);
 
         opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
         opticalLineFinder.enableLed(true);
 
         opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
-        opticalWallFinder.enableLed(false);
+        opticalWallFinder.enableLed(true);
 
         //leftCap.setMaxSpeed(3000);
         //rightCap.setMaxSpeed(3000);
@@ -493,7 +493,9 @@ public class Bot
         rServo.setPosition(.50);
     }
 
-    public void setIntakeServo(int power) { intakeServo.setPower(power); }
+    public void intakeServoOut() { intakeServo.setPosition(1); }
+    public void intakeServoIn() { intakeServo.setPosition(0); }
+    public void intakeServoStop() { intakeServo.setPosition(0.5); }
 
     // Sensor Methods
     public int getRed()
@@ -522,7 +524,8 @@ public class Bot
         }
     }
 
-    public double getLineLight() { return opticalLineFinder.getLightDetected(); }
+    public double getLineLight() { return opticalLineFinder.getRawLightDetected(); }
+    public double getWallDistance() { return opticalWallFinder.getLightDetected(); }
 
     // Cap Methods
     /*public void dropForks (int power)

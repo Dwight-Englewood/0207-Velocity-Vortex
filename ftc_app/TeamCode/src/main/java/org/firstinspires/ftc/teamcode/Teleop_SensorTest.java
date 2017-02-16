@@ -52,23 +52,18 @@ public class Teleop_SensorTest extends LinearOpMode {// Hardware Device Object
   @Override
   public void runOpMode() {
 
-    // get a reference to our Light Sensor object.
+      robot.init(hardwareMap);
+      waitForStart();
 
-    // wait for the start button to be pressed.
-    waitForStart();
-    robot.init(hardwareMap);
-    // while the op mode is active, loop and read the light levels.
-    // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
-    while (opModeIsActive()) {
+      while (opModeIsActive()) {
 
-      // send the info back to driver station using telemetry function.
-      telemetry.addData("Line Light",    robot.getLineLight());
-      telemetry.addData("BLUE  ", robot.getBlue());
-      telemetry.addData("RED ", robot.getRed());
-      telemetry.addData("Intake", robot.getIntake());
-
-      telemetry.update();
-      idle();
-    }
+          telemetry.addData("Line Light",    robot.getLineLight());
+          telemetry.addData("Wall Light", robot.getWallDistance());
+          telemetry.addData("BLUE  ", robot.getBlue());
+          telemetry.addData("RED ", robot.getRed());
+          telemetry.addData("Intake", robot.getIntake());
+          telemetry.update();
+          idle();
+      }
   }
 }
