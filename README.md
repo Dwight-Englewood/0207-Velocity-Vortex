@@ -1,9 +1,4 @@
-#༼ つ ◕_◕ ༽つ
-
-##### Please use descriptive commit messages - Wen
-
-0207 Critical Mass
-
+Code Base for the 0207 Critical Mass Robot 
 This github contains the following
 * ftc_app_master is the code for visual studio, import that project if ur gonna use it
 
@@ -14,4 +9,4 @@ This github contains the following
 On the gamepad
 * Sticks and triggers output doubles
 	
-* Buttons output boolean values
+* Buttons outpu:qt boolean values
