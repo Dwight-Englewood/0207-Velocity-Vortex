@@ -6,4 +6,3 @@ The notes folder contains various notes related to this season
 
 The pdfs folder contains pdfs that helped us figure out the programming
 
-test
