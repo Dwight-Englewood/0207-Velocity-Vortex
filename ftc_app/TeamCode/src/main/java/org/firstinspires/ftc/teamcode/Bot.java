@@ -493,8 +493,8 @@ public class Bot
         rServo.setPosition(.50);
     }
 
-    public void intakeServoOut() { intakeServo.setPosition(1); }
-    public void intakeServoIn() { intakeServo.setPosition(0); }
+    public void intakeServoOut() { intakeServo.setPosition(0); }
+    public void intakeServoIn() { intakeServo.setPosition(1); }
     public void intakeServoStop() { intakeServo.setPosition(0.5); }
 
     // Sensor Methods
