@@ -1,3 +1,3 @@
-Some pdfs with possibly useful resources
+Contains pdfs related to programming
 
-More are located in ftc_app_master/doc/tutorial
+More are located in ftc_app/doc/tutorial

@@ -1,15 +1,9 @@
-Code Base for the 0207 Critical Mass Robot 
-This github contains the following
-* ftc_app_master is the code for visual studio, import that project if ur gonna use it
+Code Base for the 0207 Critical Mass Robot for the Velocity Vortex game
 
-* pdfs has useful pdfs, if you find any add them
+The source package that one would open in android studio is ftc_app
 
-* notes has any notes on stuff. if you find yourself wanting to write stuff down add it to that
+The notes folder contains various notes related to this season
 
-On the gamepad
-* Sticks and triggers output doubles
-	
-* Buttons outpu:qt boolean values
+The pdfs folder contains pdfs that helped us figure out the programming
 
 
-testset
