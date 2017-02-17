@@ -234,13 +234,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
           */
          switch (lservo) {
              case OUT:
-                 robot.leftServoOut();
+                 robot.servoOut((-1) * invert);
                  break;
              case IN:
-                 robot.leftServoIn();
+                 robot.servoIn((-1) * invert);
                  break;
              case STOP:
-                 robot.leftServoStop();
+                 robot.servoStop((-1) * invert);
                  break;
          }
 
@@ -283,13 +283,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          }
          switch (rservo) {
              case OUT:
-                 robot.rightServoOut();
+                 robot.servoOut(1 * invert);
                  break;
              case IN:
-                 robot.rightServoIn();
+                 robot.servoIn(1 * invert);
                  break;
              case STOP:
-                 robot.rightServoStop();
+                 robot.servoStop(1 * invert);
                  break;
          }
 

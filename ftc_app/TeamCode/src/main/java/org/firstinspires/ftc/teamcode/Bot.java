@@ -477,6 +477,36 @@ public class Bot
         rServo.setPosition(.50);
     }
 
+    public void servoOut(int i) {
+        if (i == 1) {
+            this.rightServoOut();
+        } else if (i == -1) {
+            this.leftServoOut();
+        } else {
+            ;
+        }
+    }
+
+    public void servoIn(int i) {
+        if (i == 1) {
+            this.rightServoIn();
+        } else if (i == -1) {
+            this.leftServoIn();
+        } else {
+            ;
+        }
+    }
+
+    public void servoStop(int i) {
+        if (i == 1) {
+            this.rightServoStop();
+        } else if (i == -1) {
+            this.leftServoStop();
+        } else {
+            ;
+        }
+    }
+
     public void intakeServoOut() { intakeServo.setPosition(1); }
     public void intakeServoIn() { intakeServo.setPosition(0); }
     public void intakeServoStop() { intakeServo.setPosition(0.5); }
