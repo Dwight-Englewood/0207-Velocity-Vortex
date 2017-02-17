@@ -112,7 +112,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
           */
          if (!robot.getIsStrafing()) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
              if (gamepad1.right_stick_y > 0.15) {
-                 robot.driveInvert(10 + invert, 1 * invert * gamepad1.right_stick_y);
+                 robot.driveInvert(10 + invert, (1 * invert * gamepad1.right_stick_y));
                  /* First instance of the invert
                     The way that invert is implemented is through a single variable that can be two values: 1, or -1
                     This makes it simple to reverse motor directions, as we just multiply the power by invert.
@@ -122,22 +122,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                     then, by adding the value of invert, the value passed to robot.driveInvert will
                     be for the correct motor
                   */
+
              }
              else if (gamepad1.right_stick_y < -0.15) {
                  robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y)); //See comment starting at line 116
              }
              else {
-                 robot.driveInvert(9, 0);
+                 robot.driveInvert(10 + invert, 0);
              }
 
              if (gamepad1.left_stick_y > 0.15) {
                  robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y); //See comment starting at line 116
              }
              else if (gamepad1.left_stick_y < -0.15) {
-                 robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y)); //See comment starting at line 116
+                 robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y) - .5); //See comment starting at line 116
              }
              else {
-                 robot.driveInvert(11, 0);
+                 robot.driveInvert(10 - invert, 0);
              }
 
              if (gamepad1.left_trigger > 0.5) {
@@ -167,9 +168,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
          else                                    {robot.setShooter(0);}
 
-         if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1);}
-         else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
-         else                                    {robot.setElevator(0);}
+         if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1); robot.intakeServoIn();}
+         else if (gamepad2.left_bumper)          {robot.setElevator(-1); robot.intakeServoOut();}
+         else                                    {robot.setElevator(0); robot.intakeServoStop();}
 
          /* Servo Control
             We represent the servo as exsisting in 3 states - STOP, IN, OUT - each corrseponding to what it should be doing at the time
@@ -292,7 +293,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
             Show
           */
          telemetry.addData("invert", invert);
-
+         telemetry.addData("left stick", 1 * invert * gamepad1.left_stick_y);
+         telemetry.addData("right stick", 1 * invert * gamepad1.right_stick_y);
          telemetry.update();
      }
 

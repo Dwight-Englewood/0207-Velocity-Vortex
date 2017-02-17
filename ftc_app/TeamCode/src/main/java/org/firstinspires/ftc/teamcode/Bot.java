@@ -149,6 +149,7 @@ public class Bot
         else if (direction == 6){turnRight(power);}
         else if (direction == 8){turnLeft(power);}
         else if (direction == 9){driveLeftTrain(power);}
+        else if (direction == 10){driveLeftTrain(0);driveRightTrain(0);}
         else if (direction == 11){driveRightTrain(power);}
         else if (direction == 12){driveDiagLeft(power);}
         else if (direction == 14){driveDiagRight(power);}
