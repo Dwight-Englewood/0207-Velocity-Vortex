@@ -75,6 +75,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
      //adds a timeout to the invert button, to prevent rapid switching of invert and back
      private long invertLen = 1;
 
+     //whether bot is currently in automated beacon press mode
+     private boolean hittingBeacon = false;
+
+
 
      @Override
      public void init() {
@@ -287,6 +291,39 @@ import com.qualcomm.robotcore.util.ElapsedTime;
              case STOP:
                  robot.rightServoStop();
                  break;
+         }
+
+         // Automated Beacon Lineup/Hit
+         //Rob add a comment here plz
+         if (gamepad1.b)
+         {
+             if (!hittingBeacon)
+             {
+                 hittingBeacon = true;
+             }
+
+             if (robot.getLineLight() > 16)
+             {
+                 robot.stopMovement();
+                 if (hittingBeacon)
+                 {
+                     timer.reset();
+                     hittingBeacon = false;
+                 }
+                 else if (timer.milliseconds() < 1000)
+                 {
+                     robot.leftServoOut();
+                 }
+                 else
+                 {
+                     robot.leftServoIn();
+                 }
+
+             }
+             else
+             {
+                 robot.drive(0, .1);
+             }
          }
 
          /* Various telemetry
