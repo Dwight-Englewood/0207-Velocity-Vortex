@@ -50,7 +50,7 @@ public class Auton_BlueTwoShots extends OpMode {
                     (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 10)
                     )
             {
-                robot.drive();
+                robot.stopMovement();
                 robot.setIsRunningToTarget(false);
             }
             else if (
@@ -117,7 +117,7 @@ public class Auton_BlueTwoShots extends OpMode {
                     (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25)
                     )
             {
-                robot.drive();
+                robot.stopMovement();
                 robot.setIsRunningToTarget(false);
             }
 
@@ -165,7 +165,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 else if (timer.milliseconds() > 500)
                 {
                     robot.setShooter(0);
-                    robot.drive();
+                    robot.stopMovement();
                     commandNumber++;
                 }
                 break;
@@ -207,7 +207,7 @@ public class Auton_BlueTwoShots extends OpMode {
             case 9:
                 if (robot.getBlue() >= 3)
                 {
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runToPosition(.3, 7);
                     x = 0;
                     commandNumber++;
@@ -219,7 +219,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 {
                     timer.reset();
                     robot.runUsingEncoders();
-                    robot.drive();
+                    robot.stopMovement();
                     x++;
                 }
                 else if (timer.milliseconds() < 2500)
@@ -243,7 +243,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 /*if (x == 1)
                 {
                     timer.reset();
-                    robot.drive(1, .3);
+                    robot.stopMovement(1, .3);
                     x++;
                 }
                 else if (timer.milliseconds() < 1000){}
@@ -254,7 +254,7 @@ public class Auton_BlueTwoShots extends OpMode {
             case 12:
                 if (robot.getBlue() >= 3)
                 {
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runToPosition(.3, 8);
                     commandNumber++;
                     x = 2;
@@ -266,7 +266,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 {
                     timer.reset();
                     robot.runUsingEncoders();
-                    robot.drive();
+                    robot.stopMovement();
                     x++;
                 }
                 else if (timer.milliseconds() < 2500)

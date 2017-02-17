@@ -89,7 +89,7 @@ public class Auton_BlueStrafe extends OpMode {
                 else if (timer.milliseconds() > 500)
                 {
                     robot.setShooter(0);
-                    robot.drive();
+                    robot.stopMovement();
                     commandNumber++;
                 }
                 break;
@@ -110,16 +110,16 @@ public class Auton_BlueStrafe extends OpMode {
                 break;
 
             case 6:
-                robot.drive();
+                robot.stopMovement();
                 robot.runUsingEncoders();
-                robot.drive(0, .3);
+                robot.stopMovement(0, .3);
                 commandNumber++;
                 break;
 
             case 7:
                 if (robot.getBlue() >= 3)
                 {
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runToPosition(.2, 8);
                     commandNumber++;
                 }
@@ -129,7 +129,7 @@ public class Auton_BlueStrafe extends OpMode {
                 if (x == 0)
                 {
                     timer.reset();
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runUsingEncoders();
                     x++;
                 }
@@ -152,7 +152,7 @@ public class Auton_BlueStrafe extends OpMode {
                 if (x == 1)
                 {
                     timer.reset();
-                    robot.drive(1, -.3);
+                    robot.stopMovement(1, -.3);
                     x++;
                 }
                 else if (timer.milliseconds() < 1000){}
@@ -162,7 +162,7 @@ public class Auton_BlueStrafe extends OpMode {
             case 10:
                 if (robot.getBlue() >= 3)
                 {
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runToPosition(.2, 8);
                     commandNumber++;
                     x = 2;
@@ -172,7 +172,7 @@ public class Auton_BlueStrafe extends OpMode {
                 if (x == 0)
                 {
                     timer.reset();
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runUsingEncoders();
                     x++;
                 }

@@ -72,7 +72,7 @@ public class servoTest extends OpMode
         rightPoker = hardwareMap.servo.get("right poker");
 
 
-        // eg: Set the drive motor directions:
+        // eg: Set the stopMovement motor directions:
         // Reverse the motor that runs backwards when connected directly to the battery
         leftMotor.setDirection(DcMotor.Direction.FORWARD);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);

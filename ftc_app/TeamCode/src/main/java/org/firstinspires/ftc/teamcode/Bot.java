@@ -154,7 +154,7 @@ public class Bot
         else if (direction == 14){driveDiagRight(power);}
     }
 
-    public void drive()
+    public void stopMovement()
     {
         FL.setPower(0);
         BL.setPower(0);

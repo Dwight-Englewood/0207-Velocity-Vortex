@@ -83,7 +83,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          }
          else if (!robot.getIsRunningToTarget())
          {
-             robot.drive();
+             robot.stopMovement();
          }
 
          telemetry.update();

@@ -116,9 +116,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                  /* First instance of the invert
                     The way that invert is implemented is through a single variable that can be two values: 1, or -1
                     This makes it simple to reverse motor directions, as we just multiply the power by invert.
-                    What is more difficult is switching which joystick controls which drive trains
-                    I implemented this by modifying the original robot.drive function
-                    The new, robot.driveInvert function has each drive train centered around a value
+                    What is more difficult is switching which joystick controls which stopMovement trains
+                    I implemented this by modifying the original robot.stopMovement function
+                    The new, robot.driveInvert function has each stopMovement train centered around a value
                     then, by adding the value of invert, the value passed to robot.driveInvert will
                     be for the correct motor
                   */
@@ -142,7 +142,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
              if (gamepad1.left_trigger > 0.5) {
                  robot.driveInvert(4 - invert,1 * invert); //See comment starting at line 116
-                 strafingLeft = true;
+                 strafingLeft = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
              }
 
              if (gamepad1.right_trigger > 0.5) {
@@ -152,16 +152,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          }
          else {
              if (gamepad1.left_trigger == 0 && strafingLeft) {
-                 robot.drive();
-                 strafingLeft = false;
+                 robot.stopMovement();
+                 strafingLeft = false; //If we are no longer pressing the left trigger, stop strafing
              }
              else if (gamepad1.right_trigger == 0 && strafingRight) {
-                 robot.drive();
+                 robot.stopMovement();
                  strafingRight = false;
              }
          }
 
+         /* Shooter and Elevator commands
 
+         */
          if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
          else                                    {robot.setShooter(0);}
 
@@ -169,9 +171,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          else if (gamepad2.left_bumper)          {robot.setElevator(-1);}
          else                                    {robot.setElevator(0);}
 
+         /* Servo Control
+            We represent the servo as exsisting in 3 states - STOP, IN, OUT - each corrseponding to what it should be doing at the time
+            This structure is needed due to the design of the TELEOP, in which in continually loops this method.
+            If we moved the servo directly within this, the bot may get caught by the watchdog process and get killed
+            Also, it would rpevent other actions from beign performed simultaneously
+            We then have 3 seperate control structures
+          */
+
+         /* This part gets the user input
+            It also checks to see whether the servo extension count is < 4, to prevent the servo pushing the beacon presser off
+         */
          if (gamepad2.x && lcount < 4) {
              lservo = ServoStates.OUT;
-             ltime = System.currentTimeMillis();
+             ltime = System.currentTimeMillis(); //Store the time it was pushed - This is used to control the timing of the servo states
              lservoactive = true;
          } else if (gamepad2.y && lcount > -1) {
              lservo = ServoStates.IN;
@@ -180,19 +193,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          } else {
 
          }
+         /* Controls the state of the servo
+            Since we want the servo to automatically stop after a period of time
+          */
          if (lservoactive) {
-             lservoactive = true;
+             //lservoactive = true;//I dont think we need this, doesnt make much sense
              switch (lservo) {
                  case STOP:
-
+                     //If the servo is stopped, it shouldn't change states, so it just does nothing
                      break;
                  case OUT:
                      if (System.currentTimeMillis() - ltime < 300) {
                          ;
                      } else {
+                         //After 300 miliseconds have elapsed, set the servo state to STOP, so it no longer moves out
                          lservo = ServoStates.STOP;
                          lservoactive = false;
-                         lcount++;
+                         lcount++; //Increment the counter for extensions as the servo was extended
                      }
                      break;
                  case IN:
@@ -201,11 +218,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                      } else {
                          lservo = ServoStates.STOP;
                          lservoactive = false;
-                         lcount--;
+                         lcount--; //Decrement the counter for extensions as the servo was pulled in
                      }
                      break;
              }
          }
+
+         /* Handing off the actual servo control to the bot class
+
+          */
          switch (lservo) {
              case OUT:
                  robot.leftServoOut();
@@ -217,6 +238,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                  robot.leftServoStop();
                  break;
          }
+
+         //This segment is identical to the lservo routine. See above
          if (gamepad2.b && rcount < 4) {
              rservo = ServoStates.OUT;
              rtime = System.currentTimeMillis();
@@ -265,6 +288,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
                  break;
          }
 
+         /* Various telemetry
+            Show
+          */
          telemetry.addData("invert", invert);
 
          telemetry.update();

@@ -96,13 +96,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          telemetry.addData("Status", "Running: " + runtime.toString());
 
          // Driving commands (left/right stick brian zhang method)
-         /*if (gamepad1.left_stick_y < -0.5)       { robot.drive(0,1); }
-         else if (gamepad1.left_stick_y > 0.5)   { robot.drive(1,1); }
-         else if (gamepad1.left_stick_x > 0.5)   { robot.drive(2,1); }
-         else if (gamepad1.left_stick_x < -0.5)  { robot.drive(3,1); }
-         else if (gamepad1.right_stick_x > 0.5)  { robot.drive(4,1); }
-         else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
-         else { robot.drive(); }
+         /*if (gamepad1.left_stick_y < -0.5)       { robot.stopMovement(0,1); }
+         else if (gamepad1.left_stick_y > 0.5)   { robot.stopMovement(1,1); }
+         else if (gamepad1.left_stick_x > 0.5)   { robot.stopMovement(2,1); }
+         else if (gamepad1.left_stick_x < -0.5)  { robot.stopMovement(3,1); }
+         else if (gamepad1.right_stick_x > 0.5)  { robot.stopMovement(4,1); }
+         else if (gamepad1.right_stick_x < -0.5) { robot.stopMovement(5,1); }
+         else { robot.stopMovement(); }
          */
          // Driving commands (tank controls + strafe) BUILT FOR DUMB MODE
          if (!robot.getIsStrafing())
@@ -149,12 +149,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
          {
              if (gamepad1.left_trigger == 0 && strafingLeft)
              {
-                 robot.drive();
+                 robot.stopMovement();
                  strafingLeft = false;
              }
              else if (gamepad1.right_trigger == 0 && strafingRight)
              {
-                 robot.drive();
+                 robot.stopMovement();
                  strafingRight = false;
              }
          }

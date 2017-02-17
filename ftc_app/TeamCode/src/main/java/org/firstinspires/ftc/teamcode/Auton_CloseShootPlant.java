@@ -99,7 +99,7 @@ public class Auton_CloseShootPlant extends OpMode {
                     robot.setShooter(0);
                     timer.reset();
                     robot.runUsingEncoders();
-                    robot.drive();
+                    robot.stopMovement();
                     commandNumber++;
                 }
                 break;

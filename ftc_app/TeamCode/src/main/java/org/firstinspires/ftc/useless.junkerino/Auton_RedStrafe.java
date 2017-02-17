@@ -103,7 +103,7 @@ public class Auton_RedStrafe extends OpMode {
                 else if (timer.milliseconds() > 500)
                 {
                     robot.setShooter(0);
-                    robot.drive();
+                    robot.stopMovement();
                     commandNumber++;
                 }
                 break;
@@ -126,16 +126,16 @@ public class Auton_RedStrafe extends OpMode {
                 break;
 
             case 6:
-                robot.drive();
+                robot.stopMovement();
                 robot.runUsingEncoders();
-                robot.drive(0, .3);
+                robot.stopMovement(0, .3);
                 commandNumber++;
                 break;
 
             case 7:
                 if (robot.getRed() >= 3)
                 {
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runToPosition(.2, 8);
                     x = 0;
                     commandNumber++;
@@ -147,7 +147,7 @@ public class Auton_RedStrafe extends OpMode {
                 {
                     timer.reset();
                     robot.runUsingEncoders();
-                    robot.drive();
+                    robot.stopMovement();
                     x++;
                 }
                 else if (timer.milliseconds() < 1500)
@@ -169,7 +169,7 @@ public class Auton_RedStrafe extends OpMode {
                 if (x == 1)
                 {
                     timer.reset();
-                    robot.drive(1, .3);
+                    robot.stopMovement(1, .3);
                     x++;
                 }
                 else if (timer.milliseconds() < 1000){}
@@ -179,7 +179,7 @@ public class Auton_RedStrafe extends OpMode {
             case 10:
                 if (robot.getRed() >= 3)
                 {
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runToPosition(.2, 8);
                     commandNumber++;
                     x = 2;
@@ -189,7 +189,7 @@ public class Auton_RedStrafe extends OpMode {
                 if (x == 2)
                 {
                     timer.reset();
-                    robot.drive();
+                    robot.stopMovement();
                     robot.runUsingEncoders();
                     x++;
                 }

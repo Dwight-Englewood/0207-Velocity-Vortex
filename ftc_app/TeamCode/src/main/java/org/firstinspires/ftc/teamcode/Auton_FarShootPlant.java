@@ -61,7 +61,7 @@ public class Auton_FarShootPlant extends OpMode {
                             (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 10)
                     )
             {
-                robot.drive();
+                robot.stopMovement();
                 robot.setIsRunningToTarget(false);
             }
             else if (
@@ -128,7 +128,7 @@ public class Auton_FarShootPlant extends OpMode {
                             (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25)
                     )
             {
-                robot.drive();
+                robot.stopMovement();
                 robot.setIsRunningToTarget(false);
             }
 
@@ -184,7 +184,7 @@ public class Auton_FarShootPlant extends OpMode {
                     robot.setShooter(0);
                     timer.reset();
                     robot.runUsingEncoders();
-                    robot.drive();
+                    robot.stopMovement();
                     commandNumber++;
                 }
                 break;
@@ -205,7 +205,7 @@ public class Auton_FarShootPlant extends OpMode {
                 }
                 else
                 {
-                    robot.drive();
+                    robot.stopMovement();
                 }
                 break;
         }

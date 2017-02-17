@@ -32,7 +32,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -99,13 +98,13 @@ public class Teleop_TELEBOP extends OpMode {
         telemetry.addData("Status", "Running: " + runtime.toString());
 
         // Old Driving commands
-        /*if (gamepad1.left_stick_y < -0.5)       { robot.drive(0,1); }
-        else if (gamepad1.left_stick_y > 0.5)   { robot.drive(1,1); }
-        else if (gamepad1.left_stick_x > 0.5)   { robot.drive(2,1); }
-        else if (gamepad1.left_stick_x < -0.5)  { robot.drive(3,1); }
-        else if (gamepad1.right_stick_x > 0.5)  { robot.drive(4,1); }
-        else if (gamepad1.right_stick_x < -0.5) { robot.drive(5,1); }
-        else { robot.drive(); }
+        /*if (gamepad1.left_stick_y < -0.5)       { robot.stopMovement(0,1); }
+        else if (gamepad1.left_stick_y > 0.5)   { robot.stopMovement(1,1); }
+        else if (gamepad1.left_stick_x > 0.5)   { robot.stopMovement(2,1); }
+        else if (gamepad1.left_stick_x < -0.5)  { robot.stopMovement(3,1); }
+        else if (gamepad1.right_stick_x > 0.5)  { robot.stopMovement(4,1); }
+        else if (gamepad1.right_stick_x < -0.5) { robot.stopMovement(5,1); }
+        else { robot.stopMovement(); }
         */
         // Driving commands (tank controls + strafe)
         /*if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
@@ -159,12 +158,12 @@ public class Teleop_TELEBOP extends OpMode {
         {
             if (gamepad1.left_trigger == 0 && strafingLeft)
             {
-                robot.drive();
+                robot.stopMovement();
                 strafingLeft = false;
             }
             else if (gamepad1.right_trigger == 0 && strafingRight)
             {
-                robot.drive();
+                robot.stopMovement();
                 strafingRight = false;
             }
         }
@@ -311,7 +310,7 @@ public class Teleop_TELEBOP extends OpMode {
 
             if (robot.getLineLight() > 16)
             {
-                robot.drive();
+                robot.stopMovement();
                 if (hittingBeacon)
                 {
                     timer.reset();
