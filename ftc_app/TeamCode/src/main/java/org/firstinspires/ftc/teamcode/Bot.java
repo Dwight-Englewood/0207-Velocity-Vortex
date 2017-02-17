@@ -90,7 +90,7 @@ public class Bot
 
         opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
         opticalWallFinder.enableLed(true);
-        
+
         // Set motor/servo modes
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
