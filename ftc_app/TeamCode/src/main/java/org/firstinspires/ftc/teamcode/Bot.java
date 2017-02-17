@@ -33,7 +33,7 @@ public class Bot
 
     public Servo lServo;
     public Servo rServo;
-    private Servo intakeServo;
+    public Servo intakeServo;
 
     private boolean runningToTarget;
     private boolean strafing;
@@ -119,6 +119,7 @@ public class Bot
 
         leftServoStop();
         rightServoStop();
+        intakeServoStop();
 
         // Initialize booleans to false
         runningToTarget = false;
@@ -507,9 +508,9 @@ public class Bot
         }
     }
 
-    public void intakeServoOut() { intakeServo.setPosition(1); }
-    public void intakeServoIn() { intakeServo.setPosition(0); }
-    public void intakeServoStop() { intakeServo.setPosition(0.5); }
+    public void intakeServoOut() { intakeServo.setPosition(.61); }
+    public void intakeServoIn() { intakeServo.setPosition(.48); }
+    public void intakeServoStop() { intakeServo.setPosition(0.55); }
 
     // Sensor Methods
     public int getRed()
