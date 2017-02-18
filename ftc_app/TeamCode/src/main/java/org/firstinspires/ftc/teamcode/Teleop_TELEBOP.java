@@ -96,8 +96,6 @@ public class Teleop_TELEBOP extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("Status", "Running: " + runtime.toString());
-
          /* Invert Button
             We check whether the left bumper is presed, and the last invert was more than half a second ago.
             Without that check, invert would switch many times per second, since the person controlling the
@@ -328,6 +326,7 @@ public class Teleop_TELEBOP extends OpMode {
          /* Various telemetry
             Show
           */
+        telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("invert", invert);
         telemetry.addData("Intake", robot.getIntake());
         telemetry.update();

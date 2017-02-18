@@ -36,18 +36,15 @@ public class Auton_BlueTwoShots extends OpMode {
         telemetry.addData("BL Pos", robot.getCurPosBL());
         telemetry.addData("FR Pos", robot.getCurPosFR());
         telemetry.addData("BR Pos", robot.getCurPosBR());
-        //telemetry.addData("Red Value", robot.getRed());
-        //telemetry.addData("Blue Value", robot.getBlue());
         telemetry.addData("Command", commandNumber);
-        //telemetry.addData("current time", timer.seconds());
 
         if (robot.getIsRunningToTarget() && isGoingForward)
         {
             if (
-                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 10) &&
-                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 10) &&
-                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 10) &&
-                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 10)
+                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
+                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25) &&
+                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 25) &&
+                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25)
                     )
             {
                 robot.stopMovement();
@@ -79,7 +76,6 @@ public class Auton_BlueTwoShots extends OpMode {
                     )
             {
                 robot.drive(0, .1);
-                robot.setIsRunningToTarget(false);
             }
             else if (
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 2000) &&
@@ -103,8 +99,10 @@ public class Auton_BlueTwoShots extends OpMode {
             {
                 robot.drive(0, .7);
             }
-
-            telemetry.addData("ingoodLoop", true);
+            /**
+             * Update telemetry then return to the beginning of the statement as the bot hasn't
+             * reached the target position yet.
+             */
             telemetry.update();
             return;
         }
@@ -122,7 +120,6 @@ public class Auton_BlueTwoShots extends OpMode {
             }
 
             telemetry.update();
-            telemetry.addData("inLoop", false);
             return;
         }
 
