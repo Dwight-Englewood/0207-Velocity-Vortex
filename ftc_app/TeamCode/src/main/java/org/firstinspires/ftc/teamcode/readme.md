@@ -18,14 +18,14 @@
      * X -
      * Y -
  * Gamepad 2:
-    * Left Stick    - N/a
-    * Right Stick   - N/a
+    * Left Stick    -
+    * Right Stick   -
     * Right Trigger - Run shooter
     * Left Trigger  - Run elevator forwards
     * Right Bumper  -
     * Left Bumper   - Run elevator backwards
-    * A -
-    * B -
-    * X -
-    * Y -
+    * A - Right servo in
+    * B - Right servo out
+    * X - Left servo out
+    * Y - Left servo in
 
