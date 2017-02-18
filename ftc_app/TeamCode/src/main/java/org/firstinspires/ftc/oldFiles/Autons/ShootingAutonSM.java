@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.oldFiles;
+package org.firstinspires.ftc.oldFiles.Autons;
 
 /*plotnw*/
 
@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // on its previous condition and on the present values of its inputs.
 
 @Disabled
-@Autonomous(name = "USING THIS IN 2017 LUL", group = "ITERATIVE_AUTON")
-public class ShootingAutonSMFar extends OpMode {
+@Autonomous(name = "NO USAGING", group = "ITERATIVE_AUTON")
+public class ShootingAutonSM extends OpMode {
 
     long start_time = 0;
     long current_time;
@@ -70,7 +70,7 @@ public class ShootingAutonSMFar extends OpMode {
         }
         switch (commandNumber) {
             case 1:
-                driveToPosition(65, 2);
+                driveToPosition(28.5, 2);
                 commandNumber++;
                 break;
 
@@ -106,7 +106,7 @@ public class ShootingAutonSMFar extends OpMode {
 
             case 3:
                 stopAndReset();
-                driveToPosition(90, 0);
+                driveToPosition(75, 0);
                 commandNumber++;
                 break;
             case 4:
@@ -120,7 +120,7 @@ public class ShootingAutonSMFar extends OpMode {
     @Override
     public void stop() {}
 
-   /* public void driveToPosition(double target, int powerSelection)
+    /*public void driveToPosition(double target, int powerSelection)
     {
         int  targetInt = helperFunction.distanceToRevs(target);
 

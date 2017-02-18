@@ -36,139 +36,138 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
-@TeleOp(name="Telebop", group="MAIN")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Telebop", group="MAIN")
 //@Disabled
 //TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
 public class Teleop_TELEBOP extends OpMode {
-    /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
 
-
+    //These booleans are used to determine whether to skip the driving section
     boolean strafingLeft = false;
     boolean strafingRight = false;
 
-    int lServoPush = 0;
-    int rServoPush = 0;
+    //Enum used to store state of a servo
     public enum ServoStates {STOP, IN, OUT};
+
+    //variables to store the servo states
     private ServoStates rservo = ServoStates.STOP;
-    private long rtime;
-    private boolean rservoinorout = false;
-    private boolean rservoactive = false;
-    private boolean lservoinorout = false;
-    private double rsevoStop = .5;
-    private double lsevoStop = .5;
-    //private int rcount = 0;
-    //private int lcount = 0;
-    private int invert = 1;
-    private long invertLen = 1;
     private ServoStates lservo = ServoStates.STOP;
+
+    //temporary variiables used to store the time at which the servo button was pressed
+    private long rtime;
     private long ltime;
+
+    //boolean that stores whether the servo is currently moving, and thus whether to ignore relvant inputs
+    private boolean rservoactive = false;
     private boolean lservoactive = false;
+
+    //counters for how many times the servo has been extended, and thus to track whether pressing it again will
+    //make it fall out
+    private int rcount = 0;
+    private int lcount = 0;
+
+    //int used to control inversion. int for reasons explained later
+    private int invert = 1;
+
+    //adds a timeout to the invert button, to prevent rapid switching of invert and back
+    private long invertLen = 1;
+
+    //whether bot is currently in automated beacon press mode
     private boolean hittingBeacon = false;
-    /*to run ONCE when the driver hits INIT
-     */
+
+
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
         robot.init(hardwareMap);
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
+
     @Override
     public void init_loop() {}
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
     @Override
     public void start() {
         runtime.reset();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
 
-        // Old Driving commands
-        /*if (gamepad1.left_stick_y < -0.5)       { robot.stopMovement(0,1); }
-        else if (gamepad1.left_stick_y > 0.5)   { robot.stopMovement(1,1); }
-        else if (gamepad1.left_stick_x > 0.5)   { robot.stopMovement(2,1); }
-        else if (gamepad1.left_stick_x < -0.5)  { robot.stopMovement(3,1); }
-        else if (gamepad1.right_stick_x > 0.5)  { robot.stopMovement(4,1); }
-        else if (gamepad1.right_stick_x < -0.5) { robot.stopMovement(5,1); }
-        else { robot.stopMovement(); }
-        */
-        // Driving commands (tank controls + strafe)
-        /*if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
-            invert = invert * (-1);
-            invertLen = System.currentTimeMillis();
+         /* Invert Button
+            We check whether the left bumper is presed, and the last invert was more than half a second ago.
+            Without that check, invert would switch many times per second, since the person controlling the
+            invert button cannot press it for only one cycle of the teleop.
+          */
+        if (gamepad1.left_bumper && (System.currentTimeMillis() - invertLen  > 500)) {
+            invert = invert * (-1); //change the sign of invert
+            invertLen = System.currentTimeMillis(); //reset invertlen, which stores when the last inversion was
         } else {
-            ;
-        }*/
+            ; //Do nothing. The else is here for readability.
+        }
 
-        if (!robot.getIsStrafing())
-        {
-            if (gamepad1.right_stick_y > 0.5)
-            {
-                robot.drive(7, 1);
-            }
-            else if (gamepad1.right_stick_y < -0.5)
-            {
-                robot.drive(7, -1);
-            }
-            else
-            {
-                robot.drive(7, 0);
-            }
+         /* Driving, based on joysticks
 
-            if (gamepad1.left_stick_y > 0.5)
-            {
-                robot.drive(6, 1);
+          */
+        if (!robot.getIsStrafing()) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
+            if (gamepad1.right_stick_y > 0.15) {
+                robot.driveInvert(10 + invert, (1 * invert * gamepad1.right_stick_y));
+                 /* First instance of the invert
+                    The way that invert is implemented is through a single variable that can be two values: 1, or -1
+                    This makes it simple to reverse motor directions, as we just multiply the power by invert.
+                    What is more difficult is switching which joystick controls which stopMovement trains
+                    I implemented this by modifying the original robot.stopMovement function
+                    The new, robot.driveInvert function has each stopMovement train centered around a value
+                    then, by adding the value of invert, the value passed to robot.driveInvert will
+                    be for the correct motor
+                  */
+
             }
-            else if (gamepad1.left_stick_y < -0.5)
-            {
-                robot.drive(6, -1);
+            else if (gamepad1.right_stick_y < -0.15) {
+                robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y)); //See comment starting at line 116
             }
-            else
-            {
-                robot.drive(6, 0);
+            else {
+                robot.driveInvert(10 + invert, 0);
             }
 
-            if (gamepad1.left_trigger > 0.5)
-            {
-                robot.drive(2,1);
-                strafingLeft = true;
+            if (gamepad1.left_stick_y > 0.15) {
+                robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y); //See comment starting at line 116
+            }
+            else if (gamepad1.left_stick_y < -0.15) {
+                robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y) - .5); //See comment starting at line 116
+            }
+            else {
+                robot.driveInvert(10 - invert, 0);
             }
 
-            else if (gamepad1.right_trigger > 0.5)
-            {
-                robot.drive(3,1);
+            if (gamepad1.left_trigger > 0.5) {
+                robot.driveInvert(4 - invert,1 * invert); //See comment starting at line 116
+                strafingLeft = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
+            }
+
+            if (gamepad1.right_trigger > 0.5) {
+                robot.driveInvert(4 + invert,1 * invert); //See comment starting at line 116
                 strafingRight = true;
             }
         }
-        else
-        {
-            if (gamepad1.left_trigger == 0 && strafingLeft)
-            {
+        else {
+            if (gamepad1.left_trigger == 0 && strafingLeft) {
                 robot.stopMovement();
-                strafingLeft = false;
+                strafingLeft = false; //If we are no longer pressing the left trigger, stop strafing
             }
-            else if (gamepad1.right_trigger == 0 && strafingRight)
-            {
+            else if (gamepad1.right_trigger == 0 && strafingRight) {
                 robot.stopMovement();
                 strafingRight = false;
             }
         }
 
-        // Shooting and elevating commands
+         /* Shooter and Elevator commands
+
+         */
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
         else                                    {robot.setShooter(0);}
 
@@ -176,38 +175,45 @@ public class Teleop_TELEBOP extends OpMode {
         else if (gamepad2.left_bumper)          {robot.setElevator(-1); robot.intakeServoOut();}
         else                                    {robot.setElevator(0); robot.intakeServoStop();}
 
-        // Left servo commands
-        //b out a in right
-        //x out y in left
-        //left servo stuff
+         /* Servo Control
+            We represent the servo as exsisting in 3 states - STOP, IN, OUT - each corrseponding to what it should be doing at the time
+            This structure is needed due to the design of the TELEOP, in which in continually loops this method.
+            If we moved the servo directly within this, the bot may get caught by the watchdog process and get killed
+            Also, it would rpevent other actions from beign performed simultaneously
+            We then have 3 seperate control structures
+          */
 
-        if (gamepad2.x) {
+         /* This part gets the user input
+            It also checks to see whether the servo extension count is < 4, to prevent the servo pushing the beacon presser off
+         */
+        if (gamepad2.x && lcount < 4) {
             lservo = ServoStates.OUT;
-            ltime = System.currentTimeMillis();
+            ltime = System.currentTimeMillis(); //Store the time it was pushed - This is used to control the timing of the servo states
             lservoactive = true;
-            //lcount++;
-        } else if (gamepad2.y) {
+        } else if (gamepad2.y && lcount > -1) {
             lservo = ServoStates.IN;
             ltime = System.currentTimeMillis();
             lservoactive = true;
-            //lcount--;
         } else {
 
         }
+         /* Controls the state of the servo
+            Since we want the servo to automatically stop after a period of time
+          */
         if (lservoactive) {
-            lservoactive = true;
+            //lservoactive = true;//I dont think we need this, doesnt make much sense
             switch (lservo) {
                 case STOP:
-                    //ltime = System.currentTimeMillis();
-                    //lservo = ServoStates.OUT;
+                    //If the servo is stopped, it shouldn't change states, so it just does nothing
                     break;
                 case OUT:
                     if (System.currentTimeMillis() - ltime < 300) {
                         ;
                     } else {
+                        //After 300 miliseconds have elapsed, set the servo state to STOP, so it no longer moves out
                         lservo = ServoStates.STOP;
                         lservoactive = false;
-                        //lcount++;
+                        lcount++; //Increment the counter for extensions as the servo was extended
                     }
                     break;
                 case IN:
@@ -216,29 +222,33 @@ public class Teleop_TELEBOP extends OpMode {
                     } else {
                         lservo = ServoStates.STOP;
                         lservoactive = false;
-                        //lcount--;
+                        lcount--; //Decrement the counter for extensions as the servo was pulled in
                     }
                     break;
             }
         }
+
+         /* Handing off the actual servo control to the bot class
+
+          */
         switch (lservo) {
             case OUT:
-                robot.leftServoOut();
+                robot.servoOut((-1) * invert);
                 break;
             case IN:
-                robot.leftServoIn();
+                robot.servoIn((-1) * invert);
                 break;
             case STOP:
-                //r4obot.leftServoReset();
-                robot.leftServoStop();
+                robot.servoStop((-1) * invert);
                 break;
         }
-        //right servo
-        if (gamepad2.b) {
+
+        //This segment is identical to the lservo routine. See above
+        if (gamepad2.b && rcount < 4) {
             rservo = ServoStates.OUT;
             rtime = System.currentTimeMillis();
             rservoactive = true;
-        } else if (gamepad2.a) {
+        } else if (gamepad2.a && rcount > -1) {
             rservo = ServoStates.IN;
             rtime = System.currentTimeMillis();
             rservoactive = true;
@@ -249,8 +259,6 @@ public class Teleop_TELEBOP extends OpMode {
             rservoactive = true;
             switch (rservo) {
                 case STOP:
-                    //ltime = System.currentTimeMillis();
-                    //lservo = ServoStates.OUT;
                     break;
                 case OUT:
                     if (System.currentTimeMillis() - rtime < 300) {
@@ -258,7 +266,7 @@ public class Teleop_TELEBOP extends OpMode {
                     } else {
                         rservo = ServoStates.STOP;
                         rservoactive = false;
-                        //rcount++;
+                        rcount++;
                     }
                     break;
                 case IN:
@@ -267,40 +275,25 @@ public class Teleop_TELEBOP extends OpMode {
                     } else {
                         rservo = ServoStates.STOP;
                         rservoactive = false;
-                        //rcount--;
+                        rcount--;
                     }
                     break;
             }
         }
         switch (rservo) {
             case OUT:
-                robot.rightServoOut();
+                robot.servoOut(1 * invert);
                 break;
             case IN:
-                robot.rightServoIn();
+                robot.servoIn(1 * invert);
                 break;
             case STOP:
-                robot.rightServoStop();
+                robot.servoStop(1 * invert);
                 break;
         }
 
-        // lift methods
-        /*
-        if (gamepad1.a)
-        {
-            robot.lowerCap();
-        }
-        else if (gamepad1.b)
-        {
-            robot.liftCap();
-        }
-        else
-        {
-            robot.stopLiftCap();
-        }
-        */
-
         // Automated Beacon Lineup/Hit
+        //Rob add a comment here plz
         if (gamepad1.b)
         {
             if (!hittingBeacon)
@@ -332,13 +325,14 @@ public class Teleop_TELEBOP extends OpMode {
             }
         }
 
-        telemetry.addData("intake color", robot.getIntake());
+         /* Various telemetry
+            Show
+          */
+        telemetry.addData("invert", invert);
+        telemetry.addData("Intake", robot.getIntake());
         telemetry.update();
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {}
 }
