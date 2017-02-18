@@ -1,7 +1,8 @@
 #### TODO
 * Clean comments/code
 * Test invert button extensively
-* Work on linear motion code
+* Get linear motion working
+* Test Auto beacon hit / lineup
 
  #### CONFIG
  The controller config currently is:
@@ -13,7 +14,7 @@
      * Right Bumper  -
      * Left Bumper   - Invert drive/servo commands
      * A -
-     * B -
+     * B - Auto beacon hit
      * X -
      * Y -
  * Gamepad 2:
