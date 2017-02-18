@@ -62,7 +62,7 @@ public class Auton_CloseShootPlant extends OpMode {
         switch (commandNumber)
         {
             case 1:
-                robot.runToPosition(0.4, 36);
+                robot.runToPosition(36);
                 commandNumber++;
                 break;
 
@@ -109,7 +109,7 @@ public class Auton_CloseShootPlant extends OpMode {
                     commandNumber++;
                 break;
             case 4:
-                robot.runToPosition(1, 115);
+                robot.runToPosition(115);
                 commandNumber++;
                 break;
         }

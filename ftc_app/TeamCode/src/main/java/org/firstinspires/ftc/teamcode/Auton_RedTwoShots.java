@@ -185,7 +185,7 @@ public class Auton_RedTwoShots extends OpMode {
              */
             case 1:
                 isGoingForward = true;
-                robot.runToPosition(0.1, 36);
+                robot.runToPosition(36);
                 commandNumber++;
                 break;
             /**
@@ -239,7 +239,7 @@ public class Auton_RedTwoShots extends OpMode {
              */
             case 4:
                 isGoingForward = true;
-                robot.runToPosition(0.1, 199);
+                robot.runToPosition(199);
                 commandNumber++;
                 break;
             /**
@@ -279,7 +279,7 @@ public class Auton_RedTwoShots extends OpMode {
                 if (robot.getRed() >= 3)
                 {
                     robot.stopMovement();
-                    robot.runToPosition(.3, 5);
+                    robot.runToPosition(5);
                     commandNumber++;
                 }
                 break;
@@ -320,7 +320,7 @@ public class Auton_RedTwoShots extends OpMode {
                 if (robot.getRed() >= 3)
                 {
                     robot.stopMovement();
-                    robot.runToPosition(.3, 5);
+                    robot.runToPosition(5);
                     commandNumber++;
                 }
                 break;

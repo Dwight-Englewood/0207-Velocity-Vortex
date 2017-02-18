@@ -108,8 +108,8 @@ public class Teleop_TELEBOP extends OpMode {
             ; //Do nothing. The else is here for readability.
         }
 
-         /* Driving, based on joysticks
-
+         /*
+            Driving, based on joysticks
           */
         if (!robot.getIsStrafing()) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
             if (gamepad1.right_stick_y > 0.15) {
@@ -174,10 +174,10 @@ public class Teleop_TELEBOP extends OpMode {
         else                                    {robot.setElevator(0); robot.intakeServoStop();}
 
          /* Servo Control
-            We represent the servo as exsisting in 3 states - STOP, IN, OUT - each corrseponding to what it should be doing at the time
+            We represent the servo as existing in 3 states - STOP, IN, OUT - each corresponding to what it should be doing at the time
             This structure is needed due to the design of the TELEOP, in which in continually loops this method.
             If we moved the servo directly within this, the bot may get caught by the watchdog process and get killed
-            Also, it would rpevent other actions from beign performed simultaneously
+            Also, it would prevent other actions from being performed simultaneously
             We then have 3 seperate control structures
           */
 
@@ -226,8 +226,8 @@ public class Teleop_TELEBOP extends OpMode {
             }
         }
 
-         /* Handing off the actual servo control to the bot class
-
+         /*
+         Handing off the actual servo control to the bot class
           */
         switch (lservo) {
             case OUT:

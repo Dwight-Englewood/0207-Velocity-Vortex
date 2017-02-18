@@ -7,16 +7,16 @@
  #### CONFIG
  The controller config currently is:
  * Gamepad 1:
-     * Left Stick    - Drive left side wheels
-     * Right Stick   - Drive right side wheels
-     * Right Trigger - Strafe to the right
-     * Left Trigger  - Strafe to the left
-     * Right Bumper  -
-     * Left Bumper   - Invert drive/servo commands
-     * A -
-     * B - Auto beacon hit
-     * X -
-     * Y -
+    * Left Stick    - Drive left side wheels
+    * Right Stick   - Drive right side wheels
+    * Right Trigger - Strafe to the right
+    * Left Trigger  - Strafe to the left
+    * Right Bumper  -
+    * Left Bumper   - Invert drive/servo commands
+    * A             -
+    * B             - Auto beacon hit
+    * X             -
+    * Y             -
  * Gamepad 2:
     * Left Stick    -
     * Right Stick   -
@@ -24,8 +24,7 @@
     * Left Trigger  - Run elevator forwards
     * Right Bumper  -
     * Left Bumper   - Run elevator backwards
-    * A - Right servo in
-    * B - Right servo out
-    * X - Left servo out
-    * Y - Left servo in
-
+    * A             - Right servo in
+    * B             - Right servo out
+    * X             - Left servo out
+    * Y             - Left servo in

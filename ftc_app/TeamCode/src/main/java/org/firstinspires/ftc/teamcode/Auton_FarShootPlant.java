@@ -150,7 +150,7 @@ public class Auton_FarShootPlant extends OpMode {
                 break;
 
             case 2:
-                robot.runToPosition(0.1, 78);
+                robot.runToPosition(78);
                 commandNumber++;
                 break;
 

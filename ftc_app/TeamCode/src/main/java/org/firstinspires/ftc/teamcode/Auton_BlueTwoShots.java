@@ -127,7 +127,7 @@ public class Auton_BlueTwoShots extends OpMode {
         {
             case 1:
                 isGoingForward = true;
-                robot.runToPosition(0.1, 36);
+                robot.runToPosition(36);
                 commandNumber++;
                 break;
 
@@ -175,7 +175,7 @@ public class Auton_BlueTwoShots extends OpMode {
 
             case 4:
                 isGoingForward = true;
-                robot.runToPosition(0.1, 205);
+                robot.runToPosition(205);
                 commandNumber++;
                 break;
 
@@ -205,7 +205,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 if (robot.getBlue() >= 3)
                 {
                     robot.stopMovement();
-                    robot.runToPosition(.3, 7);
+                    robot.runToPosition(7);
                     x = 0;
                     commandNumber++;
                 }
@@ -252,7 +252,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 if (robot.getBlue() >= 3)
                 {
                     robot.stopMovement();
-                    robot.runToPosition(.3, 8);
+                    robot.runToPosition(8);
                     commandNumber++;
                     x = 2;
                 }

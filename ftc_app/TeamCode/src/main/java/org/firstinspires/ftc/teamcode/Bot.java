@@ -9,12 +9,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
- * Created by aburur on 1/5/17.
+ * @author Robert Aburustum
  */
 
 public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
+
+    // Motor declaration
     private DcMotor FL;
     private DcMotor BL;
     private DcMotor FR;
@@ -24,28 +26,32 @@ public class Bot
     private DcMotor leftCap;
     private DcMotor rightCap;
 
+    // Color sensor declaration
     private ColorSensor colorSensorRight;
     private ColorSensor colorSensorLeft;
     private ColorSensor colorSensorIntake;
 
+    // Optical distance sensor declaration
     private OpticalDistanceSensor opticalLineFinder;
     private OpticalDistanceSensor opticalWallFinder;
 
+    // Servo declaration [Public for ease of use with enum in TELEBOP]
     public Servo lServo;
     public Servo rServo;
     public Servo intakeServo;
 
+    // Booleans which hold current driving data
     private boolean runningToTarget;
     private boolean strafing;
 
-    int FRtarget;
-    int BRtarget;
-    int FLtarget;
-    int BLtarget;
+    // Integers which hold the encoder target tick data [Public to shorten speedup/slowdown in autons]
+    public int FRtarget;
+    public int BRtarget;
+    public int FLtarget;
+    public int BLtarget;
 
+    // HardwareMap to hold data as to where each hardware device is located.
     HardwareMap hwMap;
-
-    // Class Fields
 
     // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
@@ -53,7 +59,7 @@ public class Bot
 
     }
 
-    // Initialization Method - initialize all fields to their corrosponding hardware
+    // Initialization Method - initialize all fields to their corresponding hardware devices
     public void init (HardwareMap hwm)
     {
         hwMap = hwm;
@@ -72,17 +78,23 @@ public class Bot
         rServo = hwMap.servo.get("rServo");
         intakeServo = hwMap.servo.get("intakeServo");
 
-        // Initializing sensors - setting LEDs on/off
+        /**
+         * Initializing sensors and setting LEDs on/off.
+         *
+         * In the case of the color sensors we set their i2c addresses away the default because
+         * otherwise they would all have the same address. If they all had the same address the
+         * program would be unable to distinguish one from another, making them useless.
+         */
         colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
-        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // for 0x3c
+        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
         colorSensorRight.enableLed(false);
 
         colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
-        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // for 0x4c
+        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
         colorSensorLeft.enableLed(false);
 
         colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
-        //TODO: colorSensorIntake.setI2cAddress() // for 0x5c
+        //TODO: colorSensorIntake.setI2cAddress() // 7bit for 0x5c
         colorSensorIntake.enableLed(true);
 
         opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
@@ -91,7 +103,12 @@ public class Bot
         opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
         opticalWallFinder.enableLed(true);
 
-        // Set motor/servo modes
+        /**
+         * Setting the motor run modes to run using encoders or without encoders dependent on
+         * whether there is an encoder connected to the motor. Sets the direction based on the
+         * orientation of the motors. Also sets the starting powers to 0 to ensure nothing is running
+         * during initialization.
+         */
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -121,12 +138,17 @@ public class Bot
         rightServoStop();
         intakeServoStop();
 
-        // Initialize booleans to false
+        // Initialize booleans to false as the bot does not start running to a target or strafing.
         runningToTarget = false;
         strafing = false;
     }
 
-    // Driving Methods
+    /**
+     * This is one of three public normal driving functions. This one is the normal drive function
+     * which chooses a direction to drive then calls the appropriate function to set the motor powers.
+     * @param direction - the direction of choice
+     * @param power - the power to set the motors to
+     */
     public void drive(int direction, double power)
     {
         if (direction == 0){driveForwards(power);}
@@ -141,6 +163,11 @@ public class Bot
         else if (direction == 9){driveDiagRight(power);}
     }
 
+    /**
+     * <WEN PLEASE ADD NOTES HERE> </WEN>
+     * @param direction - the direction of choice
+     * @param power - the power to set the motors to
+     */
     public void driveInvert(int direction, double power)
     {
         if (direction == 0){driveForwards(power);}
@@ -156,6 +183,10 @@ public class Bot
         else if (direction == 14){driveDiagRight(power);}
     }
 
+    /**
+     * The third public normal driving function. This one just sets the powers of all motors to 0
+     * and resets the strafing boolean.
+     */
     public void stopMovement()
     {
         FL.setPower(0);
@@ -165,7 +196,7 @@ public class Bot
         strafing = false;
     }
 
-    // 0
+    // Direction 0 - sets all motors to the same power (drive forwards)
     private void driveForwards(double power)
     {
         FL.setPower(power);
@@ -174,7 +205,7 @@ public class Bot
         BR.setPower(power);
     }
 
-    // 1
+    // Direction 1 - sets all motors to the same negative power (drive backwards)
     private void driveBackwards(double power)
     {
         FL.setPower(-power);
@@ -183,7 +214,10 @@ public class Bot
         BR.setPower(-power);
     }
 
-    // 2
+    /**
+     * Direction 2 - sets front left and back right to negative powers. Sets back left and front
+     * right to positive powers. (strafe right)
+     */
     private void driveLeft(double power)
     {
         FL.setPower(-power);
@@ -193,7 +227,10 @@ public class Bot
         strafing = true;
     }
 
-    // 3
+    /**
+     * Direction 3 - sets front left and back right to positive powers. Sets back left and front
+     * right to negative powers. (strafe left)
+     */
     private void driveRight(double power)
     {
         FL.setPower(power);
@@ -203,7 +240,7 @@ public class Bot
         strafing = true;
     }
 
-    // 4
+    // Direction 4 - sets left motors to positive powers and right motors to negative powers (turn right)
     private void turnRight(double power)
     {
         FL.setPower(power);
@@ -212,7 +249,7 @@ public class Bot
         BR.setPower(-power);
     }
 
-    // 5
+    // Direction 5 - sets left motors to negative powers and right motors to positive powers (turn left)
     private void turnLeft(double power)
     {
         FL.setPower(-power);
@@ -221,28 +258,34 @@ public class Bot
         BR.setPower(power);
     }
 
-    // 6
+    // Direction 6 - sets the left motors to negative powers. (drive left side)
     private void driveLeftTrain(double power)
     {
         FL.setPower(-power);
         BL.setPower(-power);
     }
 
-    // 7
+    // Direction 7 - sets the right motors to negative powers. (drive right side)
     private void driveRightTrain(double power)
     {
         FR.setPower(-power);
         BR.setPower(-power);
     }
 
-    // 8
+    /**
+     * Direction 8 - sets the front left and back right motors to positive powers. (drive diagonally
+     * forward to the right)
+     */
     private void driveDiagRight(double power)
     {
         FL.setPower(power);
         BR.setPower(power);
     }
 
-    // 9
+    /**
+     * Direction 9 - sets the front right and back left motors to positive powers. (drive diagonally
+     * forward to the left)
+     */
     private void driveDiagLeft(double power)
     {
         FR.setPower(power);
@@ -251,27 +294,38 @@ public class Bot
 
     // Move-to Methods
 
-    public void runToPosition(double power, double target)
+    /**
+     * Runs the robot forward to a target position provided by the caller.
+     * @param target
+     */
+    public void runToPosition(double target)
     {
+        // Converts input centimeters to encoder ticks.
         int targetInt = distanceToRevs(target);
+
+        // Resets encoder values and sets running to target to true
         stopAndReset();
 
+        // Sets the drive motors to run to position run mode
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        // Sets the target int as the targets.
         FLtarget = targetInt;
         BLtarget = targetInt;
         FRtarget = targetInt;
         BRtarget = targetInt;
 
+        // Provides the motors with the target ints
         FL.setTargetPosition(targetInt);
         BL.setTargetPosition(targetInt);
         FR.setTargetPosition(targetInt);
         BR.setTargetPosition(targetInt);
 
-        drive(0, power);
+        // Gives the motors power to run
+        drive(0, 0.1);
     }
 
     public void runTurnLeft(double power, double target)
@@ -440,18 +494,19 @@ public class Bot
         try {Thread.sleep(500);} catch (InterruptedException e) {}
     }
 
-    // Motor Methods
+    // Shoot/Elevate methods - take an input power and set the motors accordingly
     public void setElevator(int power)
     {
         elevator.setPower(power);
     }
-
     public void  setShooter(int power)
     {
         shooter.setPower(power);
     }
 
-    // Servo Methods
+    /**
+     * <WEN PLEASE ADD COMMENTS HERE> </WEN>
+     */
     public void leftServoOut()
     {
         lServo.setPosition(.55);
@@ -517,7 +572,6 @@ public class Bot
     {
         return colorSensorLeft.red();
     }
-
     public int getBlue()
     {
         return colorSensorRight.blue();
