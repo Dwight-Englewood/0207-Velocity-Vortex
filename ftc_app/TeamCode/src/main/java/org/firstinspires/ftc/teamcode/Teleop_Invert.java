@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Telebop_Invert", group="MAIN")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Telebop_Invert", group="MAIN")
 //@Disabled
 //TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
 public class Teleop_Invert extends OpMode {
@@ -330,8 +330,7 @@ public class Teleop_Invert extends OpMode {
             Show
           */
         telemetry.addData("invert", invert);
-        telemetry.addData("left stick", 1 * invert * gamepad1.left_stick_y);
-        telemetry.addData("right stick", 1 * invert * gamepad1.right_stick_y);
+        telemetry.addData("Intake", robot.getIntake());
         telemetry.update();
     }
 

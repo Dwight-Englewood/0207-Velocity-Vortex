@@ -1,4 +1,4 @@
-/*
+ /*
 Copyright (c) 2016 Robert Atkinson
 
 All rights reserved.
@@ -30,79 +30,68 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package useless.junkerino;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="servo tele tester", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
-@Disabled
-public class servoTeleTester extends OpMode
-{
-    private ElapsedTime runtime = new ElapsedTime();
-    private Servo poker = null;
-    private double currentPos = 0.48;
-    private double maxPos = 0.69;
-    private double minPos = 0.18 ;
 
-    @Override
-    public void init() {
+ @TeleOp(name="Bot Tester", group="TESTING")
+ @Disabled
+ public class Testing_BotTester extends OpMode
+ {
+     private ElapsedTime runtime = new ElapsedTime();
+     Bot robot = new Bot();
 
-        poker = hardwareMap.servo.get("poker");
-        poker.setPosition(currentPos);
-    }
+     @Override
+     public void init()
+     {
+         telemetry.addData("Status", "Initialized");
+         robot.init(hardwareMap);
+     }
+     @Override
+     public void init_loop() {}
 
-    // a = full left
-    // b = full right
-    // x = increment left
-    //y = increment right
-    //3.6cm at mid point
-    @Override
-    public void init_loop() {}
+     @Override
+     public void start()
+     {
+         runtime.reset();
+     }
 
-    @Override
-    public void start() {
-        runtime.reset();
-    }
+     @Override
+     public void loop()
+     {
+         telemetry.addData("Status", "Running: " + runtime.toString());
 
-    @Override
-    public void loop() {
+         if (gamepad1.x)
+         {
+             robot.runToLeft(1, 100);
+         }
+         else if (gamepad1.b)
+         {
+             robot.runToRight(1, 100);
+         }
+         else if (gamepad1.y)
+         {
+             robot.runDiagRight(1, 50);
+         }
+         else if (gamepad1.a)
+         {
+             robot.runDiagLeft(230);
+         }
+         else if (!robot.getIsRunningToTarget())
+         {
+             robot.stopMovement();
+         }
 
-        if (gamepad1.a)
-        {
-            currentPos = maxPos;
-        }
-        if (gamepad1.b)
-        {
-            currentPos = minPos;
-        }
-        if (gamepad1.x)
-        {
-            currentPos += 0.01;
-            if(currentPos >= maxPos)
-            {
-                currentPos = maxPos;
-            }
-        }
-        if (gamepad1.y) {
-            currentPos -= 0.01;
-            if (currentPos <= minPos) {
-                currentPos = minPos;
-            }
-        }
+         telemetry.update();
+     }
 
-        poker.setPosition(currentPos);
-        telemetry.addData("gamepad1a", gamepad1.a);
-        telemetry.addData("gamepad1b", gamepad1.b);
-        telemetry.addData("Current Position", currentPos);
-        updateTelemetry(telemetry);
-    }
-
-
-    @Override
-    public void stop() {}
-
-}
+     /*
+      * Code to run ONCE after the driver hits STOP
+      */
+     @Override
+     public void stop() {}
+ }

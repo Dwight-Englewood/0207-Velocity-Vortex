@@ -36,17 +36,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-/*
- * This is an example LinearOpMode that shows how to use
- * a Modern Robotics Optical Distance Sensor
- * It assumes that the ODS sensor is configured with a name of "sensor_ods".
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
 @TeleOp(name = "Sensor Tester", group = "TESTING")
 //@Disabled
-public class Teleop_SensorTest extends LinearOpMode {// Hardware Device Object
+public class Testing_SensorTest extends LinearOpMode {// Hardware Device Object
 
   Bot robot = new Bot();
   @Override

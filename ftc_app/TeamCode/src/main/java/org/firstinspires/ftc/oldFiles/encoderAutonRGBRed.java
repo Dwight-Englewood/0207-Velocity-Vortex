@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import OldAge.helperFunction;
+import org.firstinspires.ftc.oldFiles.helperFunction;
 
 @Disabled
 @Autonomous(name = "encoderAutonRGBRed", group = "ITERATIVE_AUTON")

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import OldAge.Tuple;
+import org.firstinspires.ftc.oldFiles.Tuple;
 
 @Disabled
 @Autonomous(name = "Auton_Encoder", group = "LINEAR_AUTON")
