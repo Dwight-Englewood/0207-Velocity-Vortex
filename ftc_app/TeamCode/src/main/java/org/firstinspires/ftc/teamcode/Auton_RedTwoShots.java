@@ -47,7 +47,7 @@ public class Auton_RedTwoShots extends OpMode {
          * addressing the issue of sliding when speeding up too quickly. It also helps evade the "opmode
          * stuck in loop" problem we had earlier in the year as the program won't check the commandNumber
          * switch until the bot is within a range from the target. To do this, the program first
-         * checks if the robot is attempting to drive forward to a position using encoder ticks.
+         * checks if the robot is attempting to drive forward to a position using the run to position run-mode.
          */
         if (robot.getIsRunningToTarget() && isGoingForward)
         {

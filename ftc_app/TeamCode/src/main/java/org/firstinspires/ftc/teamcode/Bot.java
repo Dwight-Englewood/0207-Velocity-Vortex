@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
- * @author Robert Aburustum
+ * @author Robert Aburustum & Wen Plotnick
  */
 
 public class Bot
@@ -170,8 +170,7 @@ public class Bot
 
     /**
      * In drive invert, the opposite driving, such as opposite drive trains, are centered around a specific value
-     * This allows for ease of use in with the invert method, since invert can be +/- 1
-     * Which is much simpler than using a large if statement
+     * This allows for ease of use with the invert method of driving, as the invert can add/subtract 1.
      * @param direction - the direction of choice
      * @param power - the power to set the motors to
      */
@@ -299,7 +298,7 @@ public class Bot
         BL.setPower(power);
     }
 
-    // Move-to Methods
+    // Move-to Methods - methods that allow the bot to run to a specific position
 
     /**
      * Runs the robot forward to a target position provided by the caller.
@@ -326,58 +325,82 @@ public class Bot
         BRtarget = targetInt;
 
         // Provides the motors with the target ints
-        FL.setTargetPosition(targetInt);
-        BL.setTargetPosition(targetInt);
-        FR.setTargetPosition(targetInt);
-        BR.setTargetPosition(targetInt);
+        FL.setTargetPosition(FLtarget);
+        BL.setTargetPosition(BLtarget);
+        FR.setTargetPosition(FRtarget);
+        BR.setTargetPosition(BRtarget);
 
         // Gives the motors power to run
         drive(0, 0.1);
     }
 
+    /**
+     * Turns the robot to the left a specific amount based on encoder ticks.
+     * @param power - the power to run the motors at
+     * @param target - the target distance to run the motors in centimeters
+     */
     public void runTurnLeft(double power, double target)
     {
+        // Converts the input centimeters to encoder ticks
         int targetInt = distanceToRevs(target);
+
+        // Resets the encoder values and sets running to target to true
         stopAndReset();
 
+        // Sets the drive motors to the run to position run mode
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        // Sets the left side target ints to negative values and the right side target ints to positive values
         FLtarget = -targetInt;
         BLtarget = -targetInt;
         FRtarget = targetInt;
         BRtarget = targetInt;
 
-        FL.setTargetPosition(-targetInt);
-        BL.setTargetPosition(-targetInt);
-        FR.setTargetPosition(targetInt);
-        BR.setTargetPosition(targetInt);
+        // Provides the motors with the targets
+        FL.setTargetPosition(FLtarget);
+        BL.setTargetPosition(BLtarget);
+        FR.setTargetPosition(FRtarget);
+        BR.setTargetPosition(BRtarget);
 
+        // Sends power to the motors
         drive(0, power);
     }
 
+    /**
+     * Turns the robot to the right a specific amount based on encoder ticks.
+     * @param power - the power to run the motors at
+     * @param target - the target distance to run the motors in centimeters
+     */
     public void runTurnRight(double power, double target)
     {
+        // Converts the input centimeters to encoder ticks
         int targetInt = distanceToRevs(target);
+
+        // Resets the encoder values and sets running to target to true
         stopAndReset();
 
+        // Sets the drive motors to the run to position run mode
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        // Sets the right side target ints to negative values and the left side target ints to positive values
         FLtarget = targetInt;
         BLtarget = targetInt;
         FRtarget = -targetInt;
         BRtarget = -targetInt;
 
-        FL.setTargetPosition(targetInt);
-        BL.setTargetPosition(targetInt);
-        FR.setTargetPosition(-targetInt);
-        BR.setTargetPosition(-targetInt);
+        // Provides the motors with the targets
+        FL.setTargetPosition(FLtarget);
+        BL.setTargetPosition(BLtarget);
+        FR.setTargetPosition(FRtarget);
+        BR.setTargetPosition(BRtarget);
 
+        // Sends power to the motors
         drive(0, power);
     }
 
@@ -476,6 +499,11 @@ public class Bot
         drive(0, power);
     }
 
+    /**
+     * Idles the thread for 1/2 a second then sets running to target to true and sets the run modes
+     * of the drive motors to stop and reset encoder. This resets the encoder values and prepares the
+     * motors for the next run to position command.
+     */
     private void stopAndReset()
     {
         try {Thread.sleep(500);} catch (InterruptedException e) {}
@@ -486,6 +514,10 @@ public class Bot
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    /**
+     * Lets the thread idle for 1/2 a second before setting the motor's run modes to run using
+     * encoders. Also says that the bot isn't running to a target.
+     */
     public void runUsingEncoders()
     {
         try {Thread.sleep(500);} catch (InterruptedException e) {}
@@ -547,7 +579,7 @@ public class Bot
     }
 
     /*
-    This is a set of servo methods that are used to esaily siwtch between the servos during invert mode
+    This is a set of servo methods that are used to easily switch between the servos during invert mode
     Depending on the value of invert, each method will call the respective motor that
     will result in the buttons being in the correct orientation
      */
