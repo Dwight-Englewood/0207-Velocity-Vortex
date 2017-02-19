@@ -36,7 +36,7 @@ public class Bot
     private OpticalDistanceSensor opticalWallFinder;
 
     /*
-    Servo declaration [Public for ease of use with enum in TELEBOP]
+    Servo declaration
     Hardware wise, these are actually CRServos. However, we find it easier to use the servo.setPosition method
     Since a CRServo is just a servo that always thinks it's at the center, this works
      */
