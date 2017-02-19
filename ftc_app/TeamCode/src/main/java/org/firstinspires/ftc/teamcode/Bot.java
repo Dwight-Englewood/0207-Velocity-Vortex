@@ -303,7 +303,7 @@ public class Bot
 
     /**
      * Runs the robot forward to a target position provided by the caller.
-     * @param target
+     * @param target - the distance in centimeters the bot should drive.
      */
     public void runToPosition(double target)
     {
