@@ -35,10 +35,15 @@ public class Bot
     private OpticalDistanceSensor opticalLineFinder;
     private OpticalDistanceSensor opticalWallFinder;
 
-    // Servo declaration [Public for ease of use with enum in TELEBOP]
-    public Servo lServo;
-    public Servo rServo;
-    public Servo intakeServo;
+    /*
+    Servo declaration [Public for ease of use with enum in TELEBOP]
+    Hardware wise, these are actually CRServos. However, we find it easier to use the servo.setPosition method
+    Since a CRServo is just a servo that always thinks it's at the center, this works
+     */
+
+    private Servo lServo;
+    private Servo rServo;
+    private Servo intakeServo;
 
     // Booleans which hold current driving data
     private boolean runningToTarget;
@@ -164,7 +169,9 @@ public class Bot
     }
 
     /**
-     * <WEN PLEASE ADD NOTES HERE> </WEN>
+     * In drive invert, the opposite driving, such as opposite drive trains, are centered around a specific value
+     * This allows for ease of use in with the invert method, since invert can be +/- 1
+     * Which is much simpler than using a large if statement
      * @param direction - the direction of choice
      * @param power - the power to set the motors to
      */
@@ -505,7 +512,13 @@ public class Bot
     }
 
     /**
-     * <WEN PLEASE ADD COMMENTS HERE> </WEN>
+     * These are the values that make the servo move in and out
+     * Since these "servos" are really CRServos, when we tell them to move to a position
+     * They always think they are at the center, and thus continue to move.
+     * They are not perfectly centered however, which is why the stop value for the servos
+     * is not necessarily .50
+     * The values were found by having a teleop which adjusted a variable by .01 whenever
+     * a button was pressed, and the servo then given that position.
      */
     public void leftServoOut()
     {
@@ -533,6 +546,11 @@ public class Bot
         rServo.setPosition(.50);
     }
 
+    /*
+    This is a set of servo methods that are used to esaily siwtch between the servos during invert mode
+    Depending on the value of invert, each method will call the respective motor that
+    will result in the buttons being in the correct orientation
+     */
     public void servoOut(int i) {
         if (i == 1) {
             this.rightServoOut();
