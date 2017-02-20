@@ -7,10 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Telebop_ServoAlign", group="TESTING")
+//Note if you are using this make sure to comment out the @Disabled below or it won't show up on your phone.
 @Disabled
-public class Teleop_ServoAlign extends OpMode {
-    private ElapsedTime runtime = new ElapsedTime();
-
+public class Testing_ServoAlign extends OpMode {
     //Declare a servo to represent your CRServo
     private Servo ourCrServo = null;
 
@@ -35,9 +34,7 @@ public class Teleop_ServoAlign extends OpMode {
     public void init_loop() {}
 
     @Override
-    public void start() {
-        runtime.reset();
-    }
+    public void start() {}
 
     @Override
     public void loop() {
@@ -58,7 +55,6 @@ public class Teleop_ServoAlign extends OpMode {
 
         ourCrServo.setPosition(position);
 
-        telemetry.addData("Status", "Running: " + runtime.toString());
         //The current value of position to telemetry
         telemetry.addData("Current Position", position);
         telemetry.update();
