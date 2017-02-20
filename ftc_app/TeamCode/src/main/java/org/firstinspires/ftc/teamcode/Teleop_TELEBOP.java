@@ -40,7 +40,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //@Disabled
 //TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
 public class Teleop_TELEBOP extends OpMode {
-    private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
 
@@ -90,9 +89,7 @@ public class Teleop_TELEBOP extends OpMode {
     public void init_loop() {}
 
     @Override
-    public void start() {
-        runtime.reset();
-    }
+    public void start() {}
 
     @Override
     public void loop() {
@@ -326,7 +323,6 @@ public class Teleop_TELEBOP extends OpMode {
          /* Various telemetry
             Show
           */
-        telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("invert", invert);
         telemetry.addData("Intake", robot.getIntake());
         telemetry.update();
