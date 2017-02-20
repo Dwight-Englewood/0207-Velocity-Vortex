@@ -6,14 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Telebop_ServoAlign", group="MAIN")
+@TeleOp(name="Telebop_ServoAlign", group="TESTING")
 @Disabled
 public class Teleop_ServoAlign extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
-    //The CR Servo. Replace crservo with the name of your crservo in your robot config
-
-    private Servo crservo = null;
+    //Declare a servo to represent your CRServo
+    private Servo ourCrServo = null;
 
     //Used to add a cooldown to the button, so it won't trigger so quickly
     //Thus you can actually finely control the values
@@ -22,9 +21,13 @@ public class Teleop_ServoAlign extends OpMode {
     //The position the Cr servo will be set to
     private double position = .5;
     @Override
-    public void init() {
+    public void init()
+    {
         telemetry.addData("Status", "Initialized");
+        // The name of the crservo in the robot config on your robot controller phone
+        // Note: despite being a crservo we still choose "servo" from the dropdown in the phone
 
+        ourCrServo = hardwareMap.servo.get("our servo");
     }
 
 
@@ -53,7 +56,7 @@ public class Teleop_ServoAlign extends OpMode {
             position = position + .01;
         }
 
-        crservo.setPosition(position);
+        ourCrServo.setPosition(position);
 
         telemetry.addData("Status", "Running: " + runtime.toString());
         //The current value of position to telemetry
