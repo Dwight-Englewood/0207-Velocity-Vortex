@@ -319,9 +319,10 @@ public class Teleop_TELEBOP extends OpMode {
                 robot.drive(0, .1);
             }
         }
+        
+        /* Cap ball Controls
+           Depending on button pressing, it will raise or lower cap ball
 
-        /**
-         *
          */
         if (gamepad1.dpad_up && !robot.getIsCapMaxed())
         {

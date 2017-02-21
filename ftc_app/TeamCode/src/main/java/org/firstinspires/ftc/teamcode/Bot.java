@@ -132,7 +132,7 @@ public class Bot
 
         leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
         rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
-        
+
         // Set these to Stop and Reset so that we can check their encoder ticks later.
         leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
