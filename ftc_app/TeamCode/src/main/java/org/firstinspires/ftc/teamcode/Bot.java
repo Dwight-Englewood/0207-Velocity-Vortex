@@ -99,7 +99,7 @@ public class Bot
         colorSensorLeft.enableLed(false);
 
         colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
-        //TODO: colorSensorIntake.setI2cAddress() // 7bit for 0x5c
+        colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
         colorSensorIntake.enableLed(true);
 
         opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
