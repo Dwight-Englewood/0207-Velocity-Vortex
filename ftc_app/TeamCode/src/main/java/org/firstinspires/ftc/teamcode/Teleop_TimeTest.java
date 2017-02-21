@@ -51,7 +51,7 @@ public class Teleop_TimeTest extends OpMode {
 
     private boolean timeThing = false;
 
-    private long average
+    private long average;
 
 
     @Override
@@ -83,16 +83,16 @@ public class Teleop_TimeTest extends OpMode {
         }
 
         long count = 0;
-        for (int i = 0; i++; i < timings.size()) {
+        for (int i = 0; i < timings.size(); i++) {
             count = count + timings.get(i);
         }
         average = count / timings.size();
-        
+
          /* Various telemetry
             Show
           */
         telemetry.addData("Timings", timings.toString());
-        telemetry.addData("Average", average)
+        telemetry.addData("Average", average);
         telemetry.update();
     }
 
