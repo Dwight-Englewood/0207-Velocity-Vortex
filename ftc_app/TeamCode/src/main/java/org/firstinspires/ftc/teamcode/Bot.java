@@ -130,6 +130,10 @@ public class Bot
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
+        
+        // Set these to Stop and Reset so that we can check their encoder ticks later.
         leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -150,7 +154,6 @@ public class Bot
         runningToTarget = false;
         strafing = false;
 
-        maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
         maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
     }
 
@@ -657,12 +660,18 @@ public class Bot
 
     // Cap Methods
 
+    /**
+     * Set the runmodes the the cap lifts to run using encoders. This way they can run during endgame.
+     */
     public void primeCaps()
     {
         leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    /**
+     * Run the motors up.
+     */
     public void liftCap()
     {
         leftCap.setPower(.5);

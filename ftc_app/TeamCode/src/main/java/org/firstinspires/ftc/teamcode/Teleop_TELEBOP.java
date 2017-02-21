@@ -321,7 +321,7 @@ public class Teleop_TELEBOP extends OpMode {
         }
 
         /**
-         * 
+         *
          */
         if (gamepad1.dpad_up && !robot.getIsCapMaxed())
         {
