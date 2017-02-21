@@ -56,7 +56,7 @@ public class Bot
     public int BLtarget;
 
     // HardwareMap to hold data as to where each hardware device is located.
-    HardwareMap hwMap;
+    private HardwareMap hwMap;
 
     // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
@@ -618,6 +618,7 @@ public class Bot
     public void intakeServoStop() { intakeServo.setPosition(0.55); }
 
     // Sensor Methods
+    // Returns the red and blue values from the respective color sensors
     public int getRed()
     {
         return colorSensorLeft.red();
@@ -627,6 +628,7 @@ public class Bot
         return colorSensorRight.blue();
     }
 
+    // Takes a reading from the intake color sensor and returns whether it is red, blue or neither
     public String getIntake()
     {
         if (colorSensorIntake.blue() > colorSensorIntake.red() && colorSensorIntake.blue() > 3)
@@ -643,6 +645,7 @@ public class Bot
         }
     }
 
+    // Get the readings from the wall and line optical distance sensors
     public double getLineLight() { return opticalLineFinder.getRawLightDetected(); }
     public double getWallDistance() { return opticalWallFinder.getLightDetected(); }
 
@@ -666,23 +669,31 @@ public class Bot
         rightCap.setPower(0);
     }
 
-    // Helper Methods
+    // Helper
+
+    /**
+     * Takes centimeters and converts to encoder ticks using the cirumference of the wheels and
+     * the ticks per rotation of the motor
+     * @param distance - distance to be converted in centimeters
+     * @return - number of ticks to run the motors for
+     */
     public int distanceToRevs (double distance)
     {
-        //MAKE SURE DISTANCE IS GIVEN IN CENTIMETERS
         final double wheelCirc = 31.9185813;
 
-        final double gearMotorTickThing = 1220; //neverrest 40 = 1220, 20tooth : 40tooth : 40tooth = 1/2 gear ratio
+        final double gearMotorTickThing = 1220; //neverrest 40 = 1220
 
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }
 
+    // Set and get the runningToTarget boolean
     public void setIsRunningToTarget(boolean x)
     {
         runningToTarget = x;
     }
     public boolean getIsRunningToTarget() {return runningToTarget;}
 
+    // Set and get the strafing boolean
     public void setIsStrafing(boolean s) {strafing = s;}
     public boolean getIsStrafing() {return strafing;}
 

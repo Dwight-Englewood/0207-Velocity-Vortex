@@ -188,6 +188,7 @@ public class Auton_RedTwoShots extends OpMode {
                 robot.runToPosition(36);
                 commandNumber++;
                 break;
+
             /**
              * Command 2: wait one second then shoot, elevate a ball, shoot based on time.
              */
@@ -226,6 +227,7 @@ public class Auton_RedTwoShots extends OpMode {
                     commandNumber++;
                 }
                 break;
+
             /**
              * Command 3: the bot turns to the left until it is at approximately a 45 degree angle.
              */
@@ -234,6 +236,7 @@ public class Auton_RedTwoShots extends OpMode {
                 robot.runTurnLeft(0.3, 16);
                 commandNumber++;
                 break;
+
             /**
              * Command 4: the bot drives forward 199 centimeters.
              */
@@ -242,6 +245,7 @@ public class Auton_RedTwoShots extends OpMode {
                 robot.runToPosition(199);
                 commandNumber++;
                 break;
+
             /**
              * Command 5: the bot turns to the right until it is at approximately a 45 degree angle.
              */
@@ -250,18 +254,21 @@ public class Auton_RedTwoShots extends OpMode {
                 robot.runTurnRight(0.3, 15);
                 commandNumber++;
                 break;
+
             /**
              * Command 6: previously did something, currently nothing.
              */
             case 6:
                 commandNumber++;
                 break;
+
             /**
              * Command 7: previously did something, currently nothing.
              */
             case 7:
                 commandNumber++;
                 break;
+
             /**
              * Command 8: the drive motors are set to run using encoders. The bot drives forward at
              * speed 0.3 indefinitely
@@ -270,7 +277,9 @@ public class Auton_RedTwoShots extends OpMode {
                 robot.runUsingEncoders();
                 robot.drive(0, .3);
                 commandNumber++;
+                timer.reset();
                 break;
+
             /**
              * Command 9: if the color sensor finds a value of red greater than 2, the robot stops
              * moving. Then, the robot adjusts so that the poker is in front of the beacon button.
@@ -282,7 +291,12 @@ public class Auton_RedTwoShots extends OpMode {
                     robot.runToPosition(5);
                     commandNumber++;
                 }
+                else if (timer.milliseconds() > 4000)
+                {
+                    commandNumber = 11;
+                }
                 break;
+
             /**
              * Command 10: the robot extends the servo. After 2.5 seconds the bot starts driving
              * backwards to the other beacon and the servo gets pulled back. The next command is
@@ -304,15 +318,16 @@ public class Auton_RedTwoShots extends OpMode {
                 {
                     robot.leftServoIn();
                 }
-                else if (timer.milliseconds() > 3000)
+                else if (timer.milliseconds() < 3500)
                 {
                     robot.drive(1, 0.3);
                 }
-                else if (timer.milliseconds() > 4000)
+                else if (timer.milliseconds() > 3500)
                 {
                     commandNumber++;
                 }
                 break;
+
             /**
              * Command 11: same as command 9.
              */
@@ -324,6 +339,7 @@ public class Auton_RedTwoShots extends OpMode {
                     commandNumber++;
                 }
                 break;
+
             /**
              * Command 12: same as command 10 except the robot does not drive backwards afterwards.
              */
@@ -348,6 +364,7 @@ public class Auton_RedTwoShots extends OpMode {
                     commandNumber++;
                 }
                 break;
+
             /**
              * Command 13: the robot strafes to the right
              */
@@ -365,7 +382,6 @@ public class Auton_RedTwoShots extends OpMode {
                 }
                 break;
         }
-        telemetry.addData("inLoop", robot.getIsRunningToTarget());
         telemetry.update();
     }
 

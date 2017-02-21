@@ -199,6 +199,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 robot.runUsingEncoders();
                 robot.drive(0, .3);
                 commandNumber++;
+                timer.reset();
                 break;
 
             case 9:
@@ -208,6 +209,10 @@ public class Auton_BlueTwoShots extends OpMode {
                     robot.runToPosition(7);
                     x = 0;
                     commandNumber++;
+                }
+                else if (timer.milliseconds() > 4000)
+                {
+                    commandNumber = 11;
                 }
                 break;
 
@@ -223,32 +228,21 @@ public class Auton_BlueTwoShots extends OpMode {
                 {
                     robot.rightServoOut();
                 }
-                else if (timer.milliseconds() < 4500)
+                else if (timer.milliseconds() < 3000)
                 {
                     robot.rightServoIn();
-                    robot.drive(1, 0.3);
-                    x = 2;
+                }
+                else if (timer.milliseconds() < 3500)
+                {
+                    robot.drive(1, .3);
                 }
                 else if (timer.milliseconds() > 3500)
                 {
-                    //robot.rightServoStop();
                     commandNumber++;
                 }
                 break;
 
             case 11:
-                /*if (x == 1)
-                {
-                    timer.reset();
-                    robot.stopMovement(1, .3);
-                    x++;
-                }
-                else if (timer.milliseconds() < 1000){}
-                else { commandNumber++; }*/
-                commandNumber++;
-                break;
-
-            case 12:
                 if (robot.getBlue() >= 3)
                 {
                     robot.stopMovement();
@@ -258,7 +252,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 }
                 break;
 
-            case 13:
+            case 12:
                 if (x == 2)
                 {
                     timer.reset();
@@ -270,18 +264,28 @@ public class Auton_BlueTwoShots extends OpMode {
                 {
                     robot.rightServoOut();
                 }
-                else if (timer.milliseconds() < 4500)
+                else if (timer.milliseconds() < 3000)
                 {
                     robot.rightServoIn();
                 }
-                else if (timer.milliseconds() > 4500)
+                else if (timer.milliseconds() > 3000)
                 {
-                    robot.rightServoStop();
                     commandNumber++;
                 }
                 break;
+
+            case 13:
+                if (x == 3)
+                {
+                    timer.reset();
+                    robot.stopMovement();
+                    robot.runUsingEncoders();
+                    x++;
+                }
+                else if (timer.milliseconds() < 3000)
+                    robot.drive(2, 1);
+                break;
         }
-        telemetry.addData("inLoop", robot.getIsRunningToTarget());
         telemetry.update();
     }
 
