@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 /*plotnw*/
 
-//a device that can be in one of a set number of stable conditions depending
-// on its previous condition and on the present values of its inputs.
+// Same comments as the red side auton
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;

@@ -678,12 +678,18 @@ public class Bot
         rightCap.setPower(.5);
     }
 
+    /**
+     * Run the motors down.
+     */
     public void lowerCap()
     {
         leftCap.setPower(-.5);
         rightCap.setPower(-.5);
     }
 
+    /**
+     * Stop the cap motors.
+     */
     public void stopLiftCap ()
     {
         leftCap.setPower(0);
@@ -699,7 +705,7 @@ public class Bot
        return true;
    }
 
-    // Helper
+    // Helper Methods
 
     /**
      * Takes centimeters and converts to encoder ticks using the cirumference of the wheels and
