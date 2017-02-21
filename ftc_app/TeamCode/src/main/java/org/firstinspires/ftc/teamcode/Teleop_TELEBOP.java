@@ -89,7 +89,7 @@ public class Teleop_TELEBOP extends OpMode {
     public void init_loop() {}
 
     @Override
-    public void start() {}
+    public void start() {robot.primeCaps();}
 
     @Override
     public void loop() {
@@ -318,6 +318,22 @@ public class Teleop_TELEBOP extends OpMode {
             {
                 robot.drive(0, .1);
             }
+        }
+
+        /**
+         * 
+         */
+        if (gamepad1.dpad_up && !robot.getIsCapMaxed())
+        {
+            robot.liftCap();
+        }
+        else if (gamepad1.dpad_down)
+        {
+            robot.lowerCap();
+        }
+        else
+        {
+            robot.stopLiftCap();
         }
 
          /* Various telemetry

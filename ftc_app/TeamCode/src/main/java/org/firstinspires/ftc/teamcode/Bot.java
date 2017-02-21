@@ -55,6 +55,9 @@ public class Bot
     public int FLtarget;
     public int BLtarget;
 
+    // Holds the max ticks the cap motors can run to.
+    private int maxCapTicks;
+
     // HardwareMap to hold data as to where each hardware device is located.
     private HardwareMap hwMap;
 
@@ -127,8 +130,8 @@ public class Bot
         elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FL.setPower(0);
         BL.setPower(0);
@@ -146,6 +149,9 @@ public class Bot
         // Initialize booleans to false as the bot does not start running to a target or strafing.
         runningToTarget = false;
         strafing = false;
+
+        maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
+        maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
     }
 
     /**
@@ -651,6 +657,12 @@ public class Bot
 
     // Cap Methods
 
+    public void primeCaps()
+    {
+        leftCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightCap.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void liftCap()
     {
         leftCap.setPower(.5);
@@ -668,6 +680,15 @@ public class Bot
         leftCap.setPower(0);
         rightCap.setPower(0);
     }
+
+   public boolean getIsCapMaxed()
+   {
+        if (leftCap.getCurrentPosition() < maxCapTicks && rightCap.getCurrentPosition() < maxCapTicks)
+        {
+            return false;
+        }
+       return true;
+   }
 
     // Helper
 
