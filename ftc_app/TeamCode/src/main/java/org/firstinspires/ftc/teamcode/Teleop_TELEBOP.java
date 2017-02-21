@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Telebop", group="MAIN")
 //@Disabled
-//TODO: ADD REVERSE DRIVING SWITCH, 2 MORE MOTORS WHICH MUST BE SYNCED, 3 MORE SERVOS
+
 public class Teleop_TELEBOP extends OpMode {
     private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
@@ -54,7 +54,7 @@ public class Teleop_TELEBOP extends OpMode {
     private ServoStates rservo = ServoStates.STOP;
     private ServoStates lservo = ServoStates.STOP;
 
-    //temporary variiables used to store the time at which the servo button was pressed
+    //Variables used to store the time at which the servo button was pressed
     private long rtime;
     private long ltime;
 
