@@ -154,8 +154,8 @@ public class Bot
         runningToTarget = false;
         strafing = false;
 
-        //maxCapTicks = (int)(1120 * (317.5 / 39.8982267)); // for testing
-        maxCapTicks = 3000;
+        //maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
+        maxCapTicks = 10;
     }
 
     /**
@@ -671,7 +671,7 @@ public class Bot
     }
 
     /**
-     * Run the motors up.
+     * Run the cap motors up.
      */
     public void liftCap()
     {
@@ -680,7 +680,7 @@ public class Bot
     }
 
     /**
-     * Run the motors down.
+     * Run the cap motors down.
      */
     public void lowerCap()
     {
