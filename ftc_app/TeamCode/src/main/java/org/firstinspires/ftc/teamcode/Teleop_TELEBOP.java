@@ -296,7 +296,7 @@ public class Teleop_TELEBOP extends OpMode {
                 hittingBeacon = true;
             }
 
-            if (robot.getLineLight() > 16)
+            if (robot.getLineLight() > 400)
             {
                 robot.stopMovement();
                 if (hittingBeacon)
