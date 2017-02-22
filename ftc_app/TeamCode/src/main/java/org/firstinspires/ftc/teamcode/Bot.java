@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
  * @author Robert Aburustum & Wen Plotnick
+ * @version 2/22/17
  */
 
 public class Bot
