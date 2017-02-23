@@ -293,10 +293,10 @@ public class Teleop_TELEBOP extends OpMode {
         {
             if (robot.getLineLight() > 400)
             {
-                robot.stopMovement();
                 if (!hittingBeacon)
                 {
                     timer.reset();
+                    robot.stopMovement();
                     hittingBeacon = true;
                 }
                 else if (timer.milliseconds() < 1000)
@@ -332,8 +332,7 @@ public class Teleop_TELEBOP extends OpMode {
             robot.stopLiftCap();
         }
 
-         /* Various telemetry
-          */
+         /* Various telemetry */
         telemetry.addData("invert", invert);
         telemetry.addData("Intake", robot.getIntake());
         telemetry.update();
