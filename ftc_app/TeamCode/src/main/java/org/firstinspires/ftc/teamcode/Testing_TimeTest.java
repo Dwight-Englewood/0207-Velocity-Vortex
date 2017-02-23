@@ -65,7 +65,7 @@ public class Testing_TimeTest extends OpMode {
     public void init_loop() {}
 
     @Override
-    public void start() {robot.primeCaps();}
+    public void start() {}
 
     @Override
     public void loop() {
