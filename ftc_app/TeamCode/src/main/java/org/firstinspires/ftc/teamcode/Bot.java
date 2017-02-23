@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 
 /**
  * @author Robert Aburustum & Wen Plotnick
+ * @version 2/22/17
  */
 
 public class Bot
@@ -154,7 +155,8 @@ public class Bot
         runningToTarget = false;
         strafing = false;
 
-        maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
+        //maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
+        maxCapTicks = 10;
     }
 
     /**
@@ -670,7 +672,7 @@ public class Bot
     }
 
     /**
-     * Run the motors up.
+     * Run the cap motors up.
      */
     public void liftCap()
     {
@@ -679,7 +681,7 @@ public class Bot
     }
 
     /**
-     * Run the motors down.
+     * Run the cap motors down.
      */
     public void lowerCap()
     {

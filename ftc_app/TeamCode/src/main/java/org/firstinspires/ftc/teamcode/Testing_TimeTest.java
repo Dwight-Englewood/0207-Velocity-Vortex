@@ -37,10 +37,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import java.util.ArrayList;
 
-@TeleOp(name="Telebop", group="MAIN")
+@TeleOp(name="Telebop_TimeTest", group="TESTING")
 //@Disabled
 
-public class Teleop_TimeTest extends OpMode {
+public class Testing_TimeTest extends OpMode {
 
     Bot robot = new Bot();
 
