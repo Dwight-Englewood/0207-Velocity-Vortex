@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-@TeleOp(name = "Sensor Tester", group = "TESTING")
+@TeleOp(name = "Testing_SensorTesting", group = "TESTING")
 //@Disabled
 public class Testing_SensorTest extends LinearOpMode {// Hardware Device Object
 

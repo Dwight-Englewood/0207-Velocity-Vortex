@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Telebop_ServoAlign", group="TESTING")
+@TeleOp(name="Testing_ServoAlign", group="TESTING")
 //Note if you are using this make sure to comment out the @Disabled below or it won't show up on your phone.
 @Disabled
 public class Testing_ServoAlign extends OpMode {
