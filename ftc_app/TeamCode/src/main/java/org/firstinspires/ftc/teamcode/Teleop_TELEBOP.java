@@ -46,6 +46,7 @@ public class Teleop_TELEBOP extends OpMode {
     //These booleans are used to determine whether to skip the driving section
     boolean strafingLeft = false;
     boolean strafingRight = false;
+    boolean strafingDiag = false;
 
     //Enum used to store state of a servo
     public enum ServoStates {STOP, IN, OUT};
@@ -148,6 +149,26 @@ public class Teleop_TELEBOP extends OpMode {
                 robot.driveInvert(4 + invert,1 * invert * gamepad1.right_trigger); //See comment starting at line 116
                 strafingRight = true;
             }
+
+            if (gamepad1.dpad_up) {
+                robot.driveInvert(13 + invert, 1 * invert); //See comment starting at line 116
+                strafingDiag = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
+            }
+
+            if (gamepad1.dpad_down) {
+                robot.driveInvert(13 - invert, (-1) * 1 * invert); //See comment starting at line 116
+                strafingDiag = true;
+            }
+
+            if (gamepad1.y) {
+                robot.driveInvert(13 + invert, 1 * invert); //See comment starting at line 116
+                strafingDiag = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
+            }
+
+            if (gamepad1.a) {
+                robot.driveInvert(13 - invert,1 * invert); //See comment starting at line 116
+                strafingDiag = true;
+            }
         }
         else {
             if (gamepad1.left_trigger == 0 && strafingLeft) {
@@ -157,6 +178,12 @@ public class Teleop_TELEBOP extends OpMode {
             else if (gamepad1.right_trigger == 0 && strafingRight) {
                 robot.stopMovement();
                 strafingRight = false;
+            } else if (gamepad1.a && strafingDiag) {
+                robot.stopMovement();
+                strafingDiag = false;
+            } else if (gamepad1.y && strafingDiag) {
+                robot.stopMovement();
+                strafingDiag = false;
             }
         }
 
@@ -166,11 +193,25 @@ public class Teleop_TELEBOP extends OpMode {
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
         else                                    {robot.setShooter(0);}
 
-        if (gamepad2.left_trigger > 0.5)        {robot.setElevator(1); robot.intakeServoIn();}
-        else if (gamepad2.left_bumper)          {robot.setElevator(-1); robot.intakeServoOut();}
-        else                                    {robot.setElevator(0); robot.intakeServoStop();}
+        if (gamepad2.left_trigger > 0.5 || gamepad2.left_stick_y > .10) {
+            robot.setElevator(1);
+        }
+        else if (gamepad2.left_bumper || gamepad2.left_stick_y < -.10) {
+            robot.setElevator(-1);
+        }
+        else {
+            robot.setElevator(0);
+        }
 
-         /* Servo Control
+
+        if (gamepad2.right_stick_y > .10) {
+            robot.intakeServoIn();
+        } else if (gamepad2.right_stick_y < -.10) {
+            robot.intakeServoOut();
+        } else {
+            robot.intakeServoStop();
+        }
+          /* Servo Control
             We represent the servo as existing in 3 states - STOP, IN, OUT - each corresponding to what it should be doing at the time
             This structure is needed due to the design of the TELEOP, in which in continually loops this method.
             If we moved the servo directly within this, the bot may get caught by the watchdog process and get killed
@@ -319,11 +360,11 @@ public class Teleop_TELEBOP extends OpMode {
         /* Cap ball Controls
            Depending on button pressing, it will raise or lower cap ball
          */
-        if (gamepad1.dpad_up && !robot.getIsCapMaxed())
+        if ((gamepad1.dpad_up || gamepad2.dpad_up) && !robot.getIsCapMaxed())
         {
             robot.liftCap();
         }
-        else if (gamepad1.dpad_down)
+        else if (gamepad1.dpad_down || gamepad2.dpad_down)
         {
             robot.lowerCap();
         }
