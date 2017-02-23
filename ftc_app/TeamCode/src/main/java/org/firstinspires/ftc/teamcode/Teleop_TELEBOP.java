@@ -291,18 +291,13 @@ public class Teleop_TELEBOP extends OpMode {
         //Rob add a comment here plz
         if (gamepad1.b)
         {
-            if (!hittingBeacon)
-            {
-                hittingBeacon = true;
-            }
-
             if (robot.getLineLight() > 400)
             {
                 robot.stopMovement();
-                if (hittingBeacon)
+                if (!hittingBeacon)
                 {
                     timer.reset();
-                    hittingBeacon = false;
+                    hittingBeacon = true;
                 }
                 else if (timer.milliseconds() < 1000)
                 {
@@ -316,6 +311,7 @@ public class Teleop_TELEBOP extends OpMode {
             }
             else
             {
+                hittingBeacon = false;
                 robot.drive(0, .1);
             }
         }
