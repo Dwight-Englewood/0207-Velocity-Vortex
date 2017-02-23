@@ -166,7 +166,7 @@ public class Teleop_TELEBOP extends OpMode {
             }
 
             if (gamepad1.a) {
-                robot.driveInvert(13 - invert,1 * invert); //See comment starting at line 116
+                robot.driveInvert(13 - invert,(-1) * 1 * invert); //See comment starting at line 116
                 strafingDiag = true;
             }
         }

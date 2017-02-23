@@ -34,7 +34,7 @@ public class Bot
 
     // Optical distance sensor declaration
     private OpticalDistanceSensor opticalLineFinder;
-    private OpticalDistanceSensor opticalWallFinder;
+    //private OpticalDistanceSensor opticalWallFinder;
 
     /*
     Servo declaration
@@ -109,8 +109,8 @@ public class Bot
         opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
         opticalLineFinder.enableLed(true);
 
-        opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
-        opticalWallFinder.enableLed(true);
+        //opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
+        //opticalWallFinder.enableLed(true);
 
         /**
          * Setting the motor run modes to run using encoders or without encoders dependent on
@@ -658,7 +658,7 @@ public class Bot
 
     // Get the readings from the wall and line optical distance sensors
     public double getLineLight() { return opticalLineFinder.getRawLightDetected(); }
-    public double getWallDistance() { return opticalWallFinder.getLightDetected(); }
+    //public double getWallDistance() { return opticalWallFinder.getLightDetected(); }
 
     // Cap Methods
 
