@@ -155,8 +155,7 @@ public class Bot
         runningToTarget = false;
         strafing = false;
 
-        //maxCapTicks = (int)(1120 * (317.5 / 39.8982267));
-        maxCapTicks = 10;
+        maxCapTicks = 8912;
     }
 
     /**

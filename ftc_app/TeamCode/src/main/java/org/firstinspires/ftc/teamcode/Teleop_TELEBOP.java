@@ -178,10 +178,10 @@ public class Teleop_TELEBOP extends OpMode {
             else if (gamepad1.right_trigger == 0 && strafingRight) {
                 robot.stopMovement();
                 strafingRight = false;
-            } else if (gamepad1.a && strafingDiag) {
+            } else if (!gamepad1.a && strafingDiag) {
                 robot.stopMovement();
                 strafingDiag = false;
-            } else if (gamepad1.y && strafingDiag) {
+            } else if (!gamepad1.y && strafingDiag) {
                 robot.stopMovement();
                 strafingDiag = false;
             }
@@ -204,13 +204,14 @@ public class Teleop_TELEBOP extends OpMode {
         }
 
 
-        if (gamepad2.right_stick_y > .10) {
+       /* if (gamepad2.right_stick_y > .10) {
             robot.intakeServoIn();
         } else if (gamepad2.right_stick_y < -.10) {
             robot.intakeServoOut();
         } else {
             robot.intakeServoStop();
-        }
+        }*/
+
           /* Servo Control
             We represent the servo as existing in 3 states - STOP, IN, OUT - each corresponding to what it should be doing at the time
             This structure is needed due to the design of the TELEOP, in which in continually loops this method.
@@ -360,11 +361,11 @@ public class Teleop_TELEBOP extends OpMode {
         /* Cap ball Controls
            Depending on button pressing, it will raise or lower cap ball
          */
-        if ((gamepad1.dpad_up || gamepad2.dpad_up) && !robot.getIsCapMaxed())
+        if (gamepad2.dpad_up && !robot.getIsCapMaxed())
         {
             robot.liftCap();
         }
-        else if (gamepad1.dpad_down || gamepad2.dpad_down)
+        else if (gamepad2.dpad_down)
         {
             robot.lowerCap();
         }
