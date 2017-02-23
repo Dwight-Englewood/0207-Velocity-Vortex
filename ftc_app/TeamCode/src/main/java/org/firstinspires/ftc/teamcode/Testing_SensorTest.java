@@ -50,7 +50,7 @@ public class Testing_SensorTest extends LinearOpMode {// Hardware Device Object
       while (opModeIsActive()) {
 
           telemetry.addData("Line Light",    robot.getLineLight());
-          telemetry.addData("Wall Light", robot.getWallDistance());
+          //telemetry.addData("Wall Light", robot.getWallDistance());
           telemetry.addData("BLUE  ", robot.getBlue());
           telemetry.addData("RED ", robot.getRed());
           telemetry.addData("Intake", robot.getIntake());
