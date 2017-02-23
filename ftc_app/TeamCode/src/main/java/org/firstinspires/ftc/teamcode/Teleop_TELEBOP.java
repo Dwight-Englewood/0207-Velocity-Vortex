@@ -140,12 +140,12 @@ public class Teleop_TELEBOP extends OpMode {
             }
 
             if (gamepad1.left_trigger > 0.5) {
-                robot.driveInvert(4 - invert,1 * invert); //See comment starting at line 116
+                robot.driveInvert(4 - invert,1 * invert * gamepad1.left_trigger); //See comment starting at line 116
                 strafingLeft = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
             }
 
             if (gamepad1.right_trigger > 0.5) {
-                robot.driveInvert(4 + invert,1 * invert); //See comment starting at line 116
+                robot.driveInvert(4 + invert,1 * invert * gamepad1.right_trigger); //See comment starting at line 116
                 strafingRight = true;
             }
         }
