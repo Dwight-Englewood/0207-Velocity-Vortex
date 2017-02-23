@@ -318,7 +318,6 @@ public class Teleop_TELEBOP extends OpMode {
 
         /* Cap ball Controls
            Depending on button pressing, it will raise or lower cap ball
-
          */
         if (gamepad1.dpad_up && !robot.getIsCapMaxed())
         {
@@ -334,7 +333,6 @@ public class Teleop_TELEBOP extends OpMode {
         }
 
          /* Various telemetry
-            Show
           */
         telemetry.addData("invert", invert);
         telemetry.addData("Intake", robot.getIntake());
