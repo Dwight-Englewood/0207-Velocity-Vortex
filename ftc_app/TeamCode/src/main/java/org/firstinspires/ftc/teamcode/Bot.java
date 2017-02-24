@@ -291,6 +291,7 @@ public class Bot
     {
         FL.setPower(-power);
         BL.setPower(-power);
+        this.strafing = true;
     }
 
     // Direction 7 - sets the right motors to negative powers. (drive right side)
@@ -298,6 +299,7 @@ public class Bot
     {
         FR.setPower(-power);
         BR.setPower(-power);
+        this.strafing = true;
     }
 
     /**
@@ -308,6 +310,7 @@ public class Bot
     {
         FL.setPower(power);
         BR.setPower(power);
+        this.strafing = true;
     }
 
     /**
@@ -318,6 +321,7 @@ public class Bot
     {
         FR.setPower(power);
         BL.setPower(power);
+        this.strafing = true;
     }
 
     // Move-to Methods - methods that allow the bot to run to a specific position
