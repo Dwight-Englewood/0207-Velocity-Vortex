@@ -19,8 +19,13 @@ public abstract class Bot
     // Init function - to be used when initializing the bot. (See fleshed out Bot in teamcode for example)
     public abstract void init();
 
-    // Drive function
-    public abstract  void drive();
+    // Drive function - select a direction and move that way with power
+    public abstract  void drive(int direction, double power);
+
+    abstract void forward(int power);
+    abstract void backward(int power);
+    abstract void turnRight(int power);
+    abstract  void turnLeft(int power);
 
     // Stop driving function (All drive motors --> power 0)
     public abstract void stopMovement();
@@ -36,7 +41,7 @@ public abstract class Bot
      * class as you will have different motor/gear/wheel setup than us.
      */
 
-    public int distanceToRevs (double distance)
+    private int distanceToRevs (double distance)
     {
         final double wheelCirc = 31.4159;
 
