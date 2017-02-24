@@ -184,8 +184,13 @@ public class Bot
      * @param direction - the direction of choice
      * @param power - the power to set the motors to
      */
-    public void driveInvert(int direction, double power)
+    public void driveInvert(int direction, double power, boolean powerReduc)
     {
+        if (powerReduc) {
+            power = power / 3;
+        } else {
+            power = power;
+        }
         if (direction == 0){driveForwards(power);}
         else if (direction == 2){driveBackwards(power);}
         else if (direction == 3){driveLeft(power);}
