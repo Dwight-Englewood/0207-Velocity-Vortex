@@ -173,7 +173,28 @@ public class Teleop_TELEBOP extends OpMode {
                 robot.driveInvert(13 - invert, (-1) * invert, this.invert);
                 strafingDiagDownRight = true;
 
-            } else {
+            }
+        } else {
+                if (!gamepad1.dpad_up && strafingDiagUpLeft) {
+                    robot.stopMovement();
+                    strafingDiagUpLeft = false;
+                }
+
+                if (!gamepad1.dpad_down && strafingDiagDownLeft) {
+                    robot.stopMovement();
+                    strafingDiagDownLeft = false;
+                }
+
+                if (!gamepad1.y && strafingDiagUpRight) {
+                    robot.stopMovement();
+                    strafingDiagUpRight = false;
+                }
+
+                if (!gamepad1.a && strafingDiagDownRight) {
+                    robot.stopMovement();
+                    strafingDiagDownRight = false;
+                }
+            
                 if (gamepad1.left_trigger > 0 && strafingLeft) {
                     robot.driveInvert(4 - invert, gamepad1.left_trigger, this.invert);
                 }
