@@ -11,13 +11,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public abstract class Bot
 {
     // Declare your hardware/software fields
-    private HardwareMap hwMap;
 
     // Constructor (Does nothing)
     public Bot(){}
 
     // Init function - to be used when initializing the bot. (See fleshed out Bot in teamcode for example)
-    public abstract void init();
+    public abstract void init(HardwareMap hwMap);
 
     // Drive function - select a direction and move that way with power
     public abstract  void drive(int direction, double power);
