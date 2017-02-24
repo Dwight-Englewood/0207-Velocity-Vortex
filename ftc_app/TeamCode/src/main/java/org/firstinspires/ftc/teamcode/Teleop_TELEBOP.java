@@ -77,14 +77,6 @@ public class Teleop_TELEBOP extends OpMode {
     //whether bot is currently in automated beacon press mode
     private boolean hittingBeacon = false;
 
-    private boolean invertToBool (int invert) {
-        if (invert == 1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -115,9 +107,9 @@ public class Teleop_TELEBOP extends OpMode {
          /*
             Driving, based on joysticks
           */
-        if (!robot.getIsStrafing() || strafingDiag) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
+        if (!robot.getIsStrafing()) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
             if (gamepad1.right_stick_y > 0.15) {
-                robot.driveInvert(10 + invert, (1 * invert * gamepad1.right_stick_y), invertToBool(this.invert));
+                robot.driveInvert(10 + invert, (1 * invert * gamepad1.right_stick_y), (this.invert));
                  /* First instance of the invert
                     The way that invert is implemented is through a single variable that can be two values: 1, or -1
                     This makes it simple to reverse motor directions, as we just multiply the power by invert.
@@ -130,59 +122,34 @@ public class Teleop_TELEBOP extends OpMode {
 
             }
             else if (gamepad1.right_stick_y < -0.15) {
-                robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y), invertToBool(this.invert)); //See comment starting at line 116
+                robot.driveInvert(10 + invert, (-1) * invert * Math.abs(gamepad1.right_stick_y), (this.invert)); //See comment starting at line 116
             }
             else {
-                robot.driveInvert(10 + invert, 0, invertToBool(this.invert));
+                robot.driveInvert(10 + invert, 0, this.invert);
             }
 
             if (gamepad1.left_stick_y > 0.15) {
-                robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y, invertToBool(this.invert)); //See comment starting at line 116
+                robot.driveInvert(10 - invert, 1 * invert * gamepad1.left_stick_y, this.invert); //See comment starting at line 116
             }
             else if (gamepad1.left_stick_y < -0.15) {
-                robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y) - .5, invertToBool(this.invert)); //See comment starting at line 116
+                robot.driveInvert(10 - invert, (-1) * invert * Math.abs(gamepad1.left_stick_y) - .5, (this.invert)); //See comment starting at line 116
             }
             else {
-                robot.driveInvert(10 - invert, 0, invertToBool(this.invert));
+                robot.driveInvert(10 - invert, 0, this.invert);
             }
 
             if (gamepad1.left_trigger > 0.1) {
-                robot.driveInvert(4 + invert,1 * invert * gamepad1.left_trigger, invertToBool(this.invert)); //See comment starting at line 116
+                robot.driveInvert(4 - invert, 1 * invert, this.invert); //See comment starting at line 116
                 strafingLeft = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
             }
 
             if (gamepad1.right_trigger > 0.1) {
-                robot.driveInvert(4 - invert,1 * invert * gamepad1.right_trigger, invertToBool(this.invert)); //See comment starting at line 116
+                robot.driveInvert(4 + invert, 1 * invert, this.invert); //See comment starting at line 116
                 strafingRight = true;
             }
 
-            if (gamepad1.dpad_up) {
-                robot.driveInvert(13 + invert, 1 * invert, invertToBool(this.invert)); //See comment starting at line 116
-                strafingDiag = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
-            }
-
-            if (gamepad1.dpad_down) {
-                robot.driveInvert(13 - invert, (-1) * 1 * invert, invertToBool(this.invert)); //See comment starting at line 116
-                strafingDiag = true;
-            }
-
-            if (gamepad1.y) {
-                robot.driveInvert(13 + invert, 1 * invert, invertToBool(this.invert)); //See comment starting at line 116
-                strafingDiag = true; //Tell the program we're strafing, so we won't interfere with it with joystick control
-            }
-
-            if (gamepad1.a) {
-                robot.driveInvert(13 - invert,(-1) * 1 * invert, invertToBool(this.invert)); //See comment starting at line 116
-                strafingDiag = true;
-            }
         }
         else {
-            if (gamepad1.left_trigger > .1 && strafingLeft) {
-                robot.driveInvert(4 + invert,1 * invert * gamepad1.left_trigger, invertToBool(this.invert));
-            }
-            if (gamepad1.right_trigger > .1 && strafingRight) {
-                robot.driveInvert(4 - invert,1 * invert * gamepad1.right_trigger, invertToBool(this.invert));
-            }
             if (gamepad1.left_trigger == 0 && strafingLeft) {
                 robot.stopMovement();
                 strafingLeft = false; //If we are no longer pressing the left trigger, stop strafing
@@ -190,12 +157,6 @@ public class Teleop_TELEBOP extends OpMode {
             else if (gamepad1.right_trigger == 0 && strafingRight) {
                 robot.stopMovement();
                 strafingRight = false;
-            } else if (!gamepad1.a && strafingDiag) {
-                robot.stopMovement();
-                strafingDiag = false;
-            } else if (!gamepad1.y && strafingDiag) {
-                robot.stopMovement();
-                strafingDiag = false;
             }
         }
 
@@ -216,13 +177,14 @@ public class Teleop_TELEBOP extends OpMode {
         }
 
 
-       /* if (gamepad2.right_stick_y > .10) {
+
+        if (gamepad2.right_stick_y > .10) {
             robot.intakeServoIn();
         } else if (gamepad2.right_stick_y < -.10) {
             robot.intakeServoOut();
         } else {
             robot.intakeServoStop();
-        }*/
+        }
 
           /* Servo Control
             We represent the servo as existing in 3 states - STOP, IN, OUT - each corresponding to what it should be doing at the time
