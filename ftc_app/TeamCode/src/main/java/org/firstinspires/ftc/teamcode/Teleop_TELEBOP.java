@@ -43,10 +43,13 @@ public class Teleop_TELEBOP extends OpMode {
     private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
 
-    //These booleans are used to determine whether to skip the driving section
+    //These booleans are used to determine which strafing action is being performed, to avoid conflicts between the different strafing options
     boolean strafingLeft = false;
     boolean strafingRight = false;
-    boolean strafingDiag = false;
+    boolean strafingDiagDU = false;
+    boolean strafingDiagDD = false;
+    boolean strafingDiagY = false;
+    boolean strafingDiagA = false;
 
     //Enum used to store state of a servo
     public enum ServoStates {STOP, IN, OUT};
@@ -147,9 +150,18 @@ public class Teleop_TELEBOP extends OpMode {
                 robot.driveInvert(4 +  invert, gamepad1.right_trigger, this.invert); //See comment starting at line 116
                 strafingRight = true;
             }
+            if (gamepad1.dpad_up) {
+                robot.driveInvert(13 + invert, 1 * invert, this.invert);
+                strafingDiagDU = true;
+            }
 
         }
         else {
+            if (!(gamepad1.dpad_up) && strafingDiagDU) {
+                robot.stopMovement();
+                strafingDiagDU = false;
+            }
+
             if (gamepad1.left_trigger > 0 && strafingLeft) {
                 robot.driveInvert(4 - invert, gamepad1.left_trigger, this.invert);
             }

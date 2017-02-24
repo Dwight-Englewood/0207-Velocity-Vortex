@@ -308,6 +308,8 @@ public class Bot
     {
         FL.setPower(power);
         BR.setPower(power);
+        this.strafing = true;
+
     }
 
     /**
@@ -318,6 +320,8 @@ public class Bot
     {
         FR.setPower(power);
         BL.setPower(power);
+        this.strafing = true;
+
     }
 
     // Move-to Methods - methods that allow the bot to run to a specific position
