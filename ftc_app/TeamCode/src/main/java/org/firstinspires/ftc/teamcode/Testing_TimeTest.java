@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 
@@ -45,13 +46,15 @@ public class Testing_TimeTest extends OpMode {
     Bot robot = new Bot();
 
     //adds a timeout to the invert button, to prevent rapid switching of invert and back
-    private long timer = 1;
+    private ElapsedTime timer = new ElapsedTime();
 
-    private ArrayList<Long> timings = new ArrayList<Long>();
+    private ArrayList<Double> timings = new ArrayList<Double>();
 
     private boolean timeThing = false;
 
-    private long average;
+    private double average;
+
+    double count = 0;
 
 
     @Override
@@ -70,23 +73,28 @@ public class Testing_TimeTest extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad1.a && !timeThing) {
-            timeThing = !timeThing;
-            timer = System.currentTimeMillis();
-        } else if (gamepad1.a && timeThing) {
-            ;
-        } else if (!gamepad1.a && timeThing) {
-            timings.add(System.currentTimeMillis() - timer);
-
-        } else {
-            ;
+        if (gamepad1.a && !timeThing)
+        {
+            timeThing = true;
+            timer.reset();
+            count = 0;
+            robot.rightServoOut();
+            robot.leftServoOut();
         }
+        else if (!gamepad1.a && timeThing)
+        {
+            timings.add(timer.seconds());
+            robot.rightServoStop();
+            robot.leftServoStop();
+            timeThing = false;
+            for (int i = 0; i < timings.size(); i++)
+            {
+                count += timings.get(i);
+            }
+            if (timings.size() > 0)
+                average = count / timings.size();
 
-        long count = 0;
-        for (int i = 0; i < timings.size(); i++) {
-            count = count + timings.get(i);
         }
-        average = count / timings.size();
 
          /* Various telemetry
             Show

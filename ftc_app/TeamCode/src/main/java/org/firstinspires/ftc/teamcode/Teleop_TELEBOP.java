@@ -218,24 +218,17 @@ public class Teleop_TELEBOP extends OpMode {
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
         else                                    {robot.setShooter(0);}
 
-        if (gamepad2.left_trigger > 0.5 || gamepad2.left_stick_y > .10) {
+        if (gamepad2.left_trigger > 0.5)
+        {
             robot.setElevator(1);
         }
-        else if (gamepad2.left_bumper || gamepad2.left_stick_y < -.10) {
+        else if (gamepad2.left_bumper)
+        {
             robot.setElevator(-1);
         }
-        else {
+        else
+        {
             robot.setElevator(0);
-        }
-
-
-
-        if (gamepad2.right_stick_y > .10) {
-            robot.intakeServoIn();
-        } else if (gamepad2.right_stick_y < -.10) {
-            robot.intakeServoOut();
-        } else {
-            robot.intakeServoStop();
         }
 
           /* Servo Control
@@ -355,13 +348,13 @@ public class Teleop_TELEBOP extends OpMode {
                 break;
         }
 
-        /*
-        Automated Beacon Lineup/Hit
-        Rob add a comment here plz
-        */
+        /**
+         *   Automated Beacon Lineup/Hit
+         *   Rob add a comment here plz
+         */
         if (gamepad1.b)
         {
-            if (robot.getLineLight() > 400)
+            if (robot.getLineLight() > 1.2)
             {
                 if (!hittingBeacon)
                 {
@@ -369,7 +362,7 @@ public class Teleop_TELEBOP extends OpMode {
                     robot.stopMovement();
                     hittingBeacon = true;
                 }
-                else if (timer.milliseconds() < 1000)
+                else if (timer.milliseconds() < 2100)
                 {
                     robot.leftServoOut();
                 }
@@ -382,54 +375,67 @@ public class Teleop_TELEBOP extends OpMode {
             else
             {
                 hittingBeacon = false;
-                robot.drive(0, .1);
+                robot.drive(0, .3);
             }
         }
-        //Cap Ball anti de-spool rountine
-        /*if (gamepad2.dpad_right && capTimer == 0) {
-            capTimer = System.currentTimeMillis();
-        } else if (gamepad2.dpad_right && System.currentTimeMillis() - capTimer > 500) {
-            capRoutine = true;
-        } else if (!gamepad2.dpad_right) {
-            capTimer = 0;
-        }*/
 
-        if (gamepad2.dpad_right) {
+        // Auto fork-drop
+        /**
+         * Automatically lifts and lowers the linear motion. This drops the forks down and prevents
+         * the linear motion from de-spooling. This could be done by hand by presssing the up then
+         * down buttons on the gamepads. However, by doing it via programming, we eliminate risk of
+         * driver error and de-spooling.
+         */
+
+        if (gamepad2.dpad_right)
+        {
             capRoutine = true;
             timer.reset();
         }
 
-        if (capRoutine) {
-            if (timer.milliseconds() < 1500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed()) {
+        if (capRoutine)
+        {
+            if (timer.milliseconds() < 1500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed())
+            {
                 robot.liftCap();
-            } else if (1750 < timer.milliseconds() && timer.milliseconds() < 2500) {
+            }
+            else if (1750 < timer.milliseconds() && timer.milliseconds() < 2500)
+            {
                 robot.lowerCap();
-            } else if (timer.milliseconds() > 2750) {
+            }
+            else if (timer.milliseconds() > 2750)
+            {
                 capRoutine = false;
-            } else {
+            }
+            else
+            {
                 robot.stopLiftCap();
             }
         }
-
-
-
 
         /* Cap ball Controls
-           Depending on button pressing, it will raise or lower cap ball
+         * Depending on button pressing, it will raise or lower the linear motion. However, when
+         * raising the cap, the program checks to ensure that the linear motion is not riased too
+         * high
          */
-        if (!capRoutine) {
-            if (gamepad2.dpad_up && !robot.getIsCapMaxed()) {
+        if (!capRoutine)
+        {
+            if (gamepad2.dpad_up && !robot.getIsCapMaxed())
+            {
                 robot.liftCap();
-            } else if (gamepad2.dpad_down) {
+            }
+            else if (gamepad2.dpad_down)
+            {
                 robot.lowerCap();
-            } else {
+            }
+            else
+            {
                 robot.stopLiftCap();
             }
         }
+
          /* Various telemetry */
         telemetry.addData("invert", invert);
-        telemetry.addData("Intake", robot.getIntake());
-        telemetry.addData("capRoutine", capRoutine);
         telemetry.update();
     }
 

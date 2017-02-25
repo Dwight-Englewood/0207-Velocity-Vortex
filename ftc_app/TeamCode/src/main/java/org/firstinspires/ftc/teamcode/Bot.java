@@ -310,7 +310,6 @@ public class Bot
         FL.setPower(power);
         BR.setPower(power);
         this.strafing = true;
-
     }
 
     /**
@@ -672,6 +671,9 @@ public class Bot
         }
     }
 
+    public int getIntakeRed(){return colorSensorIntake.red();}
+    public int getIntakeBlue() {return colorSensorIntake.blue();}
+
     // Get the readings from the wall and line optical distance sensors
     public double getLineLight() { return opticalLineFinder.getRawLightDetected(); }
     //public double getWallDistance() { return opticalWallFinder.getLightDetected(); }
@@ -735,7 +737,7 @@ public class Bot
     {
         final double wheelCirc = 31.9185813;
 
-        final double gearMotorTickThing = 1220; //neverrest 40 = 1220
+        final double gearMotorTickThing = 1120; //neverrest 40 = 1120
 
         return (int)(gearMotorTickThing * (distance / wheelCirc));
     }

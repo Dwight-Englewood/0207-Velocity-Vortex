@@ -26,11 +26,6 @@ public class Auton_FarShootPlant extends OpMode {
 
     private int x = 0;
 
-    int FRtarget;
-    int BRtarget;
-    int FLtarget;
-    int BLtarget;
-
     @Override
     public void init()
     {

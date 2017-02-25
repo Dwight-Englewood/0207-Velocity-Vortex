@@ -68,10 +68,10 @@ public class Auton_BlueTwoShots extends OpMode {
                 robot.drive(0, .3);
             }
             else if (
-                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 700) &&
-                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 700) &&
-                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 700) &&
-                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 700)
+                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 500) &&
+                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 500) &&
+                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 500) &&
+                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 500)
                     )
             {
                 robot.drive(0, .1);
@@ -117,6 +117,15 @@ public class Auton_BlueTwoShots extends OpMode {
                 robot.stopMovement();
                 robot.setIsRunningToTarget(false);
             }
+            else if (
+                    (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 250) &&
+                    (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 250) &&
+                    (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 250) &&
+                    (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 250)
+                    )
+            {
+                robot.drive(0, .1);
+            }
 
             telemetry.update();
             return;
@@ -137,26 +146,30 @@ public class Auton_BlueTwoShots extends OpMode {
                     robot.chill();
                     x++;
                 }
-                if (timer.milliseconds() < 1000)
+                if (timer.milliseconds() < 500)
                 {
 
                 }
-                else if (timer.milliseconds() < 2000)
+                else if (timer.milliseconds() < 1500)
                 {
-                    robot.setShooter(1);
+                    //robot.setShooter(1);
                 }
-                else if (timer.milliseconds() < 4000)
+                else if (timer.milliseconds() < 2000)
                 {
                     robot.setShooter(0);
                     robot.setElevator(1);
                 }
-                else if (timer.milliseconds() < 4500)
+                else if (timer.milliseconds() < 2500)
+                {
+                    robot.setElevator(-1);
+                }
+                else if (timer.milliseconds() < 3000)
                 {
                     robot.setElevator(0);
                 }
-                else if (timer.milliseconds() < 5500 )
+                else if (timer.milliseconds() < 4000 )
                 {
-                    robot.setShooter(1);
+                    //robot.setShooter(1);
                 }
                 else if (timer.milliseconds() > 500)
                 {
@@ -174,7 +187,7 @@ public class Auton_BlueTwoShots extends OpMode {
 
             case 4:
                 isGoingForward = true;
-                robot.runToPosition(205);
+                robot.runToPosition(207);
                 commandNumber++;
                 break;
 
@@ -211,6 +224,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 }
                 else if (timer.milliseconds() > 4000)
                 {
+                    robot.drive(1, .3);
                     commandNumber = 11;
                 }
                 break;
@@ -223,19 +237,19 @@ public class Auton_BlueTwoShots extends OpMode {
                     robot.stopMovement();
                     x++;
                 }
-                else if (timer.milliseconds() < 2500)
+                else if (timer.milliseconds() < 2100)
                 {
                     robot.rightServoOut();
                 }
-                else if (timer.milliseconds() < 3000)
+                else if (timer.milliseconds() < 2400)
                 {
                     robot.rightServoIn();
                 }
-                else if (timer.milliseconds() < 3500)
+                else if (timer.milliseconds() < 3400)
                 {
-                    robot.drive(1, .3);
+                    robot.drive(1, 0.3);
                 }
-                else if (timer.milliseconds() > 3500)
+                else if (timer.milliseconds() > 4000)
                 {
                     commandNumber++;
                 }
@@ -259,15 +273,15 @@ public class Auton_BlueTwoShots extends OpMode {
                     robot.stopMovement();
                     x++;
                 }
-                else if (timer.milliseconds() < 2500)
+                else if (timer.milliseconds() < 2100)
                 {
                     robot.rightServoOut();
                 }
-                else if (timer.milliseconds() < 3000)
+                else if (timer.milliseconds() < 2400)
                 {
                     robot.rightServoIn();
                 }
-                else if (timer.milliseconds() > 3000)
+                else if (timer.milliseconds() > 2400)
                 {
                     commandNumber++;
                 }

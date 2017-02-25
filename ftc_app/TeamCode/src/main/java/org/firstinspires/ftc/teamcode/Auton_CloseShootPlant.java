@@ -24,11 +24,6 @@ public class Auton_CloseShootPlant extends OpMode {
 
     private int x = 0;
 
-    int FRtarget;
-    int BRtarget;
-    int FLtarget;
-    int BLtarget;
-
     @Override
     public void init()
     {
