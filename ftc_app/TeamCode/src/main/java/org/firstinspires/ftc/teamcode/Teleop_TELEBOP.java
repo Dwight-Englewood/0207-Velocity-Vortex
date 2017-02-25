@@ -400,10 +400,12 @@ public class Teleop_TELEBOP extends OpMode {
         }
 
         if (capRoutine) {
-            if (timer.milliseconds() < 2500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed()) {
+            if (timer.milliseconds() < 1500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed()) {
                 robot.liftCap();
-            } else if (2750 < timer.milliseconds() && timer.milliseconds() < 3750) {
+            } else if (1750 < timer.milliseconds() && timer.milliseconds() < 2500) {
                 robot.lowerCap();
+            } else if (timer.milliseconds() > 2750) {
+                capRoutine = false;
             } else {
                 robot.stopLiftCap();
             }
@@ -415,19 +417,15 @@ public class Teleop_TELEBOP extends OpMode {
         /* Cap ball Controls
            Depending on button pressing, it will raise or lower cap ball
          */
-        if (gamepad2.dpad_up && !robot.getIsCapMaxed())
-        {
-            robot.liftCap();
+        if (!capRoutine) {
+            if (gamepad2.dpad_up && !robot.getIsCapMaxed()) {
+                robot.liftCap();
+            } else if (gamepad2.dpad_down) {
+                robot.lowerCap();
+            } else {
+                robot.stopLiftCap();
+            }
         }
-        else if (gamepad2.dpad_down)
-        {
-            robot.lowerCap();
-        }
-        else
-        {
-            robot.stopLiftCap();
-        }
-
          /* Various telemetry */
         telemetry.addData("invert", invert);
         telemetry.addData("Intake", robot.getIntake());
