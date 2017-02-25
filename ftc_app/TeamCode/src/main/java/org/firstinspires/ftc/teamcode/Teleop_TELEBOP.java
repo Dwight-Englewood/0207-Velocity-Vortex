@@ -80,6 +80,10 @@ public class Teleop_TELEBOP extends OpMode {
     //whether bot is currently in automated beacon press mode
     private boolean hittingBeacon = false;
 
+    //Whether bot is currently in automated cap routine
+    private boolean capRoutine = false;
+    private long capTimer = 0;
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -381,6 +385,32 @@ public class Teleop_TELEBOP extends OpMode {
                 robot.drive(0, .1);
             }
         }
+        //Cap Ball anti de-spool rountine
+        /*if (gamepad2.dpad_right && capTimer == 0) {
+            capTimer = System.currentTimeMillis();
+        } else if (gamepad2.dpad_right && System.currentTimeMillis() - capTimer > 500) {
+            capRoutine = true;
+        } else if (!gamepad2.dpad_right) {
+            capTimer = 0;
+        }*/
+
+        if (gamepad2.dpad_right) {
+            capRoutine = true;
+            timer.reset();
+        }
+
+        if (capRoutine) {
+            if (timer.milliseconds() < 2500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed()) {
+                robot.liftCap();
+            } else if (2750 < timer.milliseconds() && timer.milliseconds() < 3750) {
+                robot.lowerCap();
+            } else {
+                robot.stopLiftCap();
+            }
+        }
+
+
+
 
         /* Cap ball Controls
            Depending on button pressing, it will raise or lower cap ball
@@ -401,6 +431,7 @@ public class Teleop_TELEBOP extends OpMode {
          /* Various telemetry */
         telemetry.addData("invert", invert);
         telemetry.addData("Intake", robot.getIntake());
+        telemetry.addData("capRoutine", capRoutine);
         telemetry.update();
     }
 
