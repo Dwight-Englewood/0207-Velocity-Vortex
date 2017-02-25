@@ -187,9 +187,9 @@ public class Bot
     public void driveInvert(int direction, double power, int invert)
     {
         if (invert == -1) {
-            if (power < 0) {
+            if (power < -.2) {
                 power = -.34;
-            } else if (power > 0) {
+            } else if (power > .2 ) {
                 power = .34;
             } else {
                 power = 0;
@@ -291,7 +291,6 @@ public class Bot
     {
         FL.setPower(-power);
         BL.setPower(-power);
-        this.strafing = true;
     }
 
     // Direction 7 - sets the right motors to negative powers. (drive right side)
@@ -299,7 +298,7 @@ public class Bot
     {
         FR.setPower(-power);
         BR.setPower(-power);
-        this.strafing = true;
+
     }
 
     /**

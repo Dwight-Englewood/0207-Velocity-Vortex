@@ -151,29 +151,58 @@ public class Teleop_TELEBOP extends OpMode {
                 strafingRight = true;
             }
             if (gamepad1.dpad_up) {
-                robot.driveInvert(13 + invert, 1 * invert, this.invert);
+                robot.driveInvert(13 - invert, 1 * invert, this.invert);
                 strafingDiagDU = true;
+            }
+
+            if (gamepad1.dpad_down) {
+                robot.driveInvert(13 + invert, (-1) * invert, this.invert);
+                strafingDiagDD = true;
+            }
+
+            if (gamepad1.y) {
+                robot.driveInvert(13 + invert, 1 * invert, this.invert);
+                strafingDiagY = true;
+            }
+
+            if (gamepad1.a) {
+                robot.driveInvert(13 - invert, (-1) * invert, this.invert);
+                strafingDiagA = true;
             }
 
         }
         else {
-            if (!(gamepad1.dpad_up) && strafingDiagDU) {
+            if (strafingDiagDU && !(gamepad1.dpad_up)) {
                 robot.stopMovement();
                 strafingDiagDU = false;
             }
+            if (strafingDiagDD && !(gamepad1.dpad_down)) {
+                robot.stopMovement();
+                strafingDiagDD = false;
+            }
 
-            if (gamepad1.left_trigger > 0 && strafingLeft) {
+            if (strafingDiagY && !(gamepad1.y)) {
+                robot.stopMovement();
+                strafingDiagY = false;
+            }
+
+            if (strafingDiagA && !(gamepad1.a)) {
+                robot.stopMovement();
+                strafingDiagA = false;
+            }
+
+            if (strafingLeft && gamepad1.left_trigger > 0) {
                 robot.driveInvert(4 - invert, gamepad1.left_trigger, this.invert);
             }
 
-            if (gamepad1.right_trigger > 0 && strafingRight) {
+            if (strafingRight && gamepad1.right_trigger > 0) {
                 robot.driveInvert(4 +  invert, gamepad1.right_trigger, this.invert);
             }
-            if (gamepad1.left_trigger == 0 && strafingLeft) {
+            if (strafingLeft && gamepad1.left_trigger == 0) {
                 robot.stopMovement();
                 strafingLeft = false; //If we are no longer pressing the left trigger, stop strafing
             }
-            else if (gamepad1.right_trigger == 0 && strafingRight) {
+            else if (strafingRight && gamepad1.right_trigger == 0 ) {
                 robot.stopMovement();
                 strafingRight = false;
             }
@@ -322,8 +351,10 @@ public class Teleop_TELEBOP extends OpMode {
                 break;
         }
 
-        // Automated Beacon Lineup/Hit
-        //Rob add a comment here plz
+        /*
+        Automated Beacon Lineup/Hit
+        Rob add a comment here plz
+        */
         if (gamepad1.b)
         {
             if (robot.getLineLight() > 400)
