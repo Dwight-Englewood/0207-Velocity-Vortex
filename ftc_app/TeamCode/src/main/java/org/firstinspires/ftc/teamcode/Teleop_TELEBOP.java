@@ -79,6 +79,7 @@ public class Teleop_TELEBOP extends OpMode {
 
     //whether bot is currently in automated beacon press mode
     private boolean hittingBeacon = false;
+    private boolean autoDrive = false;
 
     //Whether bot is currently in automated cap routine
     private boolean capRoutine = false;
@@ -114,7 +115,7 @@ public class Teleop_TELEBOP extends OpMode {
          /*
             Driving, based on joysticks
           */
-        if (!robot.getIsStrafing()) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
+        if (!robot.getIsStrafing() && !autoDrive) { //Check if the robot is not strafing. If it is, we don't want to mess with it strafing and thus we skip all joystick related movement
             if (gamepad1.right_stick_y > 0.15) {
                 robot.driveInvert(10 + invert, (1 * invert * gamepad1.right_stick_y), (this.invert));
                  /* First instance of the invert
@@ -175,7 +176,7 @@ public class Teleop_TELEBOP extends OpMode {
             }
 
         }
-        else {
+        else if (!autoDrive){
             if (strafingDiagDU && !(gamepad1.dpad_up)) {
                 robot.stopMovement();
                 strafingDiagDU = false;
@@ -352,31 +353,46 @@ public class Teleop_TELEBOP extends OpMode {
          *   Automated Beacon Lineup/Hit
          *   Rob add a comment here plz
          */
-        if (gamepad1.b)
+        if (gamepad1.b && !hittingBeacon)
         {
-            if (robot.getLineLight() > 1.2)
+            autoDrive = true;
+            if (robot.getLineLight() > .7)
             {
-                if (!hittingBeacon)
-                {
-                    timer.reset();
-                    robot.stopMovement();
-                    hittingBeacon = true;
-                }
-                else if (timer.milliseconds() < 2100)
-                {
-                    robot.leftServoOut();
-                }
-                else
-                {
-                    robot.leftServoIn();
-                }
-
+                timer.reset();
+                robot.stopMovement();
+                hittingBeacon = true;
             }
             else
             {
-                hittingBeacon = false;
                 robot.drive(0, .3);
             }
+        }
+        else if (gamepad1.b && hittingBeacon)
+        {
+            if (timer.milliseconds() < 100)
+            {
+                robot.runToPosition(-11);
+            }
+            else if (timer.milliseconds() > 2000 && timer.milliseconds() < 4500)
+            {
+                robot.runUsingEncoders();
+                robot.drive(2, .3);
+            }
+            else if (timer.milliseconds() < 4500)
+            {
+                robot.drive(3, .3);
+            }
+            else if (timer.milliseconds() > 4500)
+            {
+                hittingBeacon = false;
+                autoDrive = false;
+            }
+        }
+        else if (autoDrive)
+        {
+            robot.stopMovement();
+            robot.runUsingEncoders();
+            autoDrive = false;
         }
 
         // Auto fork-drop
