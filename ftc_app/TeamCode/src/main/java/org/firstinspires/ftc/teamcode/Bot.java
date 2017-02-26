@@ -430,7 +430,7 @@ public class Bot
         drive(0, power);
     }
 
-    public void runToLeft(double power, double target)
+    public void runToLeft(double target)
     {
         int targetInt = distanceToRevs(target);
         stopAndReset();
@@ -450,10 +450,10 @@ public class Bot
         FR.setTargetPosition(targetInt);
         BR.setTargetPosition(-targetInt);
 
-        drive (0,power);
+        drive (0, .1);
     }
 
-    public void runToRight(double power, double target)
+    public void runToRight(double target)
     {
         int targetInt = distanceToRevs(target);
         stopAndReset();
@@ -473,7 +473,7 @@ public class Bot
         FR.setTargetPosition(-targetInt);
         BR.setTargetPosition(targetInt);
 
-        drive (0,power);
+        drive (0, 0.1);
     }
 
     public void runDiagLeft(double target)
@@ -657,11 +657,11 @@ public class Bot
     // Takes a reading from the intake color sensor and returns whether it is red, blue or neither
     public String getIntake()
     {
-        if (colorSensorIntake.blue() > colorSensorIntake.red() && colorSensorIntake.blue() > 3)
+        if (colorSensorIntake.blue() > colorSensorIntake.red() && colorSensorIntake.blue() > 2)
         {
             return "blue";
         }
-        else if (colorSensorIntake.red() > colorSensorIntake.blue() && colorSensorIntake.red() > 3)
+        else if (colorSensorIntake.red() > colorSensorIntake.blue() && colorSensorIntake.red() > 2)
         {
             return "red";
         }

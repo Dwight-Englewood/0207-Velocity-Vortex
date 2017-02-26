@@ -36,10 +36,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Telebop", group="MAIN")
+@TeleOp(name="Blue Telebop", group="MAIN")
 //@Disabled
 
-public class Teleop_TELEBOP extends OpMode {
+public class Teleop_BLUE_TELEBOP extends OpMode {
     private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
 
@@ -84,6 +84,8 @@ public class Teleop_TELEBOP extends OpMode {
     //Whether bot is currently in automated cap routine
     private boolean capRoutine = false;
     private long capTimer = 0;
+
+    private boolean wrongBall = false;
 
     @Override
     public void init() {
@@ -219,17 +221,39 @@ public class Teleop_TELEBOP extends OpMode {
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
         else                                    {robot.setShooter(0);}
 
-        if (gamepad2.left_trigger > 0.5)
+        if (gamepad2.left_trigger > 0.5 && !wrongBall)
         {
-            robot.setElevator(1);
+            if (robot.getIntake().equals("re"))
+            {
+                wrongBall = true;
+                timer.reset();
+            }
+            else
+            {
+                robot.setElevator(1);
+            }
         }
-        else if (gamepad2.left_bumper)
+        else if (gamepad2.left_bumper && !wrongBall)
         {
             robot.setElevator(-1);
         }
-        else
+        else if (!wrongBall)
         {
             robot.setElevator(0);
+        }
+
+        if (wrongBall)
+        {
+            if (timer.milliseconds() < 2000)
+            {
+                robot.setElevator(-1);
+            }
+            else
+            {
+                robot.setElevator(0);
+                wrongBall = false;
+            }
+
         }
 
           /* Servo Control

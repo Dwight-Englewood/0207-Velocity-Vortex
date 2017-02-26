@@ -214,7 +214,7 @@ public class Auton_RedTwoShots extends OpMode {
                 }
                 else if (timer.milliseconds() < 1500)
                 {
-                    //robot.setShooter(1);
+                    robot.setShooter(1);
                 }
                 else if (timer.milliseconds() < 2000)
                 {
@@ -231,7 +231,7 @@ public class Auton_RedTwoShots extends OpMode {
                 }
                 else if (timer.milliseconds() < 4000 )
                 {
-                    //robot.setShooter(1);
+                    robot.setShooter(1);
                 }
                 else if (timer.milliseconds() > 500)
                 {

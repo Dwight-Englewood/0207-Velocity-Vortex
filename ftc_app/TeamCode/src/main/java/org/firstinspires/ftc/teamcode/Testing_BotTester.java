@@ -67,11 +67,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
          if (gamepad1.x)
          {
-             robot.runToLeft(1, 100);
+             robot.runToLeft(100);
          }
          else if (gamepad1.b)
          {
-             robot.runToRight(1, 100);
+             robot.runToRight(100);
          }
          else if (gamepad1.y)
          {
