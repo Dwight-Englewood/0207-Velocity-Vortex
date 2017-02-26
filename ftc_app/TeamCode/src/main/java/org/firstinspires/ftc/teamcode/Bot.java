@@ -155,7 +155,7 @@ public class Bot
         runningToTarget = false;
         strafing = false;
 
-        maxCapTicks = 8000;
+        maxCapTicks = -12650;
     }
 
     /**
@@ -718,7 +718,7 @@ public class Bot
 
    public boolean getIsCapMaxed()
    {
-        if (leftCap.getCurrentPosition() < maxCapTicks && rightCap.getCurrentPosition() < maxCapTicks)
+        if (leftCap.getCurrentPosition() > maxCapTicks && rightCap.getCurrentPosition() > maxCapTicks)
         {
             return false;
         }
@@ -757,4 +757,6 @@ public class Bot
     public int getCurPosBL() {return BL.getCurrentPosition();}
     public int getCurPosFR() {return FR.getCurrentPosition();}
     public int getCurPosBR() {return BR.getCurrentPosition();}
+    public int getCurPosLCap() {return leftCap.getCurrentPosition();}
+    public int getCurPosRCap() {return rightCap.getCurrentPosition();}
 }
