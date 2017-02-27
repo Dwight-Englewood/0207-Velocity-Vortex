@@ -85,7 +85,7 @@ public class Bot
 
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
-        intakeServo = hwMap.servo.get("intakeServo");
+        //intakeServo = hwMap.servo.get("intakeServo");
 
         /**
          * Initializing sensors and setting LEDs on/off.
@@ -149,7 +149,7 @@ public class Bot
 
         leftServoStop();
         rightServoStop();
-        intakeServoStop();
+        //intakeServoStop();
 
         // Initialize booleans to false as the bot does not start running to a target or strafing.
         runningToTarget = false;
@@ -298,7 +298,6 @@ public class Bot
     {
         FR.setPower(-power);
         BR.setPower(-power);
-
     }
 
     /**
@@ -321,7 +320,6 @@ public class Bot
         FR.setPower(power);
         BL.setPower(power);
         this.strafing = true;
-
     }
 
     // Move-to Methods - methods that allow the bot to run to a specific position
@@ -639,9 +637,9 @@ public class Bot
         }
     }
 
-    public void intakeServoOut() { intakeServo.setPosition(.61); }
-    public void intakeServoIn() { intakeServo.setPosition(.48); }
-    public void intakeServoStop() { intakeServo.setPosition(0.55); }
+    //public void intakeServoOut() { intakeServo.setPosition(.61); }
+    //public void intakeServoIn() { intakeServo.setPosition(.48); }
+    //public void intakeServoStop() { intakeServo.setPosition(0.55); }
 
     // Sensor Methods
     // Returns the red and blue values from the respective color sensors
@@ -716,14 +714,19 @@ public class Bot
         rightCap.setPower(0);
     }
 
-   public boolean getIsCapMaxed()
-   {
+    /**
+     *  Function that returns whether or not the cap is maxed out
+     */
+    public boolean getIsCapMaxed()
+    {
+        // Compares the current encoder position to the maximum position, if lower, returns false, saying the linear motion is not maxed out
         if (leftCap.getCurrentPosition() > maxCapTicks && rightCap.getCurrentPosition() > maxCapTicks)
         {
             return false;
         }
-       return true;
-   }
+        // Otherwise returns true
+        return true;
+    }
 
     // Helper Methods
 

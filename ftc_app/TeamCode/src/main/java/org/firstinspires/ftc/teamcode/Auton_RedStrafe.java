@@ -223,12 +223,12 @@ public class Auton_RedStrafe extends OpMode
 
             case 3:
                 isGoingForward = true;
-                robot.runDiagLeft(150);
+                robot.runDiagLeft(200);
                 commandNumber++;
                 break;
 
             case 4:
-                robot.runToLeft(100);
+                robot.runToLeft(50);
                 commandNumber++;
                 break;
 

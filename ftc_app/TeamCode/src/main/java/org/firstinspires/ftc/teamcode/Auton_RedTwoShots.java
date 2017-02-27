@@ -194,7 +194,7 @@ public class Auton_RedTwoShots extends OpMode {
              */
             case 1:
                 isGoingForward = true;
-                robot.runToPosition(36);
+                robot.runToPosition(39);
                 commandNumber++;
                 break;
 
@@ -246,7 +246,7 @@ public class Auton_RedTwoShots extends OpMode {
              */
             case 3:
                 isGoingForward = false;
-                robot.runTurnLeft(0.3, 16);
+                robot.runTurnLeft(0.3, 21);
                 commandNumber++;
                 break;
 
@@ -255,7 +255,7 @@ public class Auton_RedTwoShots extends OpMode {
              */
             case 4:
                 isGoingForward = true;
-                robot.runToPosition(198);
+                robot.runToPosition(177);
                 commandNumber++;
                 break;
 
@@ -264,7 +264,7 @@ public class Auton_RedTwoShots extends OpMode {
              */
             case 5:
                 isGoingForward = false;
-                robot.runTurnRight(0.3, 16.5);
+                robot.runTurnRight(0.3, 19);
                 commandNumber++;
                 break;
 
@@ -324,20 +324,13 @@ public class Auton_RedTwoShots extends OpMode {
                     robot.stopMovement();
                     x++;
                 }
-                else if (timer.milliseconds() < 2100)
+                else if (timer.milliseconds() < 1500)
                 {
-                    robot.leftServoOut();
+                    robot.drive(2, .3);
                 }
-                else if (timer.milliseconds() < 2400)
+                else if (timer.milliseconds() > 1500)
                 {
-                    robot.leftServoIn();
-                }
-                else if (timer.milliseconds() < 3400)
-                {
-                    robot.drive(1, 0.3);
-                }
-                else if (timer.milliseconds() > 4000)
-                {
+                    robot.stopMovement();
                     commandNumber++;
                 }
                 break;
@@ -365,15 +358,19 @@ public class Auton_RedTwoShots extends OpMode {
                     robot.stopMovement();
                     x++;
                 }
-                else if (timer.milliseconds() < 2100)
+                else if (timer.milliseconds() < 1500)
                 {
-                    robot.leftServoOut();
+                    robot.drive(2, .3);
                 }
-                else if (timer.milliseconds() < 2400)
+                else if (timer.milliseconds() < 3000)
                 {
-                    robot.leftServoIn();
+                    robot.drive(3, .3);
                 }
-                else if (timer.milliseconds() > 2400)
+                else if (timer.milliseconds() < 3400)
+                {
+                    robot.drive(1, 0.3);
+                }
+                else if (timer.milliseconds() > 4000)
                 {
                     commandNumber++;
                 }
@@ -396,6 +393,7 @@ public class Auton_RedTwoShots extends OpMode {
                 }
                 break;
         }
+        telemetry.addData("commandNumber", commandNumber);
         telemetry.update();
     }
 
