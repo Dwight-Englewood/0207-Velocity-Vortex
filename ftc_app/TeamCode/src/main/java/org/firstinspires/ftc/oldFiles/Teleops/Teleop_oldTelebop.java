@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Bot;
+import org.firstinspires.ftc.oldFiles.Pre_Worlds.Bot;
 
 
 @TeleOp(name="Telebop_Old", group="MAIN")  // @Autonomous(...) is the other common choice
