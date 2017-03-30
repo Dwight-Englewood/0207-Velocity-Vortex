@@ -38,10 +38,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.oldFiles.Pre_Worlds.Bot;
 
-@TeleOp(name="Blue Telebop", group="MAIN")
+@TeleOp(name="Red Telebop", group="MAIN")
 //@Disabled
 
-public class Teleop_BLUE_TELEBOP extends OpMode {
+public class PREWORLDS_RED_TELEBOP extends OpMode {
     private ElapsedTime timer = new ElapsedTime();
     Bot robot = new Bot();
 
@@ -87,6 +87,7 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
     private boolean capRoutine = false;
     private long capTimer = 0;
 
+    //Whether an incorrect ball intake has been detected.
     private boolean wrongBall = false;
 
     @Override
@@ -125,9 +126,9 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
                  /* First instance of the invert
                     The way that invert is implemented is through a single variable that can be two values: 1, or -1
                     This makes it simple to reverse motor directions, as we just multiply the power by invert.
-                    What is more difficult is switching which joystick controls which stopMovement trains
-                    I implemented this by modifying the original robot.stopMovement function
-                    The new, robot.driveInvert function has each stopMovement train centered around a value
+                    What is more difficult is switching which joystick controls which drive trains
+                    I implemented this by modifying the original robot.drive function
+                    The new, robot.driveInvert function has each drive train centered around a value
                     then, by adding the value of invert, the value passed to robot.driveInvert will
                     be for the correct motor
                   */
@@ -223,33 +224,45 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
         else                                    {robot.setShooter(0);}
 
+        /**
+         * Elevator commands + auto rejection of blue balls(red side)
+         * If the left trigger is pressed and wrong ball is not active
+         */
         if (gamepad2.left_trigger > 0.5 && !wrongBall)
         {
-            if (robot.getIntake().equals("re"))
+            //Checks to see if the intake color sensor is sensing a blue ball
+            if (robot.getIntake().equals("blue"))
             {
+                // If so, wrong ball = true, moving us to the next command
                 wrongBall = true;
                 timer.reset();
             }
+            // Otherwise, the elevator runs as normal
             else
             {
                 robot.setElevator(1);
             }
         }
+        // If left bumper is pressed and wrong ball is not active, the elevator runs backwards
         else if (gamepad2.left_bumper && !wrongBall)
         {
             robot.setElevator(-1);
         }
+        // If nothing is pressed and wrong ball is not active, the elevator does not move
         else if (!wrongBall)
         {
             robot.setElevator(0);
         }
 
+        // If wrong ball is active
         if (wrongBall)
         {
+            // If time is less than 2000, run the elevator backwards, pushing the incorrectly colored ball out of the system
             if (timer.milliseconds() < 2000)
             {
                 robot.setElevator(-1);
             }
+            // If the time is greater than two seconds, set the elevator to power zero and wrongball is inactive, returning to normal function
             else
             {
                 robot.setElevator(0);
@@ -375,13 +388,17 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
                 break;
         }
 
-        /**
-         *   Automated Beacon Lineup/Hit
-         *   Rob add a comment here plz
+        /*
+         *   Automatically lines up and strafes into a beacon, changing the color with very high
+         *   precision. This helps our drivers when they have trouble seeing how the robot is lined
+         *   up with the far beacons.
          */
         if (gamepad1.b && !hittingBeacon)
         {
+            //Sets autodrive to false, preventing normal drive commands from overriding the ones to come.
             autoDrive = true;
+
+            // If the ODS sensor finds the line under the beacon, stop movement and go to next statement, otherwise drive forward.
             if (robot.getLineLight() > .7)
             {
                 timer.reset();
@@ -395,25 +412,30 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
         }
         else if (gamepad1.b && hittingBeacon)
         {
+            // Drive backwards 11 centimeters so that the beacon poker is lined up with a button
             if (timer.milliseconds() < 100)
             {
                 robot.runToPosition(-11);
             }
+            // Strafe the poker into the beacon
             else if (timer.milliseconds() > 2000 && timer.milliseconds() < 4500)
             {
                 robot.runUsingEncoders();
                 robot.drive(2, .3);
             }
+            // Pull awawy from the beacon
             else if (timer.milliseconds() < 4500)
             {
                 robot.drive(3, .3);
             }
+            // Return to normal driving
             else if (timer.milliseconds() > 4500)
             {
                 hittingBeacon = false;
                 autoDrive = false;
             }
         }
+        // Failsafe returns to normal driving conditions
         else if (autoDrive)
         {
             robot.stopMovement();
@@ -429,26 +451,32 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
          * driver error and de-spooling.
          */
 
+        // If dpad right is pressed, the fork drop begins.
         if (gamepad2.dpad_right)
         {
             capRoutine = true;
             timer.reset();
         }
 
+        // If fork drop is running
         if (capRoutine)
         {
+            // For one second, raise the cap
             if (timer.milliseconds() < 1500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed())
             {
                 robot.liftCap();
             }
+            // For 1 second lower the cap
             else if (1750 < timer.milliseconds() && timer.milliseconds() < 2500)
             {
                 robot.lowerCap();
             }
+            // Close the routine
             else if (timer.milliseconds() > 2750)
             {
                 capRoutine = false;
             }
+            // Stop moving the cap
             else
             {
                 robot.stopLiftCap();
