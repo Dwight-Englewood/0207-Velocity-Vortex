@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.oldFiles.Pre_Worlds.Bot;
+import org.firstinspires.ftc.teamcode.Bot;
 
 @TeleOp(name="Red Telebop", group="MAIN")
 //@Disabled
@@ -89,6 +89,9 @@ public class Teleop_RED_TELEBOP extends OpMode {
 
     //Whether an incorrect ball intake has been detected.
     private boolean wrongBall = false;
+
+    //Whether currently moving a ball into the shooter
+    private boolean movingBall = false;
 
     @Override
     public void init() {
@@ -388,6 +391,36 @@ public class Teleop_RED_TELEBOP extends OpMode {
                 break;
         }
 
+        /**
+         *  The intake servo prevents balls from entering the shooter. This ensures that only one
+         *  ball is in the shooter at a time. The following routine will move one ball from the
+         *  elevator into the shooter.
+         */
+        if (gamepad2.right_bumper && !movingBall)
+        {
+            timer.reset();
+            movingBall = true;
+        }
+
+        if (movingBall)
+        {
+            if (timer.milliseconds() < 300)
+            {
+                robot.intakeServoOpen();
+            }
+            else if (timer.milliseconds() < 400)
+            {
+                robot.setElevator(1);
+            }
+            else if (timer.milliseconds() > 800)
+            {
+                robot.intakeServoClosed();
+                robot.setElevator(0);
+                movingBall = false;
+            }
+
+        }
+
         /*
          *   Automatically lines up and strafes into a beacon, changing the color with very high
          *   precision. This helps our drivers when they have trouble seeing how the robot is lined
@@ -395,7 +428,7 @@ public class Teleop_RED_TELEBOP extends OpMode {
          */
         if (gamepad1.b && !hittingBeacon)
         {
-            //Sets autodrive to false, preventing normal drive commands from overriding the ones to come.
+            //Sets autodrive to true, preventing normal drive commands from overriding the ones to come.
             autoDrive = true;
 
             // If the ODS sensor finds the line under the beacon, stop movement and go to next statement, otherwise drive forward.

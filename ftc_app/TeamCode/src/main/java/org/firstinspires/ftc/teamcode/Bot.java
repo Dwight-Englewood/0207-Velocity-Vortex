@@ -38,7 +38,7 @@ public class Bot
 
     /*
     Servo declaration
-    Hardware wise, these are actually CRServos. However, we find it easier to use the servo.setPosition method
+    Hardware wise, these are actually CRServos. However, we find it easier to use the servo.setPosition method.
     Since a CRServo is just a servo that always thinks it's at the center, this works
      */
 
@@ -85,7 +85,7 @@ public class Bot
 
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
-        //intakeServo = hwMap.servo.get("intakeServo");
+        intakeServo = hwMap.servo.get("intakeServo");
 
         /**
          * Initializing sensors and setting LEDs on/off.
@@ -149,7 +149,7 @@ public class Bot
 
         leftServoStop();
         rightServoStop();
-        //intakeServoStop();
+        intakeServoClosed();
 
         // Initialize booleans to false as the bot does not start running to a target or strafing.
         runningToTarget = false;
@@ -602,6 +602,9 @@ public class Bot
         rServo.setPosition(.50);
     }
 
+    public void intakeServoClosed() { intakeServo.setPosition(160); }
+    public void intakeServoOpen() { intakeServo.setPosition(100); }
+
     /*
     This is a set of servo methods that are used to easily switch between the servos during invert mode
     Depending on the value of invert, each method will call the respective motor that
@@ -731,7 +734,7 @@ public class Bot
     // Helper Methods
 
     /**
-     * Takes centimeters and converts to encoder ticks using the cirumference of the wheels and
+     * Takes centimeters and converts to encoder ticks using the circumference of the wheels and
      * the ticks per rotation of the motor
      * @param distance - distance to be converted in centimeters
      * @return - number of ticks to run the motors for
