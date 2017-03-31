@@ -31,14 +31,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package org.firstinspires.ftc.oldFiles.Pre_Worlds;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.oldFiles.Pre_Worlds.*;
+
 @TeleOp(name = "Testing_SensorTesting", group = "TESTING")
-//@Disabled
+@Disabled
 public class Testing_SensorTest extends LinearOpMode {// Hardware Device Object
 
-  Bot robot = new Bot();
+  org.firstinspires.ftc.oldFiles.Pre_Worlds.Bot robot = new org.firstinspires.ftc.oldFiles.Pre_Worlds.Bot();
   @Override
   public void runOpMode() {
 

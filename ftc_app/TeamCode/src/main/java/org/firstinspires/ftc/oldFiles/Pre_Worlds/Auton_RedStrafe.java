@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name = "Red Strafe", group = "RED")
-//@Disabled
+@Disabled
 public class Auton_RedStrafe extends OpMode
 {
     Bot robot = new Bot();

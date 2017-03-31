@@ -602,8 +602,9 @@ public class Bot
         rServo.setPosition(.50);
     }
 
-    public void intakeServoClosed() { intakeServo.setPosition(160); }
-    public void intakeServoOpen() { intakeServo.setPosition(100); }
+    public void intakeServoClosed() { intakeServo.setPosition(.72); }
+    public void intakeServoOpen() { intakeServo.setPosition(.40); }
+    public void setIntakeServo(double position) {intakeServo.setPosition(position);}
 
     /*
     This is a set of servo methods that are used to easily switch between the servos during invert mode

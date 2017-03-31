@@ -252,7 +252,7 @@ public class Teleop_RED_TELEBOP extends OpMode {
             robot.setElevator(-1);
         }
         // If nothing is pressed and wrong ball is not active, the elevator does not move
-        else if (!wrongBall)
+        else if (!wrongBall && !movingBall)
         {
             robot.setElevator(0);
         }
@@ -404,17 +404,22 @@ public class Teleop_RED_TELEBOP extends OpMode {
 
         if (movingBall)
         {
-            if (timer.milliseconds() < 300)
+            if (timer.milliseconds() < 400)
             {
                 robot.intakeServoOpen();
-            }
-            else if (timer.milliseconds() < 400)
-            {
                 robot.setElevator(1);
             }
-            else if (timer.milliseconds() > 800)
+            else if (timer.milliseconds() < 450)
             {
                 robot.intakeServoClosed();
+                robot.setElevator(0);
+            }
+            else if (timer.milliseconds() < 650)
+            {
+                robot.setElevator(-1);
+            }
+            else if (timer.milliseconds() > 650)
+            {
                 robot.setElevator(0);
                 movingBall = false;
             }

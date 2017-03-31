@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.oldFiles.Pre_Worlds;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Testing_ServoAlign", group="TESTING")
 //Note if you are using this make sure to comment out the @Disabled below or it won't show up on your phone.
-@Disabled
+//@Disabled
 public class Testing_ServoAlign extends OpMode {
     //Declare a servo to represent your CRServo
-    private Servo ourCrServo = null;
+    Bot robot = new Bot();
 
     //Used to add a cooldown to the button, so it won't trigger so quickly
     //Thus you can actually finely control the values
@@ -23,10 +23,9 @@ public class Testing_ServoAlign extends OpMode {
     public void init()
     {
         telemetry.addData("Status", "Initialized");
+        robot.init(hardwareMap);
         // The name of the crservo in the robot config on your robot controller phone
         // Note: despite being a crservo we still choose "servo" from the dropdown in the phone
-
-        ourCrServo = hardwareMap.servo.get("our servo");
     }
 
 
@@ -53,7 +52,7 @@ public class Testing_ServoAlign extends OpMode {
             position = position + .01;
         }
 
-        ourCrServo.setPosition(position);
+        robot.setIntakeServo(position);
 
         //The current value of position to telemetry
         telemetry.addData("Current Position", position);
