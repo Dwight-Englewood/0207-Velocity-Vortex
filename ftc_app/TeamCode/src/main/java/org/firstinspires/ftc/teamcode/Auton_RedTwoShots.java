@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.oldFiles.Pre_Worlds;
+package org.firstinspires.ftc.teamcode;
 
 /*plotnw*/
 
@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Disabled
+//@Disabled
 @Autonomous(name = "Red Two Shot", group = "RED")
 public class Auton_RedTwoShots extends OpMode {
 
