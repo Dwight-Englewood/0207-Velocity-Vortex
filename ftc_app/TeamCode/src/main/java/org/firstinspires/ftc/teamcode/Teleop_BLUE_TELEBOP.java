@@ -98,7 +98,6 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
         robot.init(hardwareMap);
     }
 
-
     @Override
     public void init_loop() {}
 
@@ -228,7 +227,7 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
 
         if (gamepad2.left_trigger > 0.5 && !wrongBall)
         {
-            if (robot.getIntake().equals("re"))
+            if (robot.getIntake().equals("red"))
             {
                 wrongBall = true;
                 timer.reset();
@@ -236,15 +235,18 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             else
             {
                 robot.setElevator(1);
+                robot.spinnerServoIn();
             }
         }
         else if (gamepad2.left_bumper && !wrongBall)
         {
             robot.setElevator(-1);
+            robot.spinnerServoOut();
         }
         else if (!wrongBall)
         {
             robot.setElevator(0);
+            robot.spinnerServoStop();
         }
 
         if (wrongBall)
@@ -252,10 +254,12 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             if (timer.milliseconds() < 2000)
             {
                 robot.setElevator(-1);
+                robot.spinnerServoOut();
             }
             else
             {
                 robot.setElevator(0);
+                robot.spinnerServoStop();
                 wrongBall = false;
             }
 
