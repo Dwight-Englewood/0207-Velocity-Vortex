@@ -89,6 +89,9 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
 
     private boolean wrongBall = false;
 
+    //Whether currently moving a ball into the shooter
+    private boolean movingBall = false;
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -373,6 +376,41 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             case STOP:
                 robot.servoStop(1 * invert);
                 break;
+
+        }
+        /**
+         *  The intake servo prevents balls from entering the shooter. This ensures that only one
+         *  ball is in the shooter at a time. The following routine will move one ball from the
+         *  elevator into the shooter.
+         */
+        if (gamepad2.right_bumper && !movingBall)
+        {
+            timer.reset();
+            movingBall = true;
+        }
+
+        if (movingBall)
+        {
+            if (timer.milliseconds() < 400)
+            {
+                robot.intakeServoOpen();
+                robot.setElevator(1);
+            }
+            else if (timer.milliseconds() < 450)
+            {
+                robot.intakeServoClosed();
+                robot.setElevator(0);
+            }
+            else if (timer.milliseconds() < 650)
+            {
+                robot.setElevator(-1);
+            }
+            else if (timer.milliseconds() > 650)
+            {
+                robot.setElevator(0);
+                movingBall = false;
+            }
+
         }
 
         /**
