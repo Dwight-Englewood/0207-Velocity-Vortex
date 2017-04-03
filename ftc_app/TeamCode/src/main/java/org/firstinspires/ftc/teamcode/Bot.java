@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -35,7 +37,13 @@ public class Bot
 
     // Optical distance sensor declaration
     private OpticalDistanceSensor opticalLineFinder;
-    //private OpticalDistanceSensor opticalWallFinder;
+
+    // Range Sensor Declaration
+    private ModernRoboticsI2cRangeSensor rangeSensorRight;
+    private ModernRoboticsI2cRangeSensor rangeSensorLeft;
+
+    // Gyro Sensor Declaration
+    private ModernRoboticsI2cGyro gyro;
 
     /*
     Servo declaration
@@ -111,9 +119,6 @@ public class Bot
 
         opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
         opticalLineFinder.enableLed(true);
-
-        //opticalWallFinder = hwMap.opticalDistanceSensor.get("opticalWallFinder");
-        //opticalWallFinder.enableLed(true);
 
         /**
          * Setting the motor run modes to run using encoders or without encoders dependent on
@@ -686,7 +691,6 @@ public class Bot
 
     // Get the readings from the wall and line optical distance sensors
     public double getLineLight() { return opticalLineFinder.getRawLightDetected(); }
-    //public double getWallDistance() { return opticalWallFinder.getLightDetected(); }
 
     // Cap Methods
 
