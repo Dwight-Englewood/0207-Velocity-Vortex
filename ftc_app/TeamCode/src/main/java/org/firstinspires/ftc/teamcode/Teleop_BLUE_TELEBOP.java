@@ -235,18 +235,18 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             else
             {
                 robot.setElevator(1);
-                robot.spinnerServoIn();
+                //robot.spinnerServoIn();
             }
         }
         else if (gamepad2.left_bumper && !wrongBall)
         {
             robot.setElevator(-1);
-            robot.spinnerServoOut();
+            //robot.spinnerServoOut();
         }
         else if (!wrongBall)
         {
             robot.setElevator(0);
-            robot.spinnerServoStop();
+            //robot.spinnerServoStop();
         }
 
         if (wrongBall)
@@ -254,12 +254,12 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             if (timer.milliseconds() < 2000)
             {
                 robot.setElevator(-1);
-                robot.spinnerServoOut();
+               // robot.spinnerServoOut();
             }
             else
             {
                 robot.setElevator(0);
-                robot.spinnerServoStop();
+                //robot.spinnerServoStop();
                 wrongBall = false;
             }
 

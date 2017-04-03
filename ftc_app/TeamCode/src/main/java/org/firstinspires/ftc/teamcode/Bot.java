@@ -54,7 +54,7 @@ public class Bot
     private Servo lServo;
     private Servo rServo;
     private Servo intakeServo;
-    private CRServo spinnerServo;
+    //private CRServo spinnerServo;
 
     // Booleans which hold current driving data
     private boolean runningToTarget;
@@ -96,7 +96,7 @@ public class Bot
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
         intakeServo = hwMap.servo.get("intakeServo");
-        spinnerServo = hwMap.crservo.get("spinnerServo");
+        //spinnerServo = hwMap.crservo.get("spinnerServo");
 
         /**
          * Initializing sensors and setting LEDs on/off.
@@ -158,7 +158,7 @@ public class Bot
         leftServoStop();
         rightServoStop();
         intakeServoClosed();
-        spinnerServoStop();
+        //spinnerServoStop();
 
         // Initialize booleans to false as the bot does not start running to a target or strafing.
         runningToTarget = false;
@@ -615,9 +615,9 @@ public class Bot
     public void intakeServoOpen() { intakeServo.setPosition(.40); }
     public void setIntakeServo(double position) {intakeServo.setPosition(position);}
 
-    public void spinnerServoOut() {spinnerServo.setDirection(DcMotorSimple.Direction.FORWARD); spinnerServo.setPower(1);}
-    public void spinnerServoIn() {spinnerServo.setDirection(DcMotorSimple.Direction.REVERSE); spinnerServo.setPower(1);}
-    public void spinnerServoStop() {spinnerServo.setPower(0);}
+   // public void spinnerServoOut() {spinnerServo.setDirection(DcMotorSimple.Direction.FORWARD); spinnerServo.setPower(1);}
+    //public void spinnerServoIn() {spinnerServo.setDirection(DcMotorSimple.Direction.REVERSE); spinnerServo.setPower(1);}
+    //public void spinnerServoStop() {spinnerServo.setPower(0);}
 
     /*
     This is a set of servo methods that are used to easily switch between the servos during invert mode
