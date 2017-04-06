@@ -244,20 +244,20 @@ public class Teleop_RED_TELEBOP extends OpMode {
             else
             {
                 robot.setElevator(1);
-                //robot.spinnerServoIn();
+                robot.spinnerServoIn();
             }
         }
         // If left bumper is pressed and wrong ball is not active, the elevator runs backwards
         else if (gamepad2.left_bumper && !wrongBall)
         {
             robot.setElevator(-1);
-            //robot.spinnerServoOut();
+            robot.spinnerServoOut();
         }
         // If nothing is pressed and wrong ball is not active, the elevator does not move
         else if (!wrongBall && !movingBall)
         {
             robot.setElevator(0);
-            //robot.spinnerServoStop();
+            robot.spinnerServoStop();
         }
 
         // If wrong ball is active
