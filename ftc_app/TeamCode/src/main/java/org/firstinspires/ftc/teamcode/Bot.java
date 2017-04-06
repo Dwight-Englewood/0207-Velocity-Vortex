@@ -19,7 +19,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
-
+    private int initType; //Used to be able to have different init mappings with the same bot class
+    //pretty hacky solution, probably would be better to split the files but lazy right now
+    //TODO do this better
     // Motor declaration
     private DcMotor FL;
     private DcMotor BL;
@@ -76,6 +78,10 @@ public class Bot
     public Bot()
     {
 
+    }
+
+    public Bot(int initType) {
+        this.initType = initType;
     }
 
     // Initialization Method - initialize all fields to their corresponding hardware devices
