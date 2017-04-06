@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
@@ -45,7 +46,7 @@ public class Bot
     private ModernRoboticsI2cRangeSensor rangeSensorLeft;
 
     // Gyro Sensor Declaration
-    private ModernRoboticsI2cGyro gyro;
+    private GyroSensor gyro;
 
     /*
     Servo declaration
@@ -87,90 +88,96 @@ public class Bot
     // Initialization Method - initialize all fields to their corresponding hardware devices
     public void init (HardwareMap hwm)
     {
-        hwMap = hwm;
+        if (this.initType == 1) {
+            hwMap = hwm;
+            //Initialize Gyro only, as this initType is for the gyro testing class
+            gyro = hwMap.gyroSensor.get("gyro");
+        } else {
+            hwMap = hwm;
 
-        // Initializing the motors/sensors
-        FL = hwMap.dcMotor.get("FL");
-        BL = hwMap.dcMotor.get("BL");
-        FR = hwMap.dcMotor.get("FR");
-        BR = hwMap.dcMotor.get("BR");
-        elevator = hwMap.dcMotor.get("elevator");
-        shooter = hwMap.dcMotor.get("shooter");
-        leftCap = hwMap.dcMotor.get("leftCap");
-        rightCap = hwMap.dcMotor.get("rightCap");
+            // Initializing the motors/sensors
+            FL = hwMap.dcMotor.get("FL");
+            BL = hwMap.dcMotor.get("BL");
+            FR = hwMap.dcMotor.get("FR");
+            BR = hwMap.dcMotor.get("BR");
+            elevator = hwMap.dcMotor.get("elevator");
+            shooter = hwMap.dcMotor.get("shooter");
+            leftCap = hwMap.dcMotor.get("leftCap");
+            rightCap = hwMap.dcMotor.get("rightCap");
 
-        lServo = hwMap.servo.get("lServo");
-        rServo = hwMap.servo.get("rServo");
-        intakeServo = hwMap.servo.get("intakeServo");
-        //spinnerServo = hwMap.crservo.get("spinnerServo");
+            lServo = hwMap.servo.get("lServo");
+            rServo = hwMap.servo.get("rServo");
+            intakeServo = hwMap.servo.get("intakeServo");
+            //spinnerServo = hwMap.crservo.get("spinnerServo");
 
-        /**
-         * Initializing sensors and setting LEDs on/off.
-         *
-         * In the case of the color sensors we set their i2c addresses away the default because
-         * otherwise they would all have the same address. If they all had the same address the
-         * program would be unable to distinguish one from another, making them useless.
-         */
-        colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
-        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
-        colorSensorRight.enableLed(false);
+            /**
+             * Initializing sensors and setting LEDs on/off.
+             *
+             * In the case of the color sensors we set their i2c addresses away the default because
+             * otherwise they would all have the same address. If they all had the same address the
+             * program would be unable to distinguish one from another, making them useless.
+             */
+            colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
+            colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
+            colorSensorRight.enableLed(false);
 
-        colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
-        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
-        colorSensorLeft.enableLed(false);
+            colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
+            colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
+            colorSensorLeft.enableLed(false);
 
-        colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
-        colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
-        colorSensorIntake.enableLed(true);
+            colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
+            colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
+            colorSensorIntake.enableLed(true);
 
-        opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
-        opticalLineFinder.enableLed(true);
+            opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
+            opticalLineFinder.enableLed(true);
 
-        /**
-         * Setting the motor run modes to run using encoders or without encoders dependent on
-         * whether there is an encoder connected to the motor. Sets the direction based on the
-         * orientation of the motors. Also sets the starting powers to 0 to ensure nothing is running
-         * during initialization.
-         */
-        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            /**
+             * Setting the motor run modes to run using encoders or without encoders dependent on
+             * whether there is an encoder connected to the motor. Sets the direction based on the
+             * orientation of the motors. Also sets the starting powers to 0 to ensure nothing is running
+             * during initialization.
+             */
+            FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+            FL.setDirection(DcMotorSimple.Direction.FORWARD);
+            BL.setDirection(DcMotorSimple.Direction.FORWARD);
+            FR.setDirection(DcMotorSimple.Direction.REVERSE);
+            BR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // Set these to Stop and Reset so that we can check their encoder ticks later.
-        leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            // Set these to Stop and Reset so that we can check their encoder ticks later.
+            leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        FL.setPower(0);
-        BL.setPower(0);
-        FR.setPower(0);
-        BR.setPower(0);
-        elevator.setPower(0);
-        shooter.setPower(0);
-        leftCap.setPower(0);
-        rightCap.setPower(0);
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+            elevator.setPower(0);
+            shooter.setPower(0);
+            leftCap.setPower(0);
+            rightCap.setPower(0);
 
-        leftServoStop();
-        rightServoStop();
-        intakeServoClosed();
-        //spinnerServoStop();
+            leftServoStop();
+            rightServoStop();
+            intakeServoClosed();
+            //spinnerServoStop();
 
-        // Initialize booleans to false as the bot does not start running to a target or strafing.
-        runningToTarget = false;
-        strafing = false;
+            // Initialize booleans to false as the bot does not start running to a target or strafing.
+            runningToTarget = false;
+            strafing = false;
 
-        maxCapTicks = -12650;
+            maxCapTicks = -12650;
+        }
     }
 
     /**
