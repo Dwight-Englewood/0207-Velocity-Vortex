@@ -36,7 +36,8 @@ public class Bot
     private ColorSensor colorSensorIntake;
 
     // Optical distance sensor declaration
-    private OpticalDistanceSensor opticalLineFinder;
+    private OpticalDistanceSensor opticalLineFinderL;
+    private OpticalDistanceSensor opticalLineFinderR;
 
     // Range Sensor Declaration
     private ModernRoboticsI2cRangeSensor rangeSensorRight;
@@ -54,7 +55,7 @@ public class Bot
     private Servo lServo;
     private Servo rServo;
     private Servo intakeServo;
-    //private CRServo spinnerServo;
+    private CRServo spinnerServo;
 
     // Booleans which hold current driving data
     private boolean runningToTarget;
@@ -96,7 +97,7 @@ public class Bot
         lServo = hwMap.servo.get("lServo");
         rServo = hwMap.servo.get("rServo");
         intakeServo = hwMap.servo.get("intakeServo");
-        //spinnerServo = hwMap.crservo.get("spinnerServo");
+        spinnerServo = hwMap.crservo.get("spinnerServo");
 
         /**
          * Initializing sensors and setting LEDs on/off.
@@ -117,8 +118,20 @@ public class Bot
         colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
         colorSensorIntake.enableLed(true);
 
-        opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
-        opticalLineFinder.enableLed(true);
+        opticalLineFinderL = hwMap.opticalDistanceSensor.get("opticalLineFinderL");
+        opticalLineFinderL.enableLed(true);
+
+        opticalLineFinderR = hwMap.opticalDistanceSensor.get("opticalLineFinderR");
+        opticalLineFinderR.enableLed(true);
+
+        gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+        gyro.calibrate();
+
+        rangeSensorLeft = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeLeft");
+        rangeSensorLeft.setI2cAddress(I2cAddr.create7bit(0x14)); // 7bit for 0x28
+
+        rangeSensorRight = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeRight");
+        rangeSensorRight.setI2cAddress(I2cAddr.create7bit(0x1c)); // 7bit for 0x38
 
         /**
          * Setting the motor run modes to run using encoders or without encoders dependent on
@@ -158,13 +171,15 @@ public class Bot
         leftServoStop();
         rightServoStop();
         intakeServoClosed();
-        //spinnerServoStop();
+        spinnerServoStop();
 
         // Initialize booleans to false as the bot does not start running to a target or strafing.
         runningToTarget = false;
         strafing = false;
 
         maxCapTicks = -12650;
+
+        calibrateGyro();
     }
 
     /**
@@ -615,9 +630,9 @@ public class Bot
     public void intakeServoOpen() { intakeServo.setPosition(.40); }
     public void setIntakeServo(double position) {intakeServo.setPosition(position);}
 
-   // public void spinnerServoOut() {spinnerServo.setDirection(DcMotorSimple.Direction.FORWARD); spinnerServo.setPower(1);}
-    //public void spinnerServoIn() {spinnerServo.setDirection(DcMotorSimple.Direction.REVERSE); spinnerServo.setPower(1);}
-    //public void spinnerServoStop() {spinnerServo.setPower(0);}
+    public void spinnerServoOut() {spinnerServo.setDirection(DcMotorSimple.Direction.FORWARD); spinnerServo.setPower(1);}
+    public void spinnerServoIn() {spinnerServo.setDirection(DcMotorSimple.Direction.REVERSE); spinnerServo.setPower(1);}
+    public void spinnerServoStop() {spinnerServo.setPower(0);}
 
     /*
     This is a set of servo methods that are used to easily switch between the servos during invert mode
@@ -686,11 +701,20 @@ public class Bot
         }
     }
 
-    public int getIntakeRed(){return colorSensorIntake.red();}
-    public int getIntakeBlue() {return colorSensorIntake.blue();}
+    // Get the readings from the line optical distance sensors
+    public double getLineLight() { return opticalLineFinderL.getRawLightDetected() + opticalLineFinderR.getRawLightDetected(); }
 
-    // Get the readings from the wall and line optical distance sensors
-    public double getLineLight() { return opticalLineFinder.getRawLightDetected(); }
+    // Calibrate the gyro
+
+    public void calibrateGyro()
+    {
+        gyro.calibrate();
+    }
+
+    public boolean isCalibrating()
+    {
+        return gyro.isCalibrating();
+    }
 
     // Cap Methods
 

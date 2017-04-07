@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name = "WorldsAuton_Far", group = "SHOOTING")
-@Disabled
+//@Disabled
 public class WorldsAuton_Far extends OpMode
 {
     Bot robot = new Bot();

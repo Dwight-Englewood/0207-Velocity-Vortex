@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name = "WorldsAuton_Red", group = "RED")
-@Disabled
+//@Disabled
 public class WorldsAuton_Red extends OpMode
 {
     Bot robot = new Bot();
@@ -19,11 +19,13 @@ public class WorldsAuton_Red extends OpMode
     int commandNumber = 1;
 
     boolean isGoingForward = false;
+    int x = 0;
 
     @Override
     public void init()
     {
         robot.init(hardwareMap);
+        robot.intakeServoOpen();
     }
 
     @Override
@@ -175,6 +177,48 @@ public class WorldsAuton_Red extends OpMode
 
         switch(commandNumber)
         {
+            case 1:
+                robot.runToPosition(36);
+                commandNumber++;
+                break;
+
+            case 2:
+                if (x == 0)
+                {
+                    timer.reset();
+                    robot.chill();
+                    x++;
+                }
+                if (timer.milliseconds() < 3000)
+                {
+
+                }
+                else if (timer.milliseconds() < 4000)
+                {
+                    robot.setShooter(1);
+                }
+                else if (timer.milliseconds() < 6000)
+                {
+                    robot.setShooter(0);
+                    robot.setElevator(1);
+                }
+                else if (timer.milliseconds() < 6500)
+                {
+                    robot.setElevator(0);
+                }
+                else if (timer.milliseconds() < 7500 )
+                {
+                    robot.setShooter(1);
+                }
+                else if (timer.milliseconds() > 7500)
+                {
+                    robot.setShooter(0);
+                    timer.reset();
+                    robot.runUsingEncoders();
+                    robot.stopMovement();
+                    commandNumber++;
+                }
+                break;
 
         }
     }
