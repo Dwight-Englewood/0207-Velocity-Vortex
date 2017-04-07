@@ -254,12 +254,12 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             if (timer.milliseconds() < 2000)
             {
                 robot.setElevator(-1);
-               // robot.spinnerServoOut();
+                robot.spinnerServoOut();
             }
             else
             {
                 robot.setElevator(0);
-                //robot.spinnerServoStop();
+                robot.spinnerServoStop();
                 wrongBall = false;
             }
 
@@ -395,21 +395,21 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
 
         if (movingBall)
         {
-            if (timer.milliseconds() < 400)
+            if (timer.milliseconds() < 500)
             {
                 robot.intakeServoOpen();
                 robot.setElevator(1);
             }
-            else if (timer.milliseconds() < 450)
+            else if (timer.milliseconds() < 550)
             {
                 robot.intakeServoClosed();
                 robot.setElevator(0);
             }
-            else if (timer.milliseconds() < 650)
+            else if (timer.milliseconds() < 750)
             {
                 robot.setElevator(-1);
             }
-            else if (timer.milliseconds() > 650)
+            else if (timer.milliseconds() > 750)
             {
                 robot.setElevator(0);
                 movingBall = false;

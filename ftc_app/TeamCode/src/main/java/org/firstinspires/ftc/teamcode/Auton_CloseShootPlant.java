@@ -24,7 +24,7 @@ public class Auton_CloseShootPlant extends OpMode {
 
     int commandNumber = 1;
 
-    private int x = 0;
+    int x = 0;
 
     @Override
     public void init()

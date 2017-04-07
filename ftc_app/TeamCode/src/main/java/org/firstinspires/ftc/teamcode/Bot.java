@@ -39,7 +39,8 @@ public class Bot
     private ColorSensor colorSensorIntake;
 
     // Optical distance sensor declaration
-    private OpticalDistanceSensor opticalLineFinder;
+    private OpticalDistanceSensor opticalLineFinderL;
+    private OpticalDistanceSensor opticalLineFinderR;
 
     // Range Sensor Declaration
     private ModernRoboticsI2cRangeSensor rangeSensorRight;
@@ -57,7 +58,7 @@ public class Bot
     private Servo lServo;
     private Servo rServo;
     private Servo intakeServo;
-    //private CRServo spinnerServo;
+    private CRServo spinnerServo;
 
     // Booleans which hold current driving data
     private boolean runningToTarget;
@@ -88,96 +89,106 @@ public class Bot
     // Initialization Method - initialize all fields to their corresponding hardware devices
     public void init (HardwareMap hwm)
     {
-        if (this.initType == 1) {
-            hwMap = hwm;
-            //Initialize Gyro only, as this initType is for the gyro testing class
-            gyro = hwMap.gyroSensor.get("gyro");
-        } else {
-            hwMap = hwm;
 
-            // Initializing the motors/sensors
-            FL = hwMap.dcMotor.get("FL");
-            BL = hwMap.dcMotor.get("BL");
-            FR = hwMap.dcMotor.get("FR");
-            BR = hwMap.dcMotor.get("BR");
-            elevator = hwMap.dcMotor.get("elevator");
-            shooter = hwMap.dcMotor.get("shooter");
-            leftCap = hwMap.dcMotor.get("leftCap");
-            rightCap = hwMap.dcMotor.get("rightCap");
+        hwMap = hwm;
 
-            lServo = hwMap.servo.get("lServo");
-            rServo = hwMap.servo.get("rServo");
-            intakeServo = hwMap.servo.get("intakeServo");
-            //spinnerServo = hwMap.crservo.get("spinnerServo");
+        // Initializing the motors/sensors
+        FL = hwMap.dcMotor.get("FL");
+        BL = hwMap.dcMotor.get("BL");
+        FR = hwMap.dcMotor.get("FR");
+        BR = hwMap.dcMotor.get("BR");
+        elevator = hwMap.dcMotor.get("elevator");
+        shooter = hwMap.dcMotor.get("shooter");
+        leftCap = hwMap.dcMotor.get("leftCap");
+        rightCap = hwMap.dcMotor.get("rightCap");
 
-            /**
-             * Initializing sensors and setting LEDs on/off.
-             *
-             * In the case of the color sensors we set their i2c addresses away the default because
-             * otherwise they would all have the same address. If they all had the same address the
-             * program would be unable to distinguish one from another, making them useless.
-             */
-            colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
-            colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
-            colorSensorRight.enableLed(false);
+        lServo = hwMap.servo.get("lServo");
+        rServo = hwMap.servo.get("rServo");
+        intakeServo = hwMap.servo.get("intakeServo");
+        spinnerServo = hwMap.crservo.get("spinnerServo");
 
-            colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
-            colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
-            colorSensorLeft.enableLed(false);
+        /**
+         * Initializing sensors and setting LEDs on/off.
+         *
+         * In the case of the color sensors we set their i2c addresses away the default because
+         * otherwise they would all have the same address. If they all had the same address the
+         * program would be unable to distinguish one from another, making them useless.
+         */
+        colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
+        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
+        colorSensorRight.enableLed(false);
 
-            colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
-            colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
-            colorSensorIntake.enableLed(true);
+        colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
+        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
+        colorSensorLeft.enableLed(false);
 
-            opticalLineFinder = hwMap.opticalDistanceSensor.get("opticalLineFinder");
-            opticalLineFinder.enableLed(true);
+        colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
+        colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
+        colorSensorIntake.enableLed(true);
 
-            /**
-             * Setting the motor run modes to run using encoders or without encoders dependent on
-             * whether there is an encoder connected to the motor. Sets the direction based on the
-             * orientation of the motors. Also sets the starting powers to 0 to ensure nothing is running
-             * during initialization.
-             */
-            FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        opticalLineFinderL = hwMap.opticalDistanceSensor.get("opticalLineFinderL");
+        opticalLineFinderL.enableLed(true);
 
-            FL.setDirection(DcMotorSimple.Direction.FORWARD);
-            BL.setDirection(DcMotorSimple.Direction.FORWARD);
-            FR.setDirection(DcMotorSimple.Direction.REVERSE);
-            BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        opticalLineFinderR = hwMap.opticalDistanceSensor.get("opticalLineFinderR");
+        opticalLineFinderR.enableLed(true);
 
-            elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+        gyro.calibrate();
 
-            leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
-            rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
+        rangeSensorLeft = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeLeft");
+        rangeSensorLeft.setI2cAddress(I2cAddr.create7bit(0x14)); // 7bit for 0x28
 
-            // Set these to Stop and Reset so that we can check their encoder ticks later.
-            leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rangeSensorRight = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeRight");
+        rangeSensorRight.setI2cAddress(I2cAddr.create7bit(0x1c)); // 7bit for 0x38
 
-            FL.setPower(0);
-            BL.setPower(0);
-            FR.setPower(0);
-            BR.setPower(0);
-            elevator.setPower(0);
-            shooter.setPower(0);
-            leftCap.setPower(0);
-            rightCap.setPower(0);
+        /**
+         * Setting the motor run modes to run using encoders or without encoders dependent on
+         * whether there is an encoder connected to the motor. Sets the direction based on the
+         * orientation of the motors. Also sets the starting powers to 0 to ensure nothing is running
+         * during initialization.
+         */
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            leftServoStop();
-            rightServoStop();
-            intakeServoClosed();
-            //spinnerServoStop();
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-            // Initialize booleans to false as the bot does not start running to a target or strafing.
-            runningToTarget = false;
-            strafing = false;
+        elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            maxCapTicks = -12650;
-        }
+        leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // Set these to Stop and Reset so that we can check their encoder ticks later.
+        leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FL.setPower(0);
+        BL.setPower(0);
+        FR.setPower(0);
+        BR.setPower(0);
+        elevator.setPower(0);
+        shooter.setPower(0);
+        leftCap.setPower(0);
+        rightCap.setPower(0);
+
+        leftServoStop();
+        rightServoStop();
+        intakeServoClosed();
+        spinnerServoStop();
+
+        // Initialize booleans to false as the bot does not start running to a target or strafing.
+        runningToTarget = false;
+        strafing = false;
+
+        maxCapTicks = -12650;
+
+        calibrateGyro();
+        
     }
 
     /**
@@ -628,9 +639,9 @@ public class Bot
     public void intakeServoOpen() { intakeServo.setPosition(.40); }
     public void setIntakeServo(double position) {intakeServo.setPosition(position);}
 
-   // public void spinnerServoOut() {spinnerServo.setDirection(DcMotorSimple.Direction.FORWARD); spinnerServo.setPower(1);}
-    //public void spinnerServoIn() {spinnerServo.setDirection(DcMotorSimple.Direction.REVERSE); spinnerServo.setPower(1);}
-    //public void spinnerServoStop() {spinnerServo.setPower(0);}
+    public void spinnerServoOut() {spinnerServo.setDirection(DcMotorSimple.Direction.FORWARD); spinnerServo.setPower(1);}
+    public void spinnerServoIn() {spinnerServo.setDirection(DcMotorSimple.Direction.REVERSE); spinnerServo.setPower(1);}
+    public void spinnerServoStop() {spinnerServo.setPower(0);}
 
     /*
     This is a set of servo methods that are used to easily switch between the servos during invert mode
@@ -699,11 +710,20 @@ public class Bot
         }
     }
 
-    public int getIntakeRed(){return colorSensorIntake.red();}
-    public int getIntakeBlue() {return colorSensorIntake.blue();}
+    // Get the readings from the line optical distance sensors
+    public double getLineLight() { return opticalLineFinderL.getRawLightDetected() + opticalLineFinderR.getRawLightDetected(); }
 
-    // Get the readings from the wall and line optical distance sensors
-    public double getLineLight() { return opticalLineFinder.getRawLightDetected(); }
+    // Calibrate the gyro
+
+    public void calibrateGyro()
+    {
+        gyro.calibrate();
+    }
+
+    public boolean isCalibrating()
+    {
+        return gyro.isCalibrating();
+    }
 
     // Cap Methods
 
