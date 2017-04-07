@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
@@ -19,7 +20,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
-
+    private int initType; //Used to be able to have different init mappings with the same bot class
+    //pretty hacky solution, probably would be better to split the files but lazy right now
+    //TODO do this better
     // Motor declaration
     private DcMotor FL;
     private DcMotor BL;
@@ -44,7 +47,7 @@ public class Bot
     private ModernRoboticsI2cRangeSensor rangeSensorLeft;
 
     // Gyro Sensor Declaration
-    private ModernRoboticsI2cGyro gyro;
+    private GyroSensor gyro;
 
     /*
     Servo declaration
@@ -79,9 +82,14 @@ public class Bot
 
     }
 
+    public Bot(int initType) {
+        this.initType = initType;
+    }
+
     // Initialization Method - initialize all fields to their corresponding hardware devices
     public void init (HardwareMap hwm)
     {
+
         hwMap = hwm;
 
         // Initializing the motors/sensors
@@ -180,6 +188,7 @@ public class Bot
         maxCapTicks = -12650;
 
         calibrateGyro();
+        
     }
 
     /**
