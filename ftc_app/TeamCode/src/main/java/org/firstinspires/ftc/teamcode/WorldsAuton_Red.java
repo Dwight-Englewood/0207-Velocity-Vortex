@@ -178,7 +178,7 @@ public class WorldsAuton_Red extends OpMode
         switch(commandNumber)
         {
             case 1:
-                robot.runToPosition(36);
+                robot.runToPosition(41);
                 commandNumber++;
                 break;
 
@@ -189,28 +189,29 @@ public class WorldsAuton_Red extends OpMode
                     robot.chill();
                     x++;
                 }
-                if (timer.milliseconds() < 3000)
+                if (timer.milliseconds() < 2000)
                 {
 
                 }
-                else if (timer.milliseconds() < 4000)
+                else if (timer.milliseconds() < 3000)
                 {
                     robot.setShooter(1);
                 }
-                else if (timer.milliseconds() < 6000)
+                else if (timer.milliseconds() < 5000)
                 {
                     robot.setShooter(0);
                     robot.setElevator(1);
                 }
-                else if (timer.milliseconds() < 6500)
+                else if (timer.milliseconds() < 5500)
                 {
-                    robot.setElevator(0);
+                    robot.setElevator(-1);
                 }
-                else if (timer.milliseconds() < 7500 )
+                else if (timer.milliseconds() < 6500 )
                 {
                     robot.setShooter(1);
+                    robot.setElevator(0);
                 }
-                else if (timer.milliseconds() > 7500)
+                else if (timer.milliseconds() > 6500)
                 {
                     robot.setShooter(0);
                     timer.reset();
@@ -218,6 +219,10 @@ public class WorldsAuton_Red extends OpMode
                     robot.stopMovement();
                     commandNumber++;
                 }
+                break;
+
+            case 3:
+                if (robot.leftDistance()-)
                 break;
 
         }

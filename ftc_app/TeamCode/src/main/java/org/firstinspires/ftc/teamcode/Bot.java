@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 /**
  * @author Robert Aburustum & Wen Plotnick
  * @version 2/22/17
@@ -712,6 +714,9 @@ public class Bot
 
     // Get the readings from the line optical distance sensors
     public double getLineLight() { return opticalLineFinderL.getRawLightDetected() + opticalLineFinderR.getRawLightDetected(); }
+
+    public double rightDistance(){return rangeSensorRight.getDistance(DistanceUnit.CM);}
+    public double leftDistance() {return rangeSensorLeft.getDistance(DistanceUnit.CM);}
 
     // Calibrate the gyro
 
