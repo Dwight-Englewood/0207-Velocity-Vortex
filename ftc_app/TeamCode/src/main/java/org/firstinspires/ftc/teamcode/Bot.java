@@ -745,7 +745,7 @@ public class Bot
 
     public void resetZ() {gyro.resetZAxisIntegrator();}
 
-    public int getGyroHead()
+    public int getHeading()
     {
         if (gyro.getHeading() > 180)
         {

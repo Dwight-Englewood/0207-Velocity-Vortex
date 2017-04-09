@@ -21,6 +21,11 @@ public class WorldsAuton_Red extends OpMode
     boolean isGoingForward = false;
     int x = 0;
 
+    int targetHeading = 0;
+    int headingError = 0;
+    double driveScale = 0;
+    double powerModifier = .1;
+
     @Override
     public void init()
     {
@@ -152,9 +157,10 @@ public class WorldsAuton_Red extends OpMode
             return;
         }
         /**
-         * If the robot is driving with encoder ticks but not driving forward then slipping is not
+         * If the robot is driving with encoder ticks but not driving forward then slipping is less of
          * an issue. Thus, the program enters this statement and checks only if the robot is at the
-         * target. If it is, the robot will be stopped and the next command will be given.
+         * target. If it is, the robot will be stopped and the next command will be given. This section
+         * also includes the code for our gyro as it is most useful when strafing/turning. In this auton, this
          */
         else if (robot.getIsRunningToTarget())
         {
@@ -176,6 +182,14 @@ public class WorldsAuton_Red extends OpMode
                     )
             {
                 robot.drive(0, .1);
+            }
+            else
+            {
+                headingError = targetHeading - robot.getHeading();
+                driveScale = headingError * powerModifier;
+
+                robot.drive(9, .5 + driveScale);
+                robot.drive(8, .5 - driveScale);
             }
             // See line 149 comment
             telemetry.update();
