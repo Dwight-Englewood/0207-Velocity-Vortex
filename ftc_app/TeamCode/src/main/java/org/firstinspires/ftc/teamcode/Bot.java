@@ -81,6 +81,10 @@ public class Bot
 
     private Telemetry telem;
 
+    private int headingError;
+    private double driveScale ;
+    private double powerModifier;
+
     // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
     {
@@ -198,8 +202,9 @@ public class Bot
 
         maxCapTicks = -12650;
 
-        calibrateGyro();
-        
+        int headingError = 0;
+        double driveScale = 0;
+        double powerModifier = .1;
     }
 
     /**
@@ -364,6 +369,19 @@ public class Bot
         FR.setPower(power);
         BL.setPower(power);
         this.strafing = true;
+    }
+
+    public void adjustPower(int targetHeading)
+    {
+        headingError = targetHeading - getHeading();
+        driveScale = headingError * powerModifier;
+
+        //ROB THIS IS WHERE YOU MAY NEED TO CHANGE THE SIGNS
+        FL.setPower(.5 + driveScale);
+        BL.setPower(.5 + driveScale);
+        FR.setPower(.5 - driveScale);
+        BR.setPower(.5 - driveScale);
+
     }
 
     // Move-to Methods - methods that allow the bot to run to a specific position

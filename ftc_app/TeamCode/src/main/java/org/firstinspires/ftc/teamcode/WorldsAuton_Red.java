@@ -22,9 +22,6 @@ public class WorldsAuton_Red extends OpMode
     int x = 0;
 
     int targetHeading = 0;
-    int headingError = 0;
-    double driveScale = 0;
-    double powerModifier = .1;
 
     @Override
     public void init()
@@ -185,11 +182,8 @@ public class WorldsAuton_Red extends OpMode
             }
             else
             {
-                headingError = targetHeading - robot.getHeading();
-                driveScale = headingError * powerModifier;
+                robot.adjustPower(targetHeading);
 
-                robot.drive(9, .5 + driveScale);
-                robot.drive(8, .5 - driveScale);
             }
             // See line 149 comment
             telemetry.update();
