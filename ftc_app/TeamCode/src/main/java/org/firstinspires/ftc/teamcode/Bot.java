@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
@@ -78,6 +79,8 @@ public class Bot
     // HardwareMap to hold data as to where each hardware device is located.
     private HardwareMap hwMap;
 
+    private Telemetry telem;
+
     // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
     {
@@ -89,10 +92,11 @@ public class Bot
     }
 
     // Initialization Method - initialize all fields to their corresponding hardware devices
-    public void init (HardwareMap hwm)
+    public void init (HardwareMap hwm, Telemetry telemetry)
     {
 
         hwMap = hwm;
+        telem = telemetry;
 
         // Initializing the motors/sensors
         FL = hwMap.dcMotor.get("FL");
@@ -135,6 +139,11 @@ public class Bot
         opticalLineFinderR.enableLed(true);
 
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+        gyro.calibrate();
+
+        // start calibrating the gyro.
+        telemetry.addData(">", "Gyro Calibrating. Do Not move!");
+        telemetry.update();
         gyro.calibrate();
 
         rangeSensorLeft = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeLeft");
@@ -725,9 +734,27 @@ public class Bot
         gyro.calibrate();
     }
 
-    public boolean isCalibrating()
+    public void isCalibrating()
     {
-        return gyro.isCalibrating();
+        if (!gyro.isCalibrating())
+        {
+            telem.addData(">", "Gyro Calibrated.  Press Start.");
+            telem.update();
+        }
+    }
+
+    public void resetZ() {gyro.resetZAxisIntegrator();}
+
+    public int getGyroHead()
+    {
+        if (gyro.getHeading() > 180)
+        {
+            return 0 - (360 - gyro.getHeading());
+        }
+        else
+        {
+            return gyro.getHeading();
+        }
     }
 
     // Cap Methods

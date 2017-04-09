@@ -24,14 +24,18 @@ public class WorldsAuton_Close extends OpMode
     @Override
     public void init()
     {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
+        robot.intakeServoOpen();
     }
 
     @Override
-    public void init_loop() {}
+    public void init_loop()
+    {
+        robot.isCalibrating();
+    }
 
     @Override
-    public void start() { super.start();}
+    public void start() { super.start(); robot.resetZ();}
 
     @Override
     public void loop()

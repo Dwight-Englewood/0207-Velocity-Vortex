@@ -24,12 +24,19 @@ public class WorldsAuton_Red extends OpMode
     @Override
     public void init()
     {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
         robot.intakeServoOpen();
     }
 
     @Override
-    public void start() { super.start();}
+    public void init_loop()
+    {
+        robot.isCalibrating();
+    }
+
+    @Override
+    public void start() { super.start(); robot.resetZ();}
+
     @Override
     public void loop()
     {
@@ -222,7 +229,7 @@ public class WorldsAuton_Red extends OpMode
                 break;
 
             case 3:
-                if (robot.leftDistance()-)
+
                 break;
 
         }
