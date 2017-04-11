@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Blue Two Shot", group = "BLUE")
 public class Auton_BlueTwoShots extends OpMode {
 

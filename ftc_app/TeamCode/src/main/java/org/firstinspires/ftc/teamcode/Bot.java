@@ -204,9 +204,9 @@ public class Bot
 
         maxCapTicks = -12650;
 
-        int headingError = 0;
-        double driveScale = 0;
-        double powerModifier = .05;
+        headingError = 0;
+        driveScale = 0;
+        powerModifier = .005;
     }
 
     /**
@@ -379,8 +379,8 @@ public class Bot
         driveScale = headingError * powerModifier;
 
         //ROB THIS IS WHERE YOU MAY NEED TO CHANGE THE SIGNS
-        leftPower = .5 + driveScale;
-        rightPower = .5 - driveScale;
+        leftPower = .6 + driveScale;
+        rightPower = .6 - driveScale;
 
         if (leftPower > 1)
             leftPower = 1;
@@ -392,10 +392,16 @@ public class Bot
         else if (rightPower < 0)
             rightPower = 0;
 
-        FL.setPower(.5 + driveScale);
-        BL.setPower(.5 + driveScale);
-        FR.setPower(.5 - driveScale);
-        BR.setPower(.5 - driveScale);
+        telem.addData("leftPower", leftPower);
+        telem.addData("rightPower", rightPower);
+        telem.addData("powerModifier", powerModifier);
+        telem.addData("headingError", headingError);
+        telem.addData("driveScale", driveScale);
+
+        FL.setPower(leftPower);
+        BL.setPower(leftPower);
+        FR.setPower(rightPower);
+        BR.setPower(rightPower);
     }
 
     public void stillAdjust(int targetHeading)
@@ -409,18 +415,24 @@ public class Bot
 
         if (leftPower > 1)
             leftPower = 1;
-        else if (leftPower < 0)
-            leftPower = 0;
+        else if (leftPower < -1)
+            leftPower = -1;
 
         if (rightPower > 1)
             rightPower = 1;
-        else if (rightPower < 0)
-            rightPower = 0;
+        else if (rightPower < -1)
+            rightPower = -1;
 
-        FL.setPower(0 + driveScale);
-        BL.setPower(0 + driveScale);
-        FR.setPower(0 - driveScale);
-        BR.setPower(0 - driveScale);
+        telem.addData("leftPower", leftPower);
+        telem.addData("rightPower", rightPower);
+        telem.addData("powerModifier", powerModifier);
+        telem.addData("headingError", headingError);
+        telem.addData("driveScale", driveScale);
+
+        FL.setPower(leftPower);
+        BL.setPower(leftPower);
+        FR.setPower(rightPower);
+        BR.setPower(rightPower);
     }
 
     // Move-to Methods - methods that allow the bot to run to a specific position

@@ -444,7 +444,7 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             else if (timer.milliseconds() > 2000 && timer.milliseconds() < 4500)
             {
                 robot.runUsingEncoders();
-                robot.drive(2, .3);
+                robot.drive(2, .5);
             }
             else if (timer.milliseconds() < 4500)
             {

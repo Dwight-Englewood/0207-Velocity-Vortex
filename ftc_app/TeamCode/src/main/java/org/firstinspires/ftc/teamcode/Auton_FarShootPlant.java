@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //a device that can be in one of a set number of stable conditions depending
 // on its previous condition and on the present values of its inputs.
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Shoot Drive FAR", group = "SHOOTING")
 public class Auton_FarShootPlant extends OpMode {
 
@@ -31,7 +31,7 @@ public class Auton_FarShootPlant extends OpMode {
     @Override
     public void init()
     {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
     }
 
     @Override

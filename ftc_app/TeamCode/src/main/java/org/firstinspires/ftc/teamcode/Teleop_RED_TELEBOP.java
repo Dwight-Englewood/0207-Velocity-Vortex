@@ -466,7 +466,7 @@ public class Teleop_RED_TELEBOP extends OpMode {
             else if (timer.milliseconds() > 2000 && timer.milliseconds() < 4500)
             {
                 robot.runUsingEncoders();
-                robot.drive(2, .3);
+                robot.drive(2, .5);
             }
             // Pull awawy from the beacon
             else if (timer.milliseconds() < 4500)
