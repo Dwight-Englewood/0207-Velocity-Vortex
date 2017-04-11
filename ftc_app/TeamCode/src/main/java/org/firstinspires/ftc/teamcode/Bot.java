@@ -23,8 +23,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
-    private int initType; //Used to be able to have different init mappings with the same bot class
-    //pretty hacky solution, probably would be better to split the files but lazy right now
+    private InitType initType;
+    private int initTypeNum;
+    //Used to be able to have different init mappings with the same bot class
+    //Prevents lag in OpModes that don't use all of the hardware on the bot
+
     //TODO do this better
     // Motor declaration
     private DcMotor FL;
@@ -93,8 +96,9 @@ public class Bot
 
     }
 
-    public Bot(int initType) {
+    public Bot(InitType initType, int initTypeNum) {
         this.initType = initType;
+        this.initTypeNum = initTypeNum;
     }
 
     // Initialization Method - initialize all fields to their corresponding hardware devices
