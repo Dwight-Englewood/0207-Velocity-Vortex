@@ -23,9 +23,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
-    private InitType initType;
-    private int initTypeNum;
-
     private boolean[] initRules;
     //Index Mapping
     //0 - Drive Train (Left and Right)
@@ -112,9 +109,8 @@ public class Bot
         this.initRules = new boolean[] {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE};
     }
 
-    public Bot(InitType initType, int initTypeNum) {
-        this.initType = initType;
-        this.initTypeNum = initTypeNum;
+    public Bot(boolean[] initRules) {
+        this.initRules = initRules;
     }
 
     // Initialization Method - initialize all fields to their corresponding hardware devices
