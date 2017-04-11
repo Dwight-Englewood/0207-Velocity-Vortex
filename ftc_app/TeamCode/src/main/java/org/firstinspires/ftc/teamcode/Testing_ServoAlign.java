@@ -23,7 +23,7 @@ public class Testing_ServoAlign extends OpMode {
     public void init()
     {
         telemetry.addData("Status", "Initialized");
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
         // The name of the crservo in the robot config on your robot controller phone
         // Note: despite being a crservo we still choose "servo" from the dropdown in the phone
     }
