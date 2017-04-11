@@ -25,6 +25,20 @@ public class Bot
     // Instance Fields - declaration of hardware and software fields
     private InitType initType;
     private int initTypeNum;
+
+    private boolean[] initRules;
+    //Index Mapping
+    //0 - Drive Train (Left and Right)
+    //1 - Particle Lift
+    //2 - Flicker
+    //3 - Cap Ball Lift
+    //4 - Beacon Pressers
+    //5 - Color Sensors - Beacon
+    //6 - Color Sensor - Intake
+    //7 - Gyro
+    //8 - Range Sensors
+    //9 - Optical Distance Sensors
+
     //Used to be able to have different init mappings with the same bot class
     //Prevents lag in OpModes that don't use all of the hardware on the bot
 
@@ -34,6 +48,7 @@ public class Bot
     private DcMotor BL;
     private DcMotor FR;
     private DcMotor BR;
+
     private DcMotor elevator;
     private DcMotor shooter;
     private DcMotor leftCap;
@@ -93,7 +108,8 @@ public class Bot
     // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
     {
-
+        //Default Constructor will initialize all submodules
+        this.initRules = new boolean[] {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE};
     }
 
     public Bot(InitType initType, int initTypeNum) {
@@ -102,6 +118,12 @@ public class Bot
     }
 
     // Initialization Method - initialize all fields to their corresponding hardware devices
+    /**
+     * Setting the motor run modes to run using encoders or without encoders dependent on
+     * whether there is an encoder connected to the motor. Sets the direction based on the
+     * orientation of the motors. Also sets the starting powers to 0 to ensure nothing is running
+     * during initialization.
+     */
     public void init (HardwareMap hwm, Telemetry telemetry)
     {
 
@@ -109,20 +131,74 @@ public class Bot
         telem = telemetry;
 
         // Initializing the motors/sensors
-        FL = hwMap.dcMotor.get("FL");
-        BL = hwMap.dcMotor.get("BL");
-        FR = hwMap.dcMotor.get("FR");
-        BR = hwMap.dcMotor.get("BR");
-        elevator = hwMap.dcMotor.get("elevator");
-        shooter = hwMap.dcMotor.get("shooter");
-        leftCap = hwMap.dcMotor.get("leftCap");
-        rightCap = hwMap.dcMotor.get("rightCap");
+        if (this.initRules[0]) {
+            //Drive Train
+            FL = hwMap.dcMotor.get("FL");
+            BL = hwMap.dcMotor.get("BL");
+            FR = hwMap.dcMotor.get("FR");
+            BR = hwMap.dcMotor.get("BR");
 
-        lServo = hwMap.servo.get("lServo");
-        rServo = hwMap.servo.get("rServo");
-        intakeServo = hwMap.servo.get("intakeServo");
-        spinnerServo = hwMap.crservo.get("spinnerServo");
+            FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+            FL.setDirection(DcMotorSimple.Direction.FORWARD);
+            BL.setDirection(DcMotorSimple.Direction.FORWARD);
+            FR.setDirection(DcMotorSimple.Direction.REVERSE);
+            BR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+        }
+        if (this.initRules[1]) {
+            //Particle Elevator
+            elevator = hwMap.dcMotor.get("elevator");
+
+            elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            elevator.setPower(0);
+            //intakeServo is a subset of elevator
+            intakeServo = hwMap.servo.get("intakeServo");
+            //spinnerServo is a subset of elevator
+            spinnerServo = hwMap.crservo.get("spinnerServo");
+
+            intakeServoClosed();
+            spinnerServoStop();
+        }
+        if (this.initRules[2]) {
+            //Flicker Shooter
+            shooter = hwMap.dcMotor.get("shooter");
+
+            shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            shooter.setPower(0);
+        }
+        if (this.initRules[3]) {
+            //Cap Ball
+            leftCap = hwMap.dcMotor.get("leftCap");
+            rightCap = hwMap.dcMotor.get("rightCap");
+
+            leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            // Set these to Stop and Reset so that we can check their encoder ticks later.
+            leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            leftCap.setPower(0);
+            rightCap.setPower(0);
+        }
+        if (this.initRules[4]) {
+            //Beacon Servo
+            lServo = hwMap.servo.get("lServo");
+            rServo = hwMap.servo.get("rServo");
+
+            leftServoStop();
+            rightServoStop();
+        }
         /**
          * Initializing sensors and setting LEDs on/off.
          *
@@ -130,78 +206,54 @@ public class Bot
          * otherwise they would all have the same address. If they all had the same address the
          * program would be unable to distinguish one from another, making them useless.
          */
-        colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
-        colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
-        colorSensorRight.enableLed(false);
+        if (this.initRules[5]) {
+            //Beacon Color Sensors
+            colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
+            colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
+            colorSensorRight.enableLed(false);
 
-        colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
-        colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
-        colorSensorLeft.enableLed(false);
+            colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
+            colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
+            colorSensorLeft.enableLed(false);
+        }
 
-        colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
-        colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
-        colorSensorIntake.enableLed(true);
+        if (this.initRules[6]) {
+            //Intake Color Sensor
+            colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
+            colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
+            colorSensorIntake.enableLed(true);
+        }
 
-        opticalLineFinderL = hwMap.opticalDistanceSensor.get("opticalLineFinderL");
-        opticalLineFinderL.enableLed(true);
+        if (this.initRules[7]) {
+            //Gyro
+            gyro = (ModernRoboticsI2cGyro) hwMap.gyroSensor.get("gyro");
+            gyro.calibrate();
 
-        opticalLineFinderR = hwMap.opticalDistanceSensor.get("opticalLineFinderR");
-        opticalLineFinderR.enableLed(true);
+            // start calibrating the gyro.
+            telemetry.addData(">", "Gyro Calibrating. Do Not move!");
+            telemetry.update();
+            gyro.calibrate();
+        }
 
-        gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
-        gyro.calibrate();
+        if (this.initRules[8]) {
+            //Optical Distance Sensors
+            opticalLineFinderL = hwMap.opticalDistanceSensor.get("opticalLineFinderL");
+            opticalLineFinderL.enableLed(true);
 
-        // start calibrating the gyro.
-        telemetry.addData(">", "Gyro Calibrating. Do Not move!");
-        telemetry.update();
-        gyro.calibrate();
+            opticalLineFinderR = hwMap.opticalDistanceSensor.get("opticalLineFinderR");
+            opticalLineFinderR.enableLed(true);
+        }
 
-        rangeSensorLeft = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeLeft");
-        rangeSensorLeft.setI2cAddress(I2cAddr.create7bit(0x14)); // 7bit for 0x28
+        if (this.initRules[9]) {
+            //Range Sensors
+            rangeSensorLeft = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeLeft");
+            rangeSensorLeft.setI2cAddress(I2cAddr.create7bit(0x14)); // 7bit for 0x28
 
-        rangeSensorRight = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeRight");
-        rangeSensorRight.setI2cAddress(I2cAddr.create7bit(0x1c)); // 7bit for 0x38
+            rangeSensorRight = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeRight");
+            rangeSensorRight.setI2cAddress(I2cAddr.create7bit(0x1c)); // 7bit for 0x38
+        }
 
-        /**
-         * Setting the motor run modes to run using encoders or without encoders dependent on
-         * whether there is an encoder connected to the motor. Sets the direction based on the
-         * orientation of the motors. Also sets the starting powers to 0 to ensure nothing is running
-         * during initialization.
-         */
-        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        leftCap.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightCap.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        // Set these to Stop and Reset so that we can check their encoder ticks later.
-        leftCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightCap.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        FL.setPower(0);
-        BL.setPower(0);
-        FR.setPower(0);
-        BR.setPower(0);
-        elevator.setPower(0);
-        shooter.setPower(0);
-        leftCap.setPower(0);
-        rightCap.setPower(0);
-
-        leftServoStop();
-        rightServoStop();
-        intakeServoClosed();
-        spinnerServoStop();
-
+        //Constants
         // Initialize booleans to false as the bot does not start running to a target or strafing.
         runningToTarget = false;
         strafing = false;
