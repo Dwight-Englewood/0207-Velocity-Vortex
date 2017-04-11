@@ -95,7 +95,7 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
     }
 
     @Override

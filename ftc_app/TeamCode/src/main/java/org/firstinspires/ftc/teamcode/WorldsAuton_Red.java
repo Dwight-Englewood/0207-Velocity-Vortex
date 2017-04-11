@@ -22,6 +22,7 @@ public class WorldsAuton_Red extends OpMode
     int x = 0;
 
     int targetHeading = 0;
+    int targetRange = 0;
 
     @Override
     public void init()
@@ -42,6 +43,9 @@ public class WorldsAuton_Red extends OpMode
     @Override
     public void loop()
     {
+
+        telemetry.addData("Distance", robot.leftDistance());
+        telemetry.addData("Heading", robot.getHeading());
         /**
          * This set of if statements allows the robot to speed up and slow down when driving forward in the auton,
          * addressing the issue of sliding when speeding up too quickly. It also helps evade the "opmode
@@ -161,6 +165,12 @@ public class WorldsAuton_Red extends OpMode
          */
         else if (robot.getIsRunningToTarget())
         {
+            if (robot.leftDistance() <= targetRange)
+            {
+                robot.stopMovement();
+                robot.setIsRunningToTarget(false);
+            }
+
             if (
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25) &&
@@ -171,6 +181,7 @@ public class WorldsAuton_Red extends OpMode
                 robot.stopMovement();
                 robot.setIsRunningToTarget(false);
             }
+            //Prevents from getting stuck in loop
             else if (
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 250) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 250) &&
@@ -183,7 +194,6 @@ public class WorldsAuton_Red extends OpMode
             else
             {
                 robot.adjustPower(targetHeading);
-
             }
             // See line 149 comment
             telemetry.update();
@@ -230,15 +240,141 @@ public class WorldsAuton_Red extends OpMode
                 {
                     robot.setShooter(0);
                     timer.reset();
-                    robot.runUsingEncoders();
                     robot.stopMovement();
                     commandNumber++;
                 }
                 break;
 
             case 3:
-
+                isGoingForward = false;
+                targetHeading = 0;
+                robot.runDiagLeft(300);
+                targetRange = 6;
+                commandNumber++;
                 break;
+
+            case 4:
+                robot.runUsingEncoders();
+                robot.drive(0, .4);
+                commandNumber++;
+                timer.reset();
+                break;
+
+            case 5:
+                if (robot.getLineLight() > .7)
+                {
+                    robot.stopMovement();
+                    x = 99;
+                    commandNumber++;
+                }
+                else if (timer.milliseconds() > 4000)
+                {
+                    robot.drive(1, .3);
+                    timer.reset();
+                    commandNumber = 5;
+                }
+                break;
+
+            case 6:
+                if (robot.getLRed() > robot.getLBlue())
+                {
+                    robot.runToLeft(10);
+                    commandNumber++;
+                }
+                else
+                {
+                    if (x == 99)
+                    {
+                    isGoingForward = true;
+                    robot.runToPosition(-8);
+                    x++;
+                    }
+                    else if (x == 100)
+                    {
+                        robot.runToLeft(10);
+                        x++;
+                        commandNumber++;
+                    }
+                }
+                break;
+
+            case 7:
+                robot.runToRight(4);
+                commandNumber++;
+                break;
+
+            case 8:
+                if (x == 101)
+                {
+                    robot.drive(0, 0);
+                    robot.runUsingEncoders();
+                    x++;
+                }
+
+                if (robot.getHeading() < 3 && robot.getHeading() > -3)
+                {
+                    robot.stopMovement();
+                    commandNumber++;
+                }
+                else
+                {
+                    robot.stillAdjust(0);
+                }
+                break;
+
+            case 9:
+                robot.runUsingEncoders();
+                robot.drive(1, .4);
+                commandNumber++;
+                timer.reset();
+                break;
+
+            case 10:
+                if (robot.getLineLight() > .7)
+                {
+                    robot.stopMovement();
+                    // May require adjustment for color sensor
+                    x = 99;
+                    commandNumber++;
+                }
+                else if (timer.milliseconds() > 4000)
+                {
+                    robot.drive(0, .3);
+                    timer.reset();
+                    commandNumber = 10;
+                }
+                break;
+
+            case 11:
+                if (robot.getLRed() > robot.getLBlue())
+                {
+                    robot.runToLeft(10);
+                    //may need djustment here to forward/backwards distance
+                    commandNumber++;
+                }
+                else
+                {
+                    if (x == 99)
+                    {
+                        isGoingForward = true;
+                        robot.runToPosition(-8);
+                        x++;
+                    }
+                    else if (x == 100)
+                    {
+                        robot.runToLeft(10);
+                        x++;
+                        commandNumber++;
+                    }
+                }
+                break;
+
+            case 12:
+                robot.runToRight(100);
+                commandNumber++;
+                break;
+
+
 
         }
     }

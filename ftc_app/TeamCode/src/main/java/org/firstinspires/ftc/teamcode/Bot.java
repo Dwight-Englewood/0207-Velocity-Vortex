@@ -84,6 +84,8 @@ public class Bot
     private int headingError;
     private double driveScale ;
     private double powerModifier;
+    private double leftPower;
+    private double rightPower;
 
     // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
@@ -204,7 +206,7 @@ public class Bot
 
         int headingError = 0;
         double driveScale = 0;
-        double powerModifier = .1;
+        double powerModifier = .05;
     }
 
     /**
@@ -377,11 +379,48 @@ public class Bot
         driveScale = headingError * powerModifier;
 
         //ROB THIS IS WHERE YOU MAY NEED TO CHANGE THE SIGNS
+        leftPower = .5 + driveScale;
+        rightPower = .5 - driveScale;
+
+        if (leftPower > 1)
+            leftPower = 1;
+        else if (leftPower < 0)
+            leftPower = 0;
+
+        if (rightPower > 1)
+            rightPower = 1;
+        else if (rightPower < 0)
+            rightPower = 0;
+
         FL.setPower(.5 + driveScale);
         BL.setPower(.5 + driveScale);
         FR.setPower(.5 - driveScale);
         BR.setPower(.5 - driveScale);
+    }
 
+    public void stillAdjust(int targetHeading)
+    {
+        headingError = targetHeading - getHeading();
+        driveScale = headingError * powerModifier;
+
+        //ROB THIS IS WHERE YOU MAY NEED TO CHANGE THE SIGNS
+        leftPower = 0 + driveScale;
+        rightPower = 0 - driveScale;
+
+        if (leftPower > 1)
+            leftPower = 1;
+        else if (leftPower < 0)
+            leftPower = 0;
+
+        if (rightPower > 1)
+            rightPower = 1;
+        else if (rightPower < 0)
+            rightPower = 0;
+
+        FL.setPower(0 + driveScale);
+        BL.setPower(0 + driveScale);
+        FR.setPower(0 - driveScale);
+        BR.setPower(0 - driveScale);
     }
 
     // Move-to Methods - methods that allow the bot to run to a specific position
@@ -721,6 +760,11 @@ public class Bot
     {
         return colorSensorRight.blue();
     }
+
+    public int getRRed(){return colorSensorRight.red();}
+    public int getRBlue(){return colorSensorRight.blue();}
+    public int getLRed(){return colorSensorLeft.red();}
+    public int getLBlue(){return colorSensorLeft.blue();}
 
     // Takes a reading from the intake color sensor and returns whether it is red, blue or neither
     public String getIntake()

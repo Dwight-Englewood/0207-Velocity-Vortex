@@ -28,7 +28,7 @@ public class Auton_RedTwoShots extends OpMode {
     @Override
     public void init()
     {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, telemetry);
     }
 
     @Override
