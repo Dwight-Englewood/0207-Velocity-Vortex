@@ -373,12 +373,12 @@ public class Bot
         this.strafing = true;
     }
 
+    //For adjusting while using the runToPosition modes or forward
     public void adjustPower(int targetHeading)
     {
         headingError = targetHeading - getHeading();
         driveScale = headingError * powerModifier;
 
-        //ROB THIS IS WHERE YOU MAY NEED TO CHANGE THE SIGNS
         leftPower = .6 + driveScale;
         rightPower = .6 - driveScale;
 
@@ -404,12 +404,12 @@ public class Bot
         BR.setPower(rightPower);
     }
 
+    //For adjusting in position
     public void stillAdjust(int targetHeading)
     {
         headingError = targetHeading - getHeading();
         driveScale = headingError * powerModifier;
 
-        //ROB THIS IS WHERE YOU MAY NEED TO CHANGE THE SIGNS
         leftPower = 0 + driveScale;
         rightPower = 0 - driveScale;
 

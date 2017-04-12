@@ -21,6 +21,9 @@ public class WorldsAuton_Blue extends OpMode
     boolean isGoingForward = false;
     int x = 0;
 
+    int targetHeading = 0;
+    int targetRange = 15;
+
     @Override
     public void init()
     {
@@ -40,6 +43,9 @@ public class WorldsAuton_Blue extends OpMode
     @Override
     public void loop()
     {
+
+        telemetry.addData("Distance", robot.leftDistance());
+        telemetry.addData("Heading", robot.getHeading());
         /**
          * This set of if statements allows the robot to speed up and slow down when driving forward in the auton,
          * addressing the issue of sliding when speeding up too quickly. It also helps evade the "opmode
@@ -152,12 +158,19 @@ public class WorldsAuton_Blue extends OpMode
             return;
         }
         /**
-         * If the robot is driving with encoder ticks but not driving forward then slipping is not
+         * If the robot is driving with encoder ticks but not driving forward then slipping is less of
          * an issue. Thus, the program enters this statement and checks only if the robot is at the
-         * target. If it is, the robot will be stopped and the next command will be given.
+         * target. If it is, the robot will be stopped and the next command will be given. This section
+         * also includes the code for our gyro as it is most useful when strafing/turning. In this auton, this
          */
         else if (robot.getIsRunningToTarget())
         {
+            if (robot.leftDistance() <= targetRange)
+            {
+                robot.stopMovement();
+                robot.setIsRunningToTarget(false);
+            }
+
             if (
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25) &&
@@ -168,6 +181,7 @@ public class WorldsAuton_Blue extends OpMode
                 robot.stopMovement();
                 robot.setIsRunningToTarget(false);
             }
+            //Prevents from getting stuck in loop
             else if (
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 250) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 250) &&
@@ -177,14 +191,20 @@ public class WorldsAuton_Blue extends OpMode
             {
                 robot.drive(0, .1);
             }
+            else
+            {
+                robot.adjustPower(targetHeading);
+            }
             // See line 149 comment
             telemetry.update();
             return;
         }
 
+
         switch(commandNumber)
         {
             case 1:
+                isGoingForward = true;
                 robot.runToPosition(41);
                 commandNumber++;
                 break;
@@ -193,36 +213,31 @@ public class WorldsAuton_Blue extends OpMode
                 if (x == 0)
                 {
                     timer.reset();
-                    robot.chill();
                     x++;
                 }
-                if (timer.milliseconds() < 2000)
+                if (timer.milliseconds() < 500)
                 {
-
+                    robot.leftServoOut();
                 }
-                else if (timer.milliseconds() < 3000)
+                else if (timer.milliseconds() < 1300)
                 {
                     robot.setShooter(1);
+                    robot.leftServoStop();
                 }
-                else if (timer.milliseconds() < 5000)
+                else if (timer.milliseconds() < 2800)
                 {
                     robot.setShooter(0);
                     robot.setElevator(1);
                 }
-                else if (timer.milliseconds() < 5500)
-                {
-                    robot.setElevator(-1);
-                }
-                else if (timer.milliseconds() < 6500 )
+                else if (timer.milliseconds() < 3500 )
                 {
                     robot.setShooter(1);
                     robot.setElevator(0);
                 }
-                else if (timer.milliseconds() > 6500)
+                else if (timer.milliseconds() > 3500)
                 {
                     robot.setShooter(0);
                     timer.reset();
-                    robot.runUsingEncoders();
                     robot.stopMovement();
                     commandNumber++;
                 }
