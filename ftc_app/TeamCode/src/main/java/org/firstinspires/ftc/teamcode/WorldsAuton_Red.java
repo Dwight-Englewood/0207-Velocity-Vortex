@@ -273,11 +273,11 @@ public class WorldsAuton_Red extends OpMode
             case 5:
                 if (robot.leftDistance() > targetRange)
                 {
-                    robot.drive(2, .2);
+                    robot.drive(2, .1);
                 }
-                else if (robot.leftDistance() < 8)
+                else if (robot.leftDistance() < targetRange - 5)
                 {
-                    robot.drive(3, .2);
+                    robot.drive(3, .1);
                 }
                 else
                 {
