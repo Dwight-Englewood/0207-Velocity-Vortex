@@ -43,7 +43,7 @@ import org.firstinspires.ftc.teamcode.Bot;
 
 public class Teleop_BLUE_TELEBOP extends OpMode {
     private ElapsedTime timer = new ElapsedTime();
-    Bot robot = new Bot();
+    Bot robot = new Bot(new boolean[] {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE});
 
     //These booleans are used to determine which strafing action is being performed, to avoid conflicts between the different strafing options
     boolean strafingLeft = false;

@@ -24,6 +24,7 @@ public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
     private boolean[] initRules;
+    //{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     //Index Mapping
     //0 - Drive Train (Left and Right)
     //1 - Particle Lift
@@ -107,10 +108,11 @@ public class Bot
     public Bot()
     {
         //Default Constructor will initialize all submodules
-        this.initRules = new boolean[] {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE};
+        this.initRules = new boolean[] {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE};
     }
 
     public Bot(boolean[] initRules) {
+        //todo make this crash if the length isnt 10 to prevent runtime errors
         this.initRules = initRules;
     }
 
