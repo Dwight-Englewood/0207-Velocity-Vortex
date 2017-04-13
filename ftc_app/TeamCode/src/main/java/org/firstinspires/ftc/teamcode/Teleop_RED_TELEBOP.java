@@ -233,7 +233,7 @@ public class Teleop_RED_TELEBOP extends OpMode {
          * Elevator commands + auto rejection of blue balls(red side)
          * If the left trigger is pressed and wrong ball is not active
          */
-        if (gamepad2.left_trigger > 0.5 && !wrongBall)
+        if (gamepad2.left_stick_y > 0.5 && !wrongBall)
         {
             //Checks to see if the intake color sensor is sensing a blue ball
             if (robot.getIntake().equals("blue"))
@@ -246,19 +246,43 @@ public class Teleop_RED_TELEBOP extends OpMode {
             else
             {
                 robot.setElevator(1);
-                robot.spinnerServoIn();
             }
         }
         // If left bumper is pressed and wrong ball is not active, the elevator runs backwards
-        else if (gamepad2.left_bumper && !wrongBall)
+        else if (gamepad2.left_stick_y < -.5 && !wrongBall)
         {
             robot.setElevator(-1);
-            robot.spinnerServoOut();
         }
         // If nothing is pressed and wrong ball is not active, the elevator does not move
         else if (!wrongBall && !movingBall)
         {
             robot.setElevator(0);
+        }
+
+        //Front spinner servo control
+        if (gamepad2.right_stick_y > 0.5 && !wrongBall)
+        {
+            //Checks to see if the intake color sensor is sensing a blue ball
+            if (robot.getIntake().equals("blue"))
+            {
+                // If so, wrong ball = true, moving us to the next command
+                wrongBall = true;
+                timer.reset();
+            }
+            // Otherwise, the elevator runs as normal
+            else
+            {
+                robot.spinnerServoIn();
+            }
+        }
+        // If left bumper is pressed and wrong ball is not active, the elevator runs backwards
+        else if (gamepad2.right_stick_y < -.5 && !wrongBall)
+        {
+            robot.spinnerServoOut();
+        }
+        // If nothing is pressed and wrong ball is not active, the elevator does not move
+        else if (!wrongBall && !movingBall)
+        {
             robot.spinnerServoStop();
         }
 

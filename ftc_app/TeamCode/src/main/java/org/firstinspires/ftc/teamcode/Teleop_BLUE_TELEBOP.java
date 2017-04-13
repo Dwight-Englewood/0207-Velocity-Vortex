@@ -225,44 +225,57 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
         if (gamepad2.right_trigger > 0.5)       {robot.setShooter(1);}
         else                                    {robot.setShooter(0);}
 
-        if (gamepad2.left_trigger > 0.5 && !wrongBall)
+        if (gamepad2.left_stick_y > 0.5 && !wrongBall)
         {
+            //Checks to see if the intake color sensor is sensing a blue ball
             if (robot.getIntake().equals("red"))
             {
+                // If so, wrong ball = true, moving us to the next command
                 wrongBall = true;
                 timer.reset();
             }
+            // Otherwise, the elevator runs as normal
             else
             {
                 robot.setElevator(1);
+            }
+        }
+        // If left bumper is pressed and wrong ball is not active, the elevator runs backwards
+        else if (gamepad2.left_stick_y < -.5 && !wrongBall)
+        {
+            robot.setElevator(-1);
+        }
+        // If nothing is pressed and wrong ball is not active, the elevator does not move
+        else if (!wrongBall && !movingBall)
+        {
+            robot.setElevator(0);
+        }
+
+        //Front spinner servo control
+        if (gamepad2.right_stick_y > 0.5 && !wrongBall)
+        {
+            //Checks to see if the intake color sensor is sensing a blue ball
+            if (robot.getIntake().equals("red"))
+            {
+                // If so, wrong ball = true, moving us to the next command
+                wrongBall = true;
+                timer.reset();
+            }
+            // Otherwise, the elevator runs as normal
+            else
+            {
                 robot.spinnerServoIn();
             }
         }
-        else if (gamepad2.left_bumper && !wrongBall)
+        // If left bumper is pressed and wrong ball is not active, the elevator runs backwards
+        else if (gamepad2.right_stick_y < -.5 && !wrongBall)
         {
-            robot.setElevator(-1);
             robot.spinnerServoOut();
         }
-        else if (!wrongBall)
+        // If nothing is pressed and wrong ball is not active, the elevator does not move
+        else if (!wrongBall && !movingBall)
         {
-            robot.setElevator(0);
             robot.spinnerServoStop();
-        }
-
-        if (wrongBall)
-        {
-            if (timer.milliseconds() < 2000)
-            {
-                robot.setElevator(-1);
-                robot.spinnerServoOut();
-            }
-            else
-            {
-                robot.setElevator(0);
-                robot.spinnerServoStop();
-                wrongBall = false;
-            }
-
         }
 
           /* Servo Control
