@@ -613,7 +613,7 @@ public class Bot
         BR.setPower(1);
     }
 
-    public void runDiagRight(double power, double target)
+    public void runDiagRight(double target)
     {
         int targetInt = distanceToRevs(target);
         stopAndReset();
@@ -633,7 +633,10 @@ public class Bot
         FR.setTargetPosition(0);
         BR.setTargetPosition(targetInt);
 
-        drive(0, power);
+        FL.setPower(1);
+        BL.setPower(1);
+        FR.setPower(1);
+        BR.setPower(1);
     }
 
     /**

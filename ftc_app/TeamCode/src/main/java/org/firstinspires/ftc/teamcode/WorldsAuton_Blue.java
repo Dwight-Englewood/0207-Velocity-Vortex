@@ -19,6 +19,7 @@ public class WorldsAuton_Blue extends OpMode
     int commandNumber = 1;
 
     boolean isGoingForward = false;
+    boolean runningToDistance = false;
     int x = 0;
 
     int targetHeading = 0;
@@ -165,7 +166,7 @@ public class WorldsAuton_Blue extends OpMode
          */
         else if (robot.getIsRunningToTarget())
         {
-            if (robot.leftDistance() <= targetRange)
+            if (robot.leftDistance() <= targetRange && runningToDistance)
             {
                 robot.stopMovement();
                 robot.setIsRunningToTarget(false);
@@ -175,7 +176,7 @@ public class WorldsAuton_Blue extends OpMode
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25) &&
                             (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 25) &&
-                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25)
+                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25) && !runningToDistance
                     )
             {
                 robot.stopMovement();
@@ -186,14 +187,10 @@ public class WorldsAuton_Blue extends OpMode
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 250) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 250) &&
                             (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 250) &&
-                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 250)
+                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 250) && !runningToDistance
                     )
             {
                 robot.drive(0, .1);
-            }
-            else
-            {
-                robot.adjustPower(targetHeading);
             }
             // See line 149 comment
             telemetry.update();
@@ -241,6 +238,14 @@ public class WorldsAuton_Blue extends OpMode
                     robot.stopMovement();
                     commandNumber++;
                 }
+                break;
+
+            case 3:
+                isGoingForward = false;
+                runningToDistance = true;
+                targetHeading = 0;
+                robot.runDiagRight(1000);
+                commandNumber++;
                 break;
 
         }
