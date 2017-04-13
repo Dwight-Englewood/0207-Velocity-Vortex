@@ -33,8 +33,9 @@ public class Bot
     //5 - Color Sensors - Beacon
     //6 - Color Sensor - Intake
     //7 - Gyro
-    //8 - Range Sensors
-    //9 - Optical Distance Sensors
+    //8 - Optical Distance Sensors
+    //9 - Range Sensor (L)
+    //10 - Range Sensor (R)
 
     //Used to be able to have different init mappings with the same bot class
     //Prevents lag in OpModes that don't use all of the hardware on the bot
@@ -244,7 +245,9 @@ public class Bot
             //Range Sensors
             rangeSensorLeft = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeLeft");
             rangeSensorLeft.setI2cAddress(I2cAddr.create7bit(0x14)); // 7bit for 0x28
+        }
 
+        if (this.initRules[10]) {
             rangeSensorRight = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeRight");
             rangeSensorRight.setI2cAddress(I2cAddr.create7bit(0x1c)); // 7bit for 0x38
         }
