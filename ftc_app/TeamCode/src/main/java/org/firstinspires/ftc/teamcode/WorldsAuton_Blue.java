@@ -166,7 +166,7 @@ public class WorldsAuton_Blue extends OpMode
          */
         else if (robot.getIsRunningToTarget())
         {
-            if (robot.leftDistance() <= targetRange && runningToDistance)
+            if (robot.rightDistance() <= targetRange )
             {
                 robot.stopMovement();
                 robot.setIsRunningToTarget(false);
@@ -176,7 +176,7 @@ public class WorldsAuton_Blue extends OpMode
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25) &&
                             (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 25) &&
-                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25) && !runningToDistance
+                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25)
                     )
             {
                 robot.stopMovement();
@@ -187,7 +187,7 @@ public class WorldsAuton_Blue extends OpMode
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 250) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 250) &&
                             (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 250) &&
-                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 250) && !runningToDistance
+                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 250)
                     )
             {
                 robot.drive(0, .1);
@@ -214,12 +214,12 @@ public class WorldsAuton_Blue extends OpMode
                 }
                 if (timer.milliseconds() < 500)
                 {
-                    robot.leftServoOut();
+                    robot.rightServoOut();
                 }
                 else if (timer.milliseconds() < 1300)
                 {
                     robot.setShooter(1);
-                    robot.leftServoStop();
+                    robot.rightServoStop();
                 }
                 else if (timer.milliseconds() < 2800)
                 {
@@ -242,10 +242,213 @@ public class WorldsAuton_Blue extends OpMode
 
             case 3:
                 isGoingForward = false;
-                runningToDistance = true;
+                //runningToDistance = true;
                 targetHeading = 0;
-                robot.runDiagRight(1000);
+                robot.runDiagRight(350);
                 commandNumber++;
+                break;
+
+            case 4:
+                if (x == 1)
+                {
+                    timer.reset();
+                    robot.drive(0,0);
+                    robot.runUsingEncoders();
+                    //runningToDistance = false;
+                    x++;
+                }
+                if (timer.milliseconds() < 1500)
+                {
+                    robot.stillAdjust(0);
+                }
+                else if (timer.milliseconds() > 1500)
+                {
+                    commandNumber++;
+                }
+                break;
+
+            case 5:
+                if (robot.rightDistance() > targetRange)
+                {
+                    robot.drive(3, .2);
+                }
+                else if (robot.rightDistance() < 8)
+                {
+                    robot.drive(2, .2);
+                }
+                else
+                {
+                    robot.drive(0, .3);
+                    commandNumber++;
+                    timer.reset();
+                }
+                break;
+
+            case 6:
+                /**if (robot.getLineLight() > .7)
+                 {
+                 robot.stopMovement();
+                 x = 99;
+                 commandNumber++;
+                 }
+                 else if (timer.milliseconds() > 4000)
+                 {
+                 robot.drive(1, .3);
+                 timer.reset();
+                 commandNumber = 5;
+                 }
+                 telemetry.addData("leftRed", robot.getLRed());
+                 telemetry.addData("leftblue", robot.getLBlue());*/
+                commandNumber++;
+                break;
+
+            case 7:
+                if (robot.getRBlue() >= 3)
+                {
+                    robot.stopMovement();
+                    isGoingForward = true;
+                    robot.runToPosition(5);
+                    commandNumber++;
+                }
+                else if (timer.milliseconds() > 4000)
+                {
+                    robot.drive(1, .4);
+                    timer.reset();
+                    commandNumber = 7;
+                }
+                /*else
+                {
+                    if (x == 99)
+                    {
+                    isGoingForward = true;
+                    robot.runToPosition(-8);
+                    x++;
+                    }
+                    else if (x == 100)
+                    {
+                        robot.runToLeft(10);
+                        x++;
+                        commandNumber++;
+                    }
+                }*/
+                break;
+
+            case 8:
+                if (x == 2)
+                {
+                    timer.reset();
+                    robot.runUsingEncoders();
+                    robot.stopMovement();
+                    x = 101;
+                }
+                else if (timer.milliseconds() < 1100)
+                {
+                    robot.drive(3, .3);
+                }
+                else if (timer.milliseconds() < 1800)
+                {
+                    robot.drive(2, .3);
+                }
+                else if (timer.milliseconds() > 1800)
+                {
+                    commandNumber++;
+                }
+                break;
+
+            case 9:
+                if (x == 101)
+                {
+                    timer.reset();
+                    robot.drive(0,0);
+                    robot.runUsingEncoders();
+                    x++;
+                }
+                if (timer.milliseconds() < 1500)
+                {
+                    robot.stillAdjust(0);
+                }
+                else if (timer.milliseconds() < 1800)
+                {
+                    robot.drive(1, .3);
+                }
+                else if (timer.milliseconds() < 2100)
+                {
+                    robot.drive(1,.4);
+                }
+                else if (timer.milliseconds() < 2800)
+                {
+                    robot.drive(1, .6);
+                }
+                else if (timer.milliseconds() > 2800)
+                {
+                    robot.drive(1, .3);
+                    commandNumber++;
+                }
+
+                break;
+
+            case 10:
+                commandNumber++;
+                timer.reset();
+                break;
+
+            case 11:
+                if (robot.getRBlue() >= 3)
+                {
+                    robot.stopMovement();
+                    isGoingForward = true;
+                    robot.runToPosition(6);
+                    commandNumber++;
+                }
+                else if (timer.milliseconds() > 4000)
+                {
+                    robot.drive(0,.4);
+                    timer.reset();
+                    commandNumber = 7;
+                }
+                break;
+
+            case 12:
+                if (x == 102)
+                {
+                    timer.reset();
+                    robot.runUsingEncoders();
+                    robot.stopMovement();
+                    x++;
+                }
+                else if (timer.milliseconds() < 1150)
+                {
+                    robot.drive(3, .3);
+                }
+                else if (timer.milliseconds() > 1150)
+                {
+                    timer.reset();
+                    commandNumber++;
+                }
+                break;
+
+            case 13:
+                if (timer.milliseconds() < 500)
+                {
+                    robot.drive(2, 1);
+                }
+                else if (timer.milliseconds() < 1500)
+                {
+                    robot.stillAdjust(45);
+                }
+                else if (timer.milliseconds() < 2200)
+                {
+                    robot.drive(2, 1);
+                }
+                else if (timer.milliseconds() < 4000)
+                {
+                    robot.drive(1, 1);
+                }
+                else if (timer.milliseconds() > 4000)
+                {
+                    robot.drive(0, 0);
+                    commandNumber++;
+                }
                 break;
 
         }

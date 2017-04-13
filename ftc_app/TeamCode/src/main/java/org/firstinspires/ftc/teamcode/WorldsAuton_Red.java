@@ -166,7 +166,7 @@ public class WorldsAuton_Red extends OpMode
          */
         else if (robot.getIsRunningToTarget())
         {
-            if (robot.leftDistance() <= targetRange && runningToDistance)
+            if (robot.leftDistance() <= targetRange )
             {
                 robot.stopMovement();
                 robot.setIsRunningToTarget(false);
@@ -176,7 +176,7 @@ public class WorldsAuton_Red extends OpMode
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 25) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 25) &&
                             (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 25) &&
-                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25) && !runningToDistance
+                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 25)
                     )
             {
                 robot.stopMovement();
@@ -187,7 +187,7 @@ public class WorldsAuton_Red extends OpMode
                     (Math.abs(robot.getCurPosFL() - robot.FLtarget) < 250) &&
                             (Math.abs(robot.getCurPosFR() - robot.FRtarget) < 250) &&
                             (Math.abs(robot.getCurPosBL() - robot.BLtarget) < 250) &&
-                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 250) && !runningToDistance
+                            (Math.abs(robot.getCurPosBR() - robot.BRtarget) < 250)
                     )
             {
                 robot.drive(0, .1);
@@ -245,9 +245,9 @@ public class WorldsAuton_Red extends OpMode
 
             case 3:
                 isGoingForward = false;
-                runningToDistance = true;
+                //runningToDistance = true;
                 targetHeading = 0;
-                robot.runDiagLeft(1000);
+                robot.runDiagLeft(350);
                 commandNumber++;
                 break;
 
@@ -257,7 +257,7 @@ public class WorldsAuton_Red extends OpMode
                     timer.reset();
                     robot.drive(0,0);
                     robot.runUsingEncoders();
-                    runningToDistance = false;
+                    //runningToDistance = false;
                     x++;
                 }
                 if (timer.milliseconds() < 1500)
@@ -271,9 +271,20 @@ public class WorldsAuton_Red extends OpMode
                 break;
 
             case 5:
+                if (robot.leftDistance() > targetRange)
+                {
+                    robot.drive(2, .2);
+                }
+                else if (robot.leftDistance() < 8)
+                {
+                    robot.drive(3, .2);
+                }
+                else
+                {
                 robot.drive(0, .3);
                 commandNumber++;
                 timer.reset();
+                }
                 break;
 
             case 6:
@@ -442,9 +453,6 @@ public class WorldsAuton_Red extends OpMode
                     commandNumber++;
                 }
                 break;
-
-
-
         }
     }
 
