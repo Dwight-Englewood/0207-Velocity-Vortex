@@ -23,7 +23,7 @@ public class WorldsAuton_Blue extends OpMode
     int x = 0;
 
     int targetHeading = 0;
-    int targetRange = 30;
+    int targetRange = 15;
 
     @Override
     public void init()
@@ -192,6 +192,10 @@ public class WorldsAuton_Blue extends OpMode
             {
                 robot.drive(0, .1);
             }
+            else
+            {
+                robot.adjustPower(targetHeading);
+            }
             // See line 149 comment
             telemetry.update();
             return;
@@ -226,29 +230,47 @@ public class WorldsAuton_Blue extends OpMode
                     robot.setShooter(0);
                     robot.setElevator(1);
                 }
-                else if (timer.milliseconds() < 3300 )
+                else if (timer.milliseconds() < 3400)
                 {
                     robot.setShooter(1);
                     robot.setElevator(0);
                 }
-                else if (timer.milliseconds() > 3300)
+                else if (timer.milliseconds() > 3400)
                 {
                     robot.setShooter(0);
                     timer.reset();
                     robot.stopMovement();
+                    robot.runUsingEncoders();
                     commandNumber++;
                 }
                 break;
 
             case 3:
-                isGoingForward = false;
-                //runningToDistance = true;
-                targetHeading = 0;
+                if (x == 1)
+                {
+                    timer.reset();
+                    x--;
+                }
+                if (timer.milliseconds() < 400)
+                {
+                    robot.drive(3, .3);
+                }
+                else
+                {
+                    isGoingForward = false;
+                    commandNumber++;
+                    targetHeading = 0;
+                    x++;
+                }
+
+                break;
+
+            case 4:
                 robot.runDiagRight(350);
                 commandNumber++;
                 break;
 
-            case 4:
+            case 5:
                 if (x == 1)
                 {
                     timer.reset();
@@ -257,44 +279,57 @@ public class WorldsAuton_Blue extends OpMode
                     //runningToDistance = false;
                     x++;
                 }
-                if (timer.milliseconds() < 1500)
+                if (timer.milliseconds() < 1200)
                 {
                     robot.stillAdjust(0);
                 }
-                else if (timer.milliseconds() > 1500)
+                else if (timer.milliseconds() > 1200)
                 {
                     commandNumber++;
                 }
                 break;
 
-            case 5:
-                if (robot.rightDistance() > 20)
+            case 6:
+                if (robot.rightDistance() > targetRange)
                 {
                     robot.drive(3, .2);
                 }
-                else if (robot.rightDistance() < 15)
+                else if (robot.rightDistance() < 10)
                 {
-                    robot.drive(2, .1);
+                    robot.drive(2, .15);
                 }
                 else
                 {
-                    robot.stillAdjust(0);
+                    robot.drive(0, .3);
                     commandNumber++;
                     timer.reset();
                 }
                 break;
 
-            case 6:
-                if (timer.milliseconds() > 800){commandNumber++; timer.reset(); robot.drive(0, .3);}
-
+            case 7:
+                /**if (robot.getLineLight() > .7)
+                 {
+                 robot.stopMovement();
+                 x = 99;
+                 commandNumber++;
+                 }
+                 else if (timer.milliseconds() > 4000)
+                 {
+                 robot.drive(1, .3);
+                 timer.reset();
+                 commandNumber = 5;
+                 }
+                 telemetry.addData("leftRed", robot.getLRed());
+                 telemetry.addData("leftblue", robot.getLBlue());*/
+                commandNumber++;
                 break;
 
-            case 7:
+            case 8:
                 if (robot.getRBlue() >= 3)
                 {
                     robot.stopMovement();
                     isGoingForward = true;
-                    robot.runToPosition(5);
+                    robot.runToPosition(8);
                     commandNumber++;
                 }
                 else if (timer.milliseconds() > 4000)
@@ -320,7 +355,7 @@ public class WorldsAuton_Blue extends OpMode
                 }*/
                 break;
 
-            case 8:
+            case 9:
                 if (x == 2)
                 {
                     timer.reset();
@@ -332,17 +367,17 @@ public class WorldsAuton_Blue extends OpMode
                 {
                     robot.drive(3, .3);
                 }
-                else if (timer.milliseconds() < 1800)
+                else if (timer.milliseconds() < 1500)
                 {
                     robot.drive(2, .3);
                 }
-                else if (timer.milliseconds() > 1800)
+                else if (timer.milliseconds() > 1500)
                 {
                     commandNumber++;
                 }
                 break;
 
-            case 9:
+            case 10:
                 if (x == 101)
                 {
                     timer.reset();
@@ -350,48 +385,70 @@ public class WorldsAuton_Blue extends OpMode
                     robot.runUsingEncoders();
                     x++;
                 }
-                if (timer.milliseconds() < 1500)
+                if (timer.milliseconds() < 1200)
                 {
                     robot.stillAdjust(0);
                 }
-                else if (timer.milliseconds() < 2100)
+                else if (timer.milliseconds() < 1600)
                 {
                     robot.drive(1,.4);
                 }
-                else if (timer.milliseconds() < 2900)
+                else if (timer.milliseconds() < 2300)
                 {
                     robot.drive(1, .6);
                 }
-                else if (timer.milliseconds() > 2900)
+                else if (timer.milliseconds() > 2300)
                 {
-                    robot.drive(1, .3);
-                    commandNumber++;
+                    if (robot.rightDistance() > targetRange)
+                    {
+                        robot.drive(3, .2);
+                    }
+                    else if (robot.rightDistance() < 11)
+                    {
+                        robot.drive(2, .15);
+                    }
+                    else
+                    {
+                        robot.stillAdjust(0);
+                        commandNumber++;
+                        timer.reset();
+                    }
                 }
 
                 break;
 
-            case 10:
-                commandNumber++;
-                timer.reset();
+            case 11:
+                if (x == 102)
+                {
+                    x--;
+                    timer.reset();
+                }
+                if (timer.milliseconds() > 500)
+                {
+                    robot.drive(1, .3);
+                    timer.reset();
+                    commandNumber++;
+                }
                 break;
 
-            case 11:
+            case 12:
                 if (robot.getRBlue() >= 3)
                 {
                     robot.stopMovement();
                     isGoingForward = true;
-                    robot.runToPosition(10);
+                    robot.runToPosition(9);
+                    x = 102;
                     commandNumber++;
                 }
                 else if (timer.milliseconds() > 4000)
                 {
-                    robot.drive(0, .4);
+                    robot.drive(0,.4);
                     timer.reset();
                     commandNumber = 7;
                 }
                 break;
 
-            case 12:
+            case 13:
                 if (x == 102)
                 {
                     timer.reset();
@@ -401,7 +458,7 @@ public class WorldsAuton_Blue extends OpMode
                 }
                 else if (timer.milliseconds() < 1150)
                 {
-                    robot.drive(3, .3);
+                    robot.drive(3, .4);
                 }
                 else if (timer.milliseconds() > 1150)
                 {
@@ -410,7 +467,7 @@ public class WorldsAuton_Blue extends OpMode
                 }
                 break;
 
-            case 13:
+            case 14:
                 if (timer.milliseconds() < 500)
                 {
                     robot.drive(2, 1);

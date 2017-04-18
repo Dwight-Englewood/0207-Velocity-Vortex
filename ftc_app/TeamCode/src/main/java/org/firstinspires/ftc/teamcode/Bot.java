@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,9 +13,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * @author Robert Aburustum & Wen Plotnick
@@ -154,6 +151,13 @@ public class Bot
             BL.setDirection(DcMotorSimple.Direction.FORWARD);
             FR.setDirection(DcMotorSimple.Direction.REVERSE);
             BR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
 
             FL.setPower(0);
             BL.setPower(0);
@@ -451,8 +455,8 @@ public class Bot
         headingError = targetHeading - getHeading();
         driveScale = headingError * powerModifier;
 
-        leftPower = .6 + driveScale;
-        rightPower = .6 - driveScale;
+        leftPower = .75 + driveScale;
+        rightPower = .75 - driveScale;
 
         if (leftPower > 1)
             leftPower = 1;
@@ -633,7 +637,7 @@ public class Bot
         FR.setTargetPosition(targetInt);
         BR.setTargetPosition(-targetInt);
 
-        drive (0, .1);
+        drive (0, 1);
     }
 
     public void runToRight(double target)
@@ -656,7 +660,7 @@ public class Bot
         FR.setTargetPosition(-targetInt);
         BR.setTargetPosition(targetInt);
 
-        drive (0, 0.1);
+        drive (0, 1);
     }
 
     public void runDiagLeft(double target)
