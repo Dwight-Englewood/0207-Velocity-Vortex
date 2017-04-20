@@ -722,7 +722,7 @@ public class Bot
      */
     private void stopAndReset()
     {
-        try {Thread.sleep(500);} catch (InterruptedException e) {}
+        //try {Thread.sleep(500);} catch (InterruptedException e) {}
         runningToTarget = true;
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -736,7 +736,7 @@ public class Bot
      */
     public void runUsingEncoders()
     {
-        try {Thread.sleep(500);} catch (InterruptedException e) {}
+        //try {Thread.sleep(500);} catch (InterruptedException e) {}
         runningToTarget = false;
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
