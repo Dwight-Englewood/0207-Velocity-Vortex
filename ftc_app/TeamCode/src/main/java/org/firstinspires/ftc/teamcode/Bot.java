@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,11 +8,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -66,8 +66,10 @@ public class Bot
     private OpticalDistanceSensor opticalLineFinderR;
 
     // Range Sensor Declaration
-    private ModernRoboticsI2cRangeSensor rangeSensorRight;
-    private ModernRoboticsI2cRangeSensor rangeSensorLeft;
+    private I2cDevice rangeLeft;
+    private I2cDevice rangeRight;
+    private I2cDeviceSynch rangeLeftReader;
+    private I2cDeviceSynch rangeRightReader;
 
     // Gyro Sensor Declaration
     private GyroSensor gyro;
@@ -106,6 +108,9 @@ public class Bot
     private double powerModifier;
     private double leftPower;
     private double rightPower;
+
+    byte[] rangeRightCache;
+    byte[] rangeLeftCache;
 
     // Constructor(s) - delcaration of constructor methods (Empty as unnecessary in this class)
     public Bot()
@@ -152,6 +157,13 @@ public class Bot
             BL.setDirection(DcMotorSimple.Direction.FORWARD);
             FR.setDirection(DcMotorSimple.Direction.REVERSE);
             BR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
 
             FL.setPower(0);
             BL.setPower(0);
@@ -250,14 +262,21 @@ public class Bot
         }
 
         if (this.initRules[9]) {
-            //Range Sensors
-            rangeSensorLeft = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeLeft");
-            rangeSensorLeft.setI2cAddress(I2cAddr.create7bit(0x14)); // 7bit for 0x28
+
+            rangeLeft = hwMap.i2cDevice.get("rangeLeft");
+
+            rangeLeftReader = new I2cDeviceSynchImpl(rangeLeft, I2cAddr.create8bit(0x28), false);
+
+            rangeLeftReader.engage();
         }
 
         if (this.initRules[10]) {
-            rangeSensorRight = hwMap.get(ModernRoboticsI2cRangeSensor.class, "rangeRight");
-            rangeSensorRight.setI2cAddress(I2cAddr.create7bit(0x1c)); // 7bit for 0x38
+
+            rangeRight = hwMap.i2cDevice.get("rangeRight");
+
+            rangeRightReader = new I2cDeviceSynchImpl(rangeRight, I2cAddr.create8bit(0x2a), false);
+
+            rangeRightReader.engage();
         }
 
         //Constants
@@ -442,8 +461,8 @@ public class Bot
         headingError = targetHeading - getHeading();
         driveScale = headingError * powerModifier;
 
-        leftPower = .6 + driveScale;
-        rightPower = .6 - driveScale;
+        leftPower = .75 + driveScale;
+        rightPower = .75 - driveScale;
 
         if (leftPower > 1)
             leftPower = 1;
@@ -624,7 +643,7 @@ public class Bot
         FR.setTargetPosition(targetInt);
         BR.setTargetPosition(-targetInt);
 
-        drive (0, .1);
+        drive (0, 1);
     }
 
     public void runToRight(double target)
@@ -647,7 +666,7 @@ public class Bot
         FR.setTargetPosition(-targetInt);
         BR.setTargetPosition(targetInt);
 
-        drive (0, 0.1);
+        drive (0, 1);
     }
 
     public void runDiagLeft(double target)
@@ -709,7 +728,7 @@ public class Bot
      */
     private void stopAndReset()
     {
-        try {Thread.sleep(500);} catch (InterruptedException e) {}
+        //try {Thread.sleep(500);} catch (InterruptedException e) {}
         runningToTarget = true;
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -723,7 +742,7 @@ public class Bot
      */
     public void runUsingEncoders()
     {
-        try {Thread.sleep(500);} catch (InterruptedException e) {}
+        //try {Thread.sleep(500);} catch (InterruptedException e) {}
         runningToTarget = false;
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -864,8 +883,18 @@ public class Bot
     // Get the readings from the line optical distance sensors
     public double getLineLight() { return opticalLineFinderL.getRawLightDetected() + opticalLineFinderR.getRawLightDetected(); }
 
-    public double rightDistance(){return rangeSensorRight.getDistance(DistanceUnit.CM);}
-    public double leftDistance() {return rangeSensorLeft.getDistance(DistanceUnit.CM);}
+    public double rightDistance()
+    {
+        rangeRightCache = rangeRightReader.read(0x04, 2);  //Read 2 bytes starting at 0x04
+
+        return rangeRightCache[0] & 0xFF;   //Ultrasonic value is at index 0. & 0xFF creates a value between 0 and 255 instead of -127 to 128
+    }
+    public double leftDistance()
+    {
+        rangeLeftCache = rangeLeftReader.read(0x04, 2);  //Read 2 bytes starting at 0x04
+
+        return rangeLeftCache[0] & 0xFF;   //Ultrasonic value is at index 0. & 0xFF creates a value between 0 and 255 instead of -127 to 128
+    }
 
     // Calibrate the gyro
 
