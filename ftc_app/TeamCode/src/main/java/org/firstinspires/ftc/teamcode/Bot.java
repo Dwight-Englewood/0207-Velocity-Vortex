@@ -15,6 +15,9 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+
 /**
  * @author Robert Aburustum & Wen Plotnick
  * @version 2/22/17
@@ -24,7 +27,7 @@ public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
     private boolean[] initRules;
-    //{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+
     //Index Mapping
     //0 - Drive Train (Left and Right)
     //1 - Particle Lift
@@ -119,7 +122,10 @@ public class Bot
     }
 
     public Bot(boolean[] initRules) {
-        //todo make this crash if the length isnt 10 to prevent runtime errors
+        //TODO make this crash if the length isnt 10 to prevent runtime errors
+        if (this.initRules.length != 11) {
+
+        }
         this.initRules = initRules;
     }
 
