@@ -45,8 +45,8 @@ public class WorldsAuton_Red extends OpMode
     public void loop()
     {
 
-        telemetry.addData("Distance", robot.leftDistance());
-        telemetry.addData("Heading", robot.getHeading());
+        //telemetry.addData("Distance", robot.leftDistance());
+        //telemetry.addData("Heading", robot.getHeading());
         /**
          * This set of if statements allows the robot to speed up and slow down when driving forward in the auton,
          * addressing the issue of sliding when speeding up too quickly. It also helps evade the "opmode
@@ -215,7 +215,7 @@ public class WorldsAuton_Red extends OpMode
                     timer.reset();
                     x++;
                 }
-                if (timer.milliseconds() < 500)
+                if (timer.milliseconds() < 5-00)
                 {
                     robot.leftServoOut();
                 }
@@ -306,11 +306,11 @@ public class WorldsAuton_Red extends OpMode
                 break;
 
             case 7:
-                if (robot.getLRed() >= 3)
+                if (robot.getLRed() >= 2)
                 {
                     robot.stopMovement();
                     isGoingForward = true;
-                    robot.runToPosition(4);
+                    robot.runToPosition(8);
                     commandNumber++;
                 }
                 else if (timer.milliseconds() > 4000)
@@ -346,10 +346,12 @@ public class WorldsAuton_Red extends OpMode
                 }
                 else if (timer.milliseconds() < 1100)
                 {
+                    robot.leftServoOut();
                     robot.drive(2, .3);
                 }
                 else if (timer.milliseconds() < 1500)
                 {
+                    robot.leftServoIn();
                     robot.drive(3, .3);
                 }
                 else if (timer.milliseconds() > 1500)
@@ -412,11 +414,11 @@ public class WorldsAuton_Red extends OpMode
                 break;
 
             case 11:
-                if (robot.getLRed() >= 3)
+                if (robot.getLRed() >= 2)
                 {
                     robot.stopMovement();
                     isGoingForward = true;
-                    robot.runToPosition(6);
+                    robot.runToPosition(5);
                     commandNumber++;
                 }
                 else if (timer.milliseconds() > 4000)
@@ -437,10 +439,12 @@ public class WorldsAuton_Red extends OpMode
                 }
                 else if (timer.milliseconds() < 1150)
                 {
+                    robot.leftServoOut();
                     robot.drive(2, .4);
                 }
                 else if (timer.milliseconds() > 1150)
                 {
+                    robot.leftServoIn();
                     timer.reset();
                     commandNumber++;
                 }
@@ -453,6 +457,7 @@ public class WorldsAuton_Red extends OpMode
                 }
                 else if (timer.milliseconds() < 1500)
                 {
+                    robot.leftServoStop();
                     robot.stillAdjust(45);
                 }
                 else if (timer.milliseconds() < 2200)

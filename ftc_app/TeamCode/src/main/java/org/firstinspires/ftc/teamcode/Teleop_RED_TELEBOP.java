@@ -530,6 +530,14 @@ public class Teleop_RED_TELEBOP extends OpMode {
         // If fork drop is running
         if (capRoutine)
         {
+            if (timer.milliseconds() < 500)
+            {
+                robot.launchForks();
+            }
+            else
+            {
+                robot.stopLaunchingForks();
+            }
             // For one second, raise the cap
             if (timer.milliseconds() < 1500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed())
             {

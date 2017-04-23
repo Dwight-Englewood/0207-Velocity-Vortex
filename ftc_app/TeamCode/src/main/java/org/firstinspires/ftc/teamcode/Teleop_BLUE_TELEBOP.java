@@ -492,6 +492,14 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
 
         if (capRoutine)
         {
+            if (timer.milliseconds() < 500)
+            {
+                robot.launchForks();
+            }
+            else
+            {
+                robot.stopLaunchingForks();
+            }
             if (timer.milliseconds() < 1500 && timer.milliseconds() > 500 && !robot.getIsCapMaxed())
             {
                 robot.liftCap();

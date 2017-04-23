@@ -81,6 +81,8 @@ public class Bot
     private Servo rServo;
     private Servo intakeServo;
     private CRServo spinnerServo;
+    private CRServo leftCapServo;
+    private CRServo rightCapServo;
 
     // Booleans which hold current driving data
     private boolean runningToTarget;
@@ -243,7 +245,6 @@ public class Bot
             // start calibrating the gyro.
             telemetry.addData(">", "Gyro Calibrating. Do Not move!");
             telemetry.update();
-            gyro.calibrate();
         }
 
         if (this.initRules[8]) {
@@ -262,15 +263,21 @@ public class Bot
             rangeLeftReader = new I2cDeviceSynchImpl(rangeLeft, I2cAddr.create8bit(0x28), false);
 
             rangeLeftReader.engage();
-        }
-
-        if (this.initRules[10]) {
 
             rangeRight = hwMap.i2cDevice.get("rangeRight");
 
             rangeRightReader = new I2cDeviceSynchImpl(rangeRight, I2cAddr.create8bit(0x2a), false);
 
             rangeRightReader.engage();
+        }
+
+        if (this.initRules[10]) {
+
+            leftCapServo = hwMap.crservo.get("leftCapServo");
+            rightCapServo = hwMap.crservo.get("rightCapServo");
+
+            leftCapServo.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightCapServo.setDirection(DcMotorSimple.Direction.FORWARD);
         }
 
         //Constants
@@ -455,8 +462,8 @@ public class Bot
         headingError = targetHeading - getHeading();
         driveScale = headingError * powerModifier;
 
-        leftPower = .75 + driveScale;
-        rightPower = .75 - driveScale;
+        leftPower = .85 + driveScale;
+        rightPower = .85 - driveScale;
 
         if (leftPower > 1)
             leftPower = 1;
@@ -735,7 +742,7 @@ public class Bot
      * encoders. Also says that the bot isn't running to a target.
      */
     public void runUsingEncoders()
-    {
+            {
         //try {Thread.sleep(500);} catch (InterruptedException e) {}
         runningToTarget = false;
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -920,6 +927,16 @@ public class Bot
         }
     }
 
+    /*public int getRawX()
+    {
+        return gyro.rawX();
+    }
+
+    //public boolean isTilted()
+    {
+        return (gyro.rawX() > 5) || (gyro.rawX() < -5);
+    }*/
+
     // Cap Methods
 
     /**
@@ -970,6 +987,18 @@ public class Bot
         }
         // Otherwise returns true
         return true;
+    }
+
+    public void launchForks()
+    {
+        rightCapServo.setPower(1);
+        leftCapServo.setPower(1);
+    }
+
+    public void stopLaunchingForks()
+    {
+        rightCapServo.setPower(0);
+        leftCapServo.setPower(0);
     }
 
     // Helper Methods
