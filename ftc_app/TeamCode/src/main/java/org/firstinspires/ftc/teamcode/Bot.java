@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class Bot
 {
     // Instance Fields - declaration of hardware and software fields
-    private boolean[] initRules;
+    //private boolean[] initRules;
 
     //Index Mapping
     //0 - Drive Train (Left and Right)
@@ -118,16 +118,16 @@ public class Bot
     public Bot()
     {
         //Default Constructor will initialize all submodules
-        this.initRules = new boolean[] {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE};
+        //this.initRules = new boolean[] {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.TRUE};
     }
 
-    public Bot(boolean[] initRules) {
+   /* public Bot(boolean[] initRules) {
         //TODO make this crash if the length isnt 10 to prevent runtime errors
         if (this.initRules.length != 11) {
 
         }
         this.initRules = initRules;
-    }
+    }*/
 
     // Initialization Method - initialize all fields to their corresponding hardware devices
     /**
@@ -143,7 +143,7 @@ public class Bot
         telem = telemetry;
 
         // Initializing the motors/sensors
-        if (this.initRules[0]) {
+        //if (this.initRules[0]) {
             //Drive Train
             FL = hwMap.dcMotor.get("FL");
             BL = hwMap.dcMotor.get("BL");
@@ -160,10 +160,10 @@ public class Bot
             FR.setDirection(DcMotorSimple.Direction.REVERSE);
             BR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-            FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            //BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
@@ -171,8 +171,8 @@ public class Bot
             BL.setPower(0);
             FR.setPower(0);
             BR.setPower(0);
-        }
-        if (this.initRules[1]) {
+        //}
+        //if (this.initRules[1]) {
             //Particle Elevator
             elevator = hwMap.dcMotor.get("elevator");
 
@@ -186,16 +186,16 @@ public class Bot
 
             intakeServoClosed();
             spinnerServoStop();
-        }
-        if (this.initRules[2]) {
+        //}
+       // if (this.initRules[2]) {
             //Flicker Shooter
             shooter = hwMap.dcMotor.get("shooter");
 
             shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             shooter.setPower(0);
-        }
-        if (this.initRules[3]) {
+        //}
+        //if (this.initRules[3]) {
             //Cap Ball
             leftCap = hwMap.dcMotor.get("leftCap");
             rightCap = hwMap.dcMotor.get("rightCap");
@@ -209,15 +209,15 @@ public class Bot
 
             leftCap.setPower(0);
             rightCap.setPower(0);
-        }
-        if (this.initRules[4]) {
+        //}
+        //if (this.initRules[4]) {
             //Beacon Servo
             lServo = hwMap.servo.get("lServo");
             rServo = hwMap.servo.get("rServo");
 
             leftServoStop();
             rightServoStop();
-        }
+        //}
         /**
          * Initializing sensors and setting LEDs on/off.
          *
@@ -225,7 +225,7 @@ public class Bot
          * otherwise they would all have the same address. If they all had the same address the
          * program would be unable to distinguish one from another, making them useless.
          */
-        if (this.initRules[5]) {
+        //if (this.initRules[5]) {
             //Beacon Color Sensors
             colorSensorRight = hwMap.colorSensor.get("colorSensorRight");
             colorSensorRight.setI2cAddress(I2cAddr.create7bit(0x1e)); // 7bit for 0x3c
@@ -234,16 +234,16 @@ public class Bot
             colorSensorLeft = hwMap.colorSensor.get("colorSensorleft");
             colorSensorLeft.setI2cAddress(I2cAddr.create7bit(0x26)); // 7bit for 0x4c
             colorSensorLeft.enableLed(false);
-        }
+        //}
 
-        if (this.initRules[6]) {
+        //if (this.initRules[6]) {
             //Intake Color Sensor
             colorSensorIntake = hwMap.colorSensor.get("colorSensorIntake");
             colorSensorIntake.setI2cAddress(I2cAddr.create7bit(0x2e)); // 7bit for 0x5c
             colorSensorIntake.enableLed(true);
-        }
+        //}
 
-        if (this.initRules[7]) {
+        //if (this.initRules[7]) {
             //Gyro
             gyro = (ModernRoboticsI2cGyro) hwMap.gyroSensor.get("gyro");
             gyro.calibrate();
@@ -251,18 +251,18 @@ public class Bot
             // start calibrating the gyro.
             telemetry.addData(">", "Gyro Calibrating. Do Not move!");
             telemetry.update();
-        }
+        //}
 
-        if (this.initRules[8]) {
+        //if (this.initRules[8]) {
             //Optical Distance Sensors
             opticalLineFinderL = hwMap.opticalDistanceSensor.get("opticalLineFinderL");
             opticalLineFinderL.enableLed(true);
 
             opticalLineFinderR = hwMap.opticalDistanceSensor.get("opticalLineFinderR");
             opticalLineFinderR.enableLed(true);
-        }
+        //}
 
-        if (this.initRules[9]) {
+        //if (this.initRules[9]) {
 
             rangeLeft = hwMap.i2cDevice.get("rangeLeft");
 
@@ -275,16 +275,16 @@ public class Bot
             rangeRightReader = new I2cDeviceSynchImpl(rangeRight, I2cAddr.create8bit(0x2a), false);
 
             rangeRightReader.engage();
-        }
+        //}
 
-        if (this.initRules[10]) {
+        //if (this.initRules[10]) {
 
             leftCapServo = hwMap.crservo.get("leftCapServo");
             rightCapServo = hwMap.crservo.get("rightCapServo");
 
             leftCapServo.setDirection(DcMotorSimple.Direction.FORWARD);
             rightCapServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        }
+        //}
 
         //Constants
         // Initialize booleans to false as the bot does not start running to a target or strafing.
@@ -890,13 +890,13 @@ public class Bot
     // Get the readings from the line optical distance sensors
     public double getLineLight() { return opticalLineFinderL.getRawLightDetected() + opticalLineFinderR.getRawLightDetected(); }
 
-    public double rightDistance()
+    public double leftDistance()
     {
         rangeRightCache = rangeRightReader.read(0x04, 2);  //Read 2 bytes starting at 0x04
 
         return rangeRightCache[0] & 0xFF;   //Ultrasonic value is at index 0. & 0xFF creates a value between 0 and 255 instead of -127 to 128
     }
-    public double leftDistance()
+    public double rightDistance()
     {
         rangeLeftCache = rangeLeftReader.read(0x04, 2);  //Read 2 bytes starting at 0x04
 
@@ -910,13 +910,9 @@ public class Bot
         gyro.calibrate();
     }
 
-    public void isCalibrating()
+    public boolean isCalibrating()
     {
-        if (!gyro.isCalibrating())
-        {
-            telem.addData(">", "Gyro Calibrated.  Press Start.");
-            telem.update();
-        }
+        return gyro.isCalibrating();
     }
 
     public void resetZ() {gyro.resetZAxisIntegrator();}
@@ -933,15 +929,14 @@ public class Bot
         }
     }
 
-    /*public int getRawX()
+    public int getRawX()
     {
         return gyro.rawX();
     }
-
-    //public boolean isTilted()
+    public boolean isTilted()
     {
         return (gyro.rawX() > 5) || (gyro.rawX() < -5);
-    }*/
+    }
 
     // Cap Methods
 

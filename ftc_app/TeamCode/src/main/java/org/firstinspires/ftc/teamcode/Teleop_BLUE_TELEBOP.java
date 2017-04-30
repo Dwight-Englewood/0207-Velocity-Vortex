@@ -92,6 +92,8 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
     //Whether currently moving a ball into the shooter
     private boolean movingBall = false;
 
+    private int capCount = 0;
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -532,6 +534,15 @@ public class Teleop_BLUE_TELEBOP extends OpMode {
             else if (gamepad2.dpad_down)
             {
                 robot.lowerCap();
+            }
+            else if (gamepad2.left_trigger > .5 && robot.getIsCapMaxed())
+            {
+                capCount++;
+
+                if (capCount > 4)
+                {
+                    robot.liftCap();
+                }
             }
             else
             {

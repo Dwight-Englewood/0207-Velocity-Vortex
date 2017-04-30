@@ -30,14 +30,20 @@ public class WorldsAuton_Red extends OpMode
     {
         robot.init(hardwareMap, telemetry);
         robot.intakeServoOpen();
+        timer.reset();
     }
 
     @Override
     public void init_loop()
     {
-        robot.isCalibrating();
-    }
 
+        if (!robot.isCalibrating() && timer.milliseconds() % 100 < 20)
+        {
+            telemetry.addLine("GOOD TO GO");
+            telemetry.update();
+        }
+
+    }
     @Override
     public void start() { super.start(); robot.resetZ();}
 
@@ -215,16 +221,16 @@ public class WorldsAuton_Red extends OpMode
                     timer.reset();
                     x++;
                 }
-                if (timer.milliseconds() < 5-00)
+                if (timer.milliseconds() < 300)
                 {
                     robot.leftServoOut();
                 }
-                else if (timer.milliseconds() < 1300)
+                else if (timer.milliseconds() < 1100)
                 {
                     robot.setShooter(1);
                     robot.leftServoStop();
                 }
-                else if (timer.milliseconds() < 2800)
+                else if (timer.milliseconds() < 2600)
                 {
                     robot.setShooter(0);
                     robot.setElevator(1);
@@ -372,15 +378,15 @@ public class WorldsAuton_Red extends OpMode
                 {
                     robot.stillAdjust(0);
                 }
-                else if (timer.milliseconds() < 1600)
+                else if (timer.milliseconds() < 1500)
                 {
                     robot.drive(1,.4);
                 }
-                else if (timer.milliseconds() < 2300)
+                else if (timer.milliseconds() < 1900)
                 {
                     robot.drive(1, .6);
                 }
-                else if (timer.milliseconds() > 2300)
+                else if (timer.milliseconds() > 1900)
                 {
                     if (robot.leftDistance() > targetRange)
                     {
@@ -418,7 +424,7 @@ public class WorldsAuton_Red extends OpMode
                 {
                     robot.stopMovement();
                     isGoingForward = true;
-                    robot.runToPosition(5);
+                    robot.runToPosition(7);
                     commandNumber++;
                 }
                 else if (timer.milliseconds() > 4000)

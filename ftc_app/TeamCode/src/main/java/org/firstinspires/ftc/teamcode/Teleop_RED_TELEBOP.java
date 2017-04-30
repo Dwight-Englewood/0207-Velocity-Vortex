@@ -95,6 +95,8 @@ public class Teleop_RED_TELEBOP extends OpMode {
     //Whether currently moving a ball into the shooter
     private boolean movingBall = false;
 
+    private int capCount = 0;
+
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -462,7 +464,7 @@ public class Teleop_RED_TELEBOP extends OpMode {
          *   precision. This helps our drivers when they have trouble seeing how the robot is lined
          *   up with the far beacons.
          */
-        if (gamepad1.b && !hittingBeacon)
+        if ((gamepad1.b || gamepad1.x) && !hittingBeacon)
         {
             //Sets autodrive to true, preventing normal drive commands from overriding the ones to come.
             autoDrive = true;
@@ -479,7 +481,7 @@ public class Teleop_RED_TELEBOP extends OpMode {
                 robot.drive(0, .3);
             }
         }
-        else if (gamepad1.b && hittingBeacon)
+        else if ((gamepad1.b || gamepad1.x) && hittingBeacon)
         {
             // Drive backwards 11 centimeters so that the beacon poker is lined up with a button
             if (timer.milliseconds() < 100)
@@ -487,13 +489,23 @@ public class Teleop_RED_TELEBOP extends OpMode {
                 robot.runToPosition(-11);
             }
             // Strafe the poker into the beacon
-            else if (timer.milliseconds() > 2000 && timer.milliseconds() < 4500)
+            else if (gamepad1.b && timer.milliseconds() > 2000 && timer.milliseconds() < 4500)
             {
                 robot.runUsingEncoders();
-                robot.drive(2, .5);
+                robot.drive(3, .7);
             }
-            // Pull awawy from the beacon
-            else if (timer.milliseconds() < 4500)
+            // Pull away from the beacon
+            else if (gamepad1.b && timer.milliseconds() < 4500)
+            {
+                robot.drive(2, .3);
+            }
+            else if (gamepad1.x && timer.milliseconds() > 2000 && timer.milliseconds() < 4500)
+            {
+                robot.runUsingEncoders();
+                robot.drive(2, .7);
+            }
+            // Pull away from the beacon
+            else if (gamepad1.x && timer.milliseconds() < 4500)
             {
                 robot.drive(3, .3);
             }
@@ -574,6 +586,15 @@ public class Teleop_RED_TELEBOP extends OpMode {
             else if (gamepad2.dpad_down)
             {
                 robot.lowerCap();
+            }
+            else if (gamepad2.dpad_up && robot.getIsCapMaxed())
+            {
+                capCount++;
+
+                if (capCount > 4)
+                {
+                    robot.liftCap();
+                }
             }
             else
             {

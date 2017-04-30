@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Testing_ServoAlign", group="TESTING")
 //Note if you are using this make sure to comment out the @Disabled below or it won't show up on your phone.
-@Disabled
+//@Disabled
 public class Testing_ServoAlign extends OpMode {
     //Declare a servo to represent your CRServo
     Bot robot = new Bot();

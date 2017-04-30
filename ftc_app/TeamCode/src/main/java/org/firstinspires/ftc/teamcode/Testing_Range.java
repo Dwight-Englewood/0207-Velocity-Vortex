@@ -36,6 +36,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -50,7 +51,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  *
  * @see <a href="http://modernroboticsinc.com/range-sensor">MR Range Sensor</a>
  */
-@Autonomous(name = "Testing_Range", group = "Testing")
+@TeleOp(name = "Testing_Range", group = "Testing")
 //@Disabled   // comment out or remove this line to enable this opmode
 public class Testing_Range extends LinearOpMode {
 
@@ -69,6 +70,11 @@ public class Testing_Range extends LinearOpMode {
             telemetry.addData("right distance", robot.rightDistance());
             telemetry.addData("left red", robot.getLRed());
             telemetry.addData("left blue", robot.getLBlue());
+            telemetry.addData("right red", robot.getRRed());
+            telemetry.addData("right blue", robot.getRBlue());
+            telemetry.addData("ods", robot.getLineLight());
+            telemetry.addData("elevator cs", robot.getIntake());
+
             telemetry.update();
         }
     }

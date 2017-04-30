@@ -35,7 +35,11 @@ public class WorldsAuton_Blue extends OpMode
     @Override
     public void init_loop()
     {
-        robot.isCalibrating();
+        if (!robot.isCalibrating() && timer.milliseconds() % 100 < 20)
+        {
+            telemetry.addLine("GOOD TO GO");
+            telemetry.update();
+        }
     }
 
     @Override
