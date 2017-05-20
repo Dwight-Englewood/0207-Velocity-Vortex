@@ -44,8 +44,8 @@ public class Auton_FarShootPlant extends OpMode {
         telemetry.addData("BL Pos", robot.getCurPosBL());
         telemetry.addData("FR Pos", robot.getCurPosFR());
         telemetry.addData("BR Pos", robot.getCurPosBR());
-        telemetry.addData("Red Value", robot.getRed());
-        telemetry.addData("Blue Value", robot.getBlue());
+        telemetry.addData("Red Value", robot.getLRed());
+        telemetry.addData("Blue Value", robot.getRBlue());
         telemetry.addData("Command", commandNumber);
         telemetry.addData("current time", timer.seconds());
 

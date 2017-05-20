@@ -216,7 +216,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 break;
 
             case 9:
-                if (robot.getBlue() >= 3)
+                if (robot.getRBlue() >= 3)
                 {
                     robot.stopMovement();
                     robot.runToPosition(7);
@@ -257,7 +257,7 @@ public class Auton_BlueTwoShots extends OpMode {
                 break;
 
             case 11:
-                if (robot.getBlue() >= 3)
+                if (robot.getRBlue() >= 3)
                 {
                     robot.stopMovement();
                     robot.runToPosition(8);

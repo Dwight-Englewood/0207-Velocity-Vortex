@@ -856,19 +856,19 @@ public class Bot
 
     // Sensor Methods
     // Returns the red and blue values from the respective color sensors
-    public int getRed()
+    /*public int getRed()
     {
         return colorSensorLeft.red();
     }
     public int getBlue()
     {
         return colorSensorRight.blue();
-    }
+    }*/
 
-    public int getRRed(){return colorSensorRight.red();}
-    public int getRBlue(){return colorSensorRight.blue();}
-    public int getLRed(){return colorSensorLeft.red();}
-    public int getLBlue(){return colorSensorLeft.blue();}
+    public int getRRed(){return colorSensorLeft.red();}
+    public int getRBlue(){return colorSensorLeft.blue();}
+    public int getLRed(){return colorSensorRight.red();}
+    public int getLBlue(){return colorSensorRight.blue();}
 
     // Takes a reading from the intake color sensor and returns whether it is red, blue or neither
     public String getIntake()

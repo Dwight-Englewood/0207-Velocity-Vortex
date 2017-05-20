@@ -299,7 +299,7 @@ public class Auton_RedTwoShots extends OpMode {
              * moving. Then, the robot adjusts so that the poker is in front of the beacon button.
              */
             case 9:
-                if (robot.getRed() >= 3)
+                if (robot.getLRed() >= 3)
                 {
                     robot.stopMovement();
                     robot.runToPosition(4);
@@ -340,7 +340,7 @@ public class Auton_RedTwoShots extends OpMode {
              * Command 11: same as command 9.
              */
             case 11:
-                if (robot.getRed() >= 3)
+                if (robot.getLRed() >= 3)
                 {
                     robot.stopMovement();
                     robot.runToPosition(5);
